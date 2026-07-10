@@ -1,5 +1,16 @@
 # FOODLIFT --- Wholesale Order Management System (Frontend)
 
+## Current Development Phase
+
+- [x] Project Planning
+- [x] Folder Structure
+- [ ] Customer Module
+- [ ] Warehouse Module
+- [ ] Rider Module
+- [ ] Warehouse Agent Module
+- [ ] Final Integration
+- [ ] QA & Bug Fixes
+
 ## Project Overview
 
 This project is a frontend implementation of a **Wholesale Order Management System** built with:
@@ -42,97 +53,6 @@ Customer Dashboard
 → Profile
 
 No unnecessary page navigation.
-
----
-
-# Project Structure
-
-FOODLIFT/
-│
-├── README.md
-│
-├── index.html
-├── login.html
-├── register.html
-├── forgot-password.html
-│
-├── customer.html
-├── warehouse.html
-├── rider.html
-└── warehouse-agent.html
-│
-├── assets/
-│   ├── css/
-│   │   ├── globals.css
-│   │   ├── utilities.css
-│   │   └── animations.css
-│   │
-│   ├── icons/
-│   └── fonts/
-
-│── static/
-|    └── images/
-|
-|
-├── js/
-│   │
-│   ├── auth/
-│   │   ├── login.js
-│   │   ├── register.js
-│   │   ├── forgot-password.js
-│   │   ├── logout.js
-│   │   ├── validation.js
-│   │   └── auth.js
-│   │
-│   ├── customer/
-│   │   ├── dashboard.js
-│   │   ├── products.js
-│   │   ├── cart.js
-│   │   ├── wallet.js
-│   │   ├── checkout.js
-│   │   ├── orders.js
-│   │   ├── profile.js
-│   │   ├── qr.js
-│   │   └── timeline.js
-│   │
-│   ├── warehouse/
-│   │
-│   ├── rider/
-│   │
-│   ├── warehouse-agent/
-│   │
-│   ├── components/
-│   │   ├── modal.js
-│   │   ├── drawer.js
-│   │   ├── toast.js
-│   │   ├── dropdown.js
-│   │   ├── tabs.js
-│   │   ├── table.js
-│   │   ├── loader.js
-│   │   └── badge.js
-│   │
-│   ├── core/
-│   │   ├── app.js
-│   │   ├── navigation.js
-│   │   ├── routes.js
-│   │   └── init.js
-│   │
-│   ├── utils/
-│   │   ├── constants.js
-│   │   ├── helpers.js
-│   │   ├── validators.js
-│   │   └── dom.js
-│   │
-│   └── main.js
-│
-├── data/
-│   ├── products.json
-│   ├── wallet.json
-│   ├── orders.json
-│   └── profile.json
-│
-└── docs/
-
 
 ---
 
