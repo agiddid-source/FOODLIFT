@@ -142,16 +142,15 @@ These should be reused across the entire project instead of rewriting the same f
 
 ---
 
-# Team Folder Ownership
+# Team Module Ownership
 
-| Team Member | Responsibility |
-|------------|----------------|
-| Code_Nexus | auth/, core/, utils/, main.js |
-| Ghost | components/, customer/dashboard.js, customer/products.js |
-| Ezzey | customer/cart.js, customer/wallet.js, customer/checkout.js |
-| Jesicca | customer/orders.js, customer/profile.js, customer/qr.js, customer/timeline.js |
+| Member       | Owns                                                                                              |
+| ------------ | ------------------------------------------------------------------------------------------------- |
+| **Code_Nexus**      | Authentication pages (`login.html`, `register.html`, `forgot-password.html`) and all auth/core JS |
+| **Ghost** | Dashboard shell, Products section, Product modal, shared UI components                            |
+| **Ezzey** | Wallet section, Cart drawer, Checkout modal                                                       |
+| **Jesicca** | Orders section, Profile section, Order details modal                                              |
 
-Developers should primarily modify files within their assigned folders.
 
 ---
 
