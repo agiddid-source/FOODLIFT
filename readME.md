@@ -142,6 +142,18 @@ These should be reused across the entire project instead of rewriting the same f
 
 ---
 
+# Team Folder Ownership
+
+| Team Member | Responsibility |
+|------------|----------------|
+| Code_Nexus | auth/, core/, utils/, main.js |
+| Ghost | components/, customer/dashboard.js, customer/products.js |
+| Ezzey | customer/cart.js, customer/wallet.js, customer/checkout.js |
+| Jesicca | customer/orders.js, customer/profile.js, customer/qr.js, customer/timeline.js |
+
+Developers should primarily modify files within their assigned folders.
+
+---
 
 # Development Rules
 
