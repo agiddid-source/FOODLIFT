@@ -1,0 +1,59 @@
+<!-- Navbar Component Library (Tailwind CSS + Dropdown JS hook markup) -->
+
+<header class="bg-white border-b border-ght-border sticky top-0 z-40">
+  <div class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between gap-6">
+    
+    <!-- Brand Logo -->
+    <div class="flex items-center gap-3 shrink-0 cursor-pointer">
+      <img src="assets/logo.png" alt="FoodLift Logo" class="h-[54px] object-contain">
+      <div class="hidden xl:block border-l border-ght-border pl-3 ml-1">
+        <span class="text-[9px] text-ght-muted font-bold tracking-widest uppercase block leading-tight">Wholesale Groceries<br>Delivered</span>
+      </div>
+    </div>
+
+    <!-- Actions Area (Wallet Pill, Cart, Profile Dropdown) -->
+    <div class="flex items-center gap-5 shrink-0">
+      
+      <!-- Wallet Pill -->
+      <div class="hidden lg:flex items-center bg-ght-dark rounded-full p-1 pl-5 shadow-sm border border-black hover:shadow-md transition-shadow cursor-pointer">
+        <div class="flex flex-col items-start leading-none mr-4 justify-center">
+          <span class="text-[8px] text-white/50 font-bold tracking-widest uppercase mb-1">Wallet</span>
+          <span class="text-sm font-bold text-white tracking-tight">₦125,000</span>
+        </div>
+        <button class="bg-ght-accent text-white px-4 h-9 rounded-full text-xs font-bold hover:bg-orange-600 transition-colors flex items-center justify-center">
+          Top up
+        </button>
+      </div>
+
+      <!-- Cart Icon -->
+      <button class="relative text-ght-dark hover:text-ght-accent transition-colors flex items-center justify-center w-10 h-10 rounded-full hover:bg-ght-surface">
+        <iconify-icon icon="solar:cart-large-linear" class="text-2xl"></iconify-icon>
+        <span class="absolute top-0 right-0 w-4 h-4 bg-ght-accent text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-sm">3</span>
+      </button>
+
+      <!-- Profile Dropdown (JavaScript Controlled Trigger) -->
+      <div class="relative" id="profile-dropdown-container">
+        <button id="profile-dropdown-btn" class="hidden md:flex items-center gap-3 text-ght-dark hover:bg-ght-surface p-1.5 pr-3 rounded-full transition-colors border border-transparent hover:border-ght-border">
+          <div class="w-8 h-8 rounded-full border border-ght-border flex items-center justify-center bg-ght-background overflow-hidden shrink-0">
+            <iconify-icon icon="solar:user-rounded-linear" class="text-lg text-ght-muted"></iconify-icon>
+          </div>
+          <div class="text-left flex items-center gap-1">
+            <span class="block text-sm font-bold tracking-tight">Hello, Uche</span>
+            <iconify-icon icon="solar:alt-arrow-down-linear" class="text-ght-muted text-xs ml-1"></iconify-icon>
+          </div>
+        </button>
+        
+        <!-- Dropdown Menu Options -->
+        <div id="profile-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-ght-border py-2 hidden z-50">
+          <a href="#" class="px-4 py-2 hover:bg-ght-surface transition-colors text-ght-dark font-medium flex items-center gap-2 text-sm"><iconify-icon icon="solar:wallet-linear"></iconify-icon> Wallet</a>
+          <a href="#" class="px-4 py-2 hover:bg-ght-surface transition-colors text-ght-dark font-medium flex items-center gap-2 text-sm"><iconify-icon icon="solar:box-linear"></iconify-icon> Orders</a>
+          <a href="#" class="px-4 py-2 hover:bg-ght-surface transition-colors text-ght-dark font-medium flex items-center gap-2 text-sm"><iconify-icon icon="solar:user-linear"></iconify-icon> Profile</a>
+          <div class="h-px bg-ght-border my-2"></div>
+          <a href="#" class="block px-4 py-2 hover:bg-ght-surface transition-colors text-ght-dark text-sm">Deals</a>
+          <a href="#" class="block px-4 py-2 hover:bg-ght-surface transition-colors text-ght-dark text-sm">Bulk Packs</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>

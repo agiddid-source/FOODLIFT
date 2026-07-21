@@ -1,0 +1,48 @@
+<!-- Mobile Navigation Component Library (Tailwind CSS) -->
+
+<!-- Hamburger Toggle Button (Header Element) -->
+<button id="ght-mobile-menu-btn" class="md:hidden p-2 text-ght-dark">
+  <iconify-icon icon="solar:hamburger-menu-linear" class="text-2xl"></iconify-icon>
+</button>
+
+<!-- Mobile Slide-out Menu Drawer -->
+<div id="mobile-menu-drawer" class="fixed inset-0 z-50 flex justify-end hidden" role="dialog" aria-modal="true">
+  <!-- Backdrop Blur with Opacity Animation -->
+  <div id="mobile-menu-drawer-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+  
+  <!-- Drawer Panel Content with Translate-X slide-out animation -->
+  <div id="mobile-menu-drawer-panel" class="relative bg-white w-full max-w-xs h-full shadow-2xl p-6 flex flex-col justify-between z-10 transform translate-x-full transition-transform duration-300">
+    <div class="space-y-6">
+      <div class="flex items-center justify-between border-b border-ght-border pb-4">
+        <div class="flex items-center gap-2">
+          <img src="assets/logo.png" alt="FoodLift Logo" class="h-[38px] object-contain">
+        </div>
+        <button id="mobile-menu-drawer-close" class="text-ght-muted hover:text-ght-dark bg-ght-surface border border-ght-border w-8 h-8 flex items-center justify-center rounded-full transition-all">
+          <iconify-icon icon="solar:close-linear" class="text-lg"></iconify-icon>
+        </button>
+      </div>
+      
+      <!-- Nav Links -->
+      <nav class="flex flex-col gap-4 text-base font-semibold text-ght-dark">
+        <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-ght-surface transition-colors"><iconify-icon icon="solar:wallet-linear" class="text-xl text-ght-accent"></iconify-icon> Wallet</a>
+        <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-ght-surface transition-colors"><iconify-icon icon="solar:box-linear" class="text-xl text-ght-primary"></iconify-icon> Orders</a>
+        <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-ght-surface transition-colors"><iconify-icon icon="solar:user-linear" class="text-xl text-blue-500"></iconify-icon> Profile</a>
+        <div class="h-px bg-ght-border my-2"></div>
+        <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-ght-surface transition-colors"><iconify-icon icon="solar:tag-linear" class="text-xl text-purple-500"></iconify-icon> Deals</a>
+        <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-ght-surface transition-colors"><iconify-icon icon="solar:box-minimalistic-linear" class="text-xl text-amber-600"></iconify-icon> Bulk Packs</a>
+      </nav>
+    </div>
+    
+    <!-- Footer actions -->
+    <div class="border-t border-ght-border pt-4 space-y-4">
+      <div class="flex items-center gap-2 bg-green-50 px-3 py-2 rounded-xl text-green-700 text-xs font-semibold">
+        <iconify-icon icon="solar:routing-2-linear" class="text-ght-primary text-lg"></iconify-icon>
+        <span>Fast delivery in <strong>Lagos</strong></span>
+      </div>
+      <a href="#" class="flex items-center gap-2 p-3 rounded-xl hover:bg-ght-surface transition-colors text-sm font-semibold text-ght-muted">
+        <iconify-icon icon="solar:question-circle-linear" class="text-lg"></iconify-icon>
+        <span>Help Center</span>
+      </a>
+    </div>
+  </div>
+</div>

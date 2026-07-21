@@ -1,0 +1,37 @@
+/* Hallmark · component: styling-animations · genre: modern-minimal · theme: Plain
+ * states: default · hover · focus · active · disabled · loading · error · success
+ * contrast: pass (46–50)
+ */
+
+@keyframes ght-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ght-slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ght-slide-in-right {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.ght-animate-fade-in {
+  animation: ght-fade-in 0.25s var(--ght-ease-out) forwards;
+}
+
+.ght-animate-slide-up {
+  animation: ght-slide-up 0.35s var(--ght-ease-out) forwards;
+}
+
+.ght-animate-slide-in-right {
+  animation: ght-slide-in-right 0.3s var(--ght-ease-out) forwards;
+}
+
+/* Stagger cascade reveals */
+.ght-stagger-1 { animation-delay: 50ms; }
+.ght-stagger-2 { animation-delay: 100ms; }
+.ght-stagger-3 { animation-delay: 150ms; }
+.ght-stagger-4 { animation-delay: 200ms; }

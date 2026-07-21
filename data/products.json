@@ -1,0 +1,173 @@
+[
+  {
+    "id": 1,
+    "name": "Premium Local Rice (Mama Gold)",
+    "category": "Grains & Rice",
+    "image": "assets/img/rices (1).jpg",
+    "rating": 4.8,
+    "price_per_unit": 65000,
+    "unit": "50kg Bag",
+    "description": "Premium stone-free Nigerian grown parboiled rice, perfect for large-scale catering and events.",
+    "stock": 45,
+    "min_order": 1,
+    "wholesale_tiers": [
+      {"qty": 5, "price": 63000},
+      {"qty": 10, "price": 61000}
+    ],
+    "supports_partial": true,
+    "partial_units": [
+      {"name": "Half Bag (25kg)", "factor": 0.5},
+      {"name": "Paint Bucket (approx. 4kg)", "factor": 0.08}
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Premium Foreign Rice",
+    "category": "Grains & Rice",
+    "image": "assets/img/rices (2).jpg",
+    "rating": 4.9,
+    "price_per_unit": 78000,
+    "unit": "50kg Bag",
+    "description": "Top grade imported long-grain parboiled rice. Clean, double polished and highly swelling.",
+    "stock": 35,
+    "min_order": 1,
+    "wholesale_tiers": [
+      {"qty": 5, "price": 76000},
+      {"qty": 10, "price": 74000}
+    ],
+    "supports_partial": true,
+    "partial_units": [
+      {"name": "Half Bag (25kg)", "factor": 0.5}
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Nigerian Brown Beans (Oloyin)",
+    "category": "Grains & Rice",
+    "image": "assets/img/beanss (1).jpg",
+    "rating": 4.5,
+    "price_per_unit": 78000,
+    "unit": "100kg Bag",
+    "description": "Sweet Oloyin beans. Carefully sorted to remove stones and chaff. Cook-ready.",
+    "stock": 25,
+    "min_order": 1,
+    "wholesale_tiers": [
+      {"qty": 5, "price": 75000}
+    ],
+    "supports_partial": true,
+    "partial_units": [
+      {"name": "Half Bag (50kg)", "factor": 0.5},
+      {"name": "Paint Bucket", "factor": 0.04}
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Ijebu Garri (Yellow)",
+    "category": "Tubers & Flours",
+    "image": "assets/img/garris (1).jpg",
+    "rating": 4.6,
+    "price_per_unit": 22000,
+    "unit": "50kg Bag",
+    "description": "Crispy and pleasantly sour Ijebu Garri, traditionally processed and well-filtered.",
+    "stock": 120,
+    "min_order": 1,
+    "wholesale_tiers": [
+      {"qty": 10, "price": 20000}
+    ],
+    "supports_partial": true,
+    "partial_units": [
+      {"name": "Paint Bucket", "factor": 0.1}
+    ]
+  },
+  {
+    "id": 5,
+    "name": "White Garri (Premium)",
+    "category": "Tubers & Flours",
+    "image": "assets/img/garris (2).jpg",
+    "rating": 4.4,
+    "price_per_unit": 18000,
+    "unit": "50kg Bag",
+    "description": "Premium fine-grain white garri, great for Eba and drinking.",
+    "stock": 80,
+    "min_order": 1,
+    "wholesale_tiers": [
+      {"qty": 10, "price": 16500}
+    ],
+    "supports_partial": true,
+    "partial_units": [
+      {"name": "Paint Bucket", "factor": 0.1}
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Red Palm Oil",
+    "category": "Cooking Oil",
+    "image": "assets/img/palm oils (1).jpg",
+    "rating": 4.9,
+    "price_per_unit": 38000,
+    "unit": "25 Liters Keg",
+    "description": "Pure unadulterated red palm oil directly from Eastern Nigeria farms. Low acidity, no color addition.",
+    "stock": 30,
+    "min_order": 1,
+    "wholesale_tiers": [
+      {"qty": 5, "price": 36000}
+    ],
+    "supports_partial": false,
+    "partial_units": []
+  },
+  {
+    "id": 7,
+    "name": "Pure Vegetable Oil (Kings)",
+    "category": "Cooking Oil",
+    "image": "assets/img/veg oil (1).jpg",
+    "rating": 4.7,
+    "price_per_unit": 42000,
+    "unit": "25 Liters Keg",
+    "description": "Triple-refined cholesterol-free pure vegetable cooking oil. Ideal for shallow and deep frying.",
+    "stock": 40,
+    "min_order": 1,
+    "wholesale_tiers": [
+      {"qty": 5, "price": 40500}
+    ],
+    "supports_partial": false,
+    "partial_units": []
+  },
+  {
+    "id": 8,
+    "name": "Golden Penny Spaghetti",
+    "category": "Grains & Rice",
+    "image": "assets/img/spagh.jpg",
+    "rating": 4.8,
+    "price_per_unit": 18500,
+    "unit": "Carton (20 Packets)",
+    "description": "Premium durum wheat semolina spaghetti. Non-sticky, fast-cooking and delicious.",
+    "stock": 50,
+    "min_order": 1,
+    "wholesale_tiers": [
+      {"qty": 5, "price": 17800}
+    ],
+    "supports_partial": true,
+    "partial_units": [
+      {"name": "Half Carton (10 Packets)", "factor": 0.5}
+    ]
+  },
+  {
+    "id": 9,
+    "name": "De Rica Tomato Paste",
+    "category": "Tubers & Flours",
+    "image": "assets/img/tin tomatoess (1).jpg",
+    "rating": 4.6,
+    "price_per_unit": 32000,
+    "unit": "Carton (50 Tins)",
+    "description": "Concentrated rich tomato paste. Perfect for jollof rice, stews, and sauces.",
+    "stock": 30,
+    "min_order": 1,
+    "wholesale_tiers": [
+      {"qty": 5, "price": 30500}
+    ],
+    "supports_partial": true,
+    "partial_units": [
+      {"name": "Half Carton (25 Tins)", "factor": 0.5}
+    ]
+  }
+]

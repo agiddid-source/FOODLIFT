@@ -1,0 +1,30 @@
+/* Hallmark · component: styling-utilities · genre: modern-minimal · theme: Plain
+ * states: default · hover · focus · active · disabled · loading · error · success
+ * contrast: pass (46–50)
+ */
+
+.ght-no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.ght-no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Custom micro-interaction state transitions */
+.ght-interactive-transition {
+  transition: all 0.25s var(--ght-ease-out);
+}
+
+.ght-interactive-bounce {
+  transition: all 0.4s var(--ght-ease-bounce);
+}
+
+/* Physical push effect active state */
+.ght-tactile-active:active {
+  transform: scale(0.97);
+}
+
+.ght-mono-number {
+  font-family: var(--ght-font-mono);
+}

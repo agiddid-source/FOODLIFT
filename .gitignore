@@ -1,0 +1,14 @@
+# Skill files
+*SKILL.md
+*.skill.md
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Gemini / AI agent workspace
+.agents/

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foodlift - Wholesale Dashboard</title>
+  
+  <!-- Fonts: Damien Premium Stack -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  
+  <!-- Iconify Icons -->
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'ght-primary': '#8dc63f', /* Leaf Green from Logo */
+            'ght-primary-hover': '#7cb342',
+            'ght-accent': '#f7931e', /* Warm Orange from Logo */
+            'ght-dark': '#0A0A0A',
+            'ght-muted': 'rgba(0, 0, 0, 0.45)',
+            'ght-border': 'rgba(0, 0, 0, 0.08)',
+            'ght-background': '#FAFAFA',
+            'ght-surface': '#F4F4F4'
+          },
+          fontFamily: {
+            sans: ['"DM Sans"', 'sans-serif'],
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            }
+          },
+          animation: {
+            marquee: 'marquee 25s linear infinite',
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="assets/css/globals.css">
+  <link rel="stylesheet" href="assets/css/utilities.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body class="bg-ght-background text-ght-dark font-sans min-h-screen flex flex-col antialiased">
+
+  <!-- ========================================== -->
+  <!-- TOP BANNER (Looping Ad)                    -->
+  <!-- ========================================== -->
+  <div class="bg-ght-dark text-white text-[10px] font-bold uppercase tracking-[0.2em] overflow-hidden whitespace-nowrap py-2 border-b border-white/10 relative z-50">
+    <div class="animate-marquee inline-block w-[200%]">
+      <span class="mx-8">🔥 FLASH SALE: 15% OFF ALL GRAINS!</span>
+      <span class="mx-8">🚚 FREE DELIVERY ON ORDERS OVER ₦50,000</span>
+      <span class="mx-8">📦 NEW WHOLESALE BUNDLES AVAILABLE</span>
+      <span class="mx-8 text-ght-primary">⭐ REFER A FRIEND, GET ₦5,000</span>
+      <!-- Repeated for smooth loop -->
+      <span class="mx-8">🔥 FLASH SALE: 15% OFF ALL GRAINS!</span>
+      <span class="mx-8">🚚 FREE DELIVERY ON ORDERS OVER ₦50,000</span>
+      <span class="mx-8">📦 NEW WHOLESALE BUNDLES AVAILABLE</span>
+      <span class="mx-8 text-ght-primary">⭐ REFER A FRIEND, GET ₦5,000</span>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- TOP NAVIGATION BAR                         -->
+  <!-- ========================================== -->
+  <header class="bg-white border-b border-ght-border sticky top-0 z-40">
+    <div class="max-w-[1440px] mx-auto px-6 h-20 flex items-center justify-between gap-6">
+      
+      <!-- Brand Logo & Tagline -->
+      <div class="flex items-center gap-3 shrink-0 cursor-pointer">
+        <img src="assets/logo.png" alt="FoodLift Logo" class="h-[54px] object-contain">
+        <div class="hidden xl:block border-l border-ght-border pl-3 ml-1">
+          <span class="text-[9px] text-ght-muted font-bold tracking-widest uppercase block leading-tight">Wholesale Groceries<br>Delivered</span>
+        </div>
+      </div>
+
+      <!-- Search Bar -->
+      <div class="flex-1 max-w-xl hidden md:flex mx-4">
+        <div class="w-full relative flex items-center bg-ght-surface border border-ght-border rounded-full pl-5 pr-1.5 py-1.5 focus-within:bg-white focus-within:border-ght-primary transition-all shadow-sm">
+          <iconify-icon icon="solar:magnifer-linear" class="text-ght-muted text-lg mr-3 shrink-0"></iconify-icon>
+          <input type="text" id="ght-product-search" placeholder="Search for rice, beans, oil, spices..." class="w-full bg-transparent text-sm outline-none text-ght-dark placeholder:text-ght-muted font-medium h-8">
+          <button class="bg-ght-accent text-white px-5 h-8 rounded-full text-xs font-bold hover:bg-orange-600 transition-colors shrink-0 shadow-sm">
+            Search
+          </button>
+        </div>
+      </div>
+
+      <!-- Header End Actions -->
+      <div class="flex items-center gap-5 shrink-0">
+        
+        <!-- Premium Wallet Pill -->
+        <div class="hidden lg:flex items-center bg-ght-dark rounded-full p-1 pl-5 shadow-sm border border-black hover:shadow-md transition-shadow cursor-pointer" id="ght-action-fund">
+          <div class="flex flex-col items-start leading-none mr-4 justify-center">
+            <span class="text-[8px] text-white/50 font-bold tracking-widest uppercase mb-1">Wallet</span>
+            <span class="text-sm font-bold text-white tracking-tight">₦125,000</span>
+          </div>
+          <button class="bg-ght-accent text-white px-4 h-9 rounded-full text-xs font-bold hover:bg-orange-600 transition-colors flex items-center justify-center">
+            Top up
+          </button>
+        </div>
+
+        <!-- Cart Icon -->
+        <button id="ght-header-cart-btn" class="relative text-ght-dark hover:text-ght-accent transition-colors flex items-center justify-center w-10 h-10 rounded-full hover:bg-ght-surface">
+          <iconify-icon icon="solar:cart-large-linear" class="text-2xl"></iconify-icon>
+          <span class="absolute top-0 right-0 w-4 h-4 bg-ght-accent text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-sm">3</span>
+        </button>
+
+        <!-- Profile Dropdown -->
+        <div class="relative" id="profile-dropdown-container">
+          <button id="profile-dropdown-btn" class="hidden md:flex items-center gap-3 text-ght-dark hover:bg-ght-surface p-1.5 pr-3 rounded-full transition-colors border border-transparent hover:border-ght-border">
+            <div class="w-8 h-8 rounded-full border border-ght-border flex items-center justify-center bg-ght-background overflow-hidden shrink-0">
+              <iconify-icon icon="solar:user-rounded-linear" class="text-lg text-ght-muted"></iconify-icon>
+            </div>
+            <div class="text-left flex items-center gap-1">
+              <span class="block text-sm font-bold tracking-tight">Hello, Uche</span>
+              <iconify-icon icon="solar:alt-arrow-down-linear" class="text-ght-muted text-xs ml-1"></iconify-icon>
+            </div>
+          </button>
+          
+          <div id="profile-dropdown-menu" class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-ght-border py-2 hidden z-50">
+            <a href="#" class="px-4 py-2 hover:bg-ght-surface transition-colors text-ght-dark font-medium flex items-center gap-2 text-sm"><iconify-icon icon="solar:wallet-linear"></iconify-icon> Wallet</a>
+            <a href="#" class="px-4 py-2 hover:bg-ght-surface transition-colors text-ght-dark font-medium flex items-center gap-2 text-sm"><iconify-icon icon="solar:box-linear"></iconify-icon> Orders</a>
+            <a href="#" class="px-4 py-2 hover:bg-ght-surface transition-colors text-ght-dark font-medium flex items-center gap-2 text-sm"><iconify-icon icon="solar:user-linear"></iconify-icon> Profile</a>
+            <div class="h-px bg-ght-border my-2"></div>
+            <a href="#" class="block px-4 py-2 hover:bg-ght-surface transition-colors text-ght-dark text-sm">Deals</a>
+            <a href="#" class="block px-4 py-2 hover:bg-ght-surface transition-colors text-ght-dark text-sm">Bulk Packs</a>
+          </div>
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="ght-mobile-menu-btn" class="md:hidden p-2 text-ght-dark">
+          <iconify-icon icon="solar:hamburger-menu-linear" class="text-2xl"></iconify-icon>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Secondary Navigation -->
+    <div class="border-t border-ght-border bg-white hidden md:block">
+      <div class="max-w-[1440px] mx-auto px-6 h-12 flex items-center justify-between">
+        <nav class="flex items-center gap-8 text-sm font-semibold text-ght-dark">
+        </nav>
+        
+        <div class="flex items-center gap-6 text-[13px] text-ght-muted font-medium">
+          <div class="flex items-center gap-2 bg-green-50 px-3 py-1 rounded-full text-green-700">
+            <iconify-icon icon="solar:routing-2-linear" class="text-ght-primary text-base"></iconify-icon>
+            <span>Fast delivery in <strong class="font-bold">Lagos</strong></span>
+          </div>
+          <div class="w-px h-4 bg-ght-border"></div>
+          <a href="#" class="flex items-center gap-1.5 hover:text-ght-dark transition-colors">
+            <iconify-icon icon="solar:question-circle-linear" class="text-base"></iconify-icon>
+            <span>Help</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- MAIN CONTENT GRID         -->
+  <!-- ========================================== -->
+  <main class="flex-1 w-full max-w-[1440px] mx-auto px-4 md:px-6 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- LEFT COLUMN: MAIN FEED ) -->
+      <div class="lg:col-span-9 space-y-10">
+        
+        <!-- 1. Deal offer hero -->
+        <section class="bg-white rounded-[2rem] p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row items-center border border-ght-border shadow-sm group cursor-pointer hover:shadow-md transition-shadow">
+          <!-- Text Content (Deal Offer) -->
+          <div class="relative z-10 w-full md:w-1/2 space-y-4 pr-4">
+            <div class="inline-flex items-center gap-2 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-full mb-2">
+              <span class="text-[10px] font-bold text-ght-accent tracking-widest uppercase">Bundle of the week</span>
+            </div>
+            <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-ght-dark leading-tight">
+              Pantry Starter Pack
+            </h1>
+            <p class="text-ght-muted text-sm md:text-base max-w-md leading-relaxed font-medium">
+              Get a 50kg bag of Premium Local Rice and a 25L keg of Pure Vegetable Oil at <strong class="text-ght-dark">15% off</strong> the regular wholesale price.
+            </p>
+            
+            <!-- Countdown Timer -->
+            <div class="flex items-center gap-3 py-1" id="ght-countdown-timer">
+              <span class="text-xs font-bold text-ght-muted uppercase tracking-wider">Ends in:</span>
+              <div class="flex gap-2">
+                <div class="bg-ght-dark text-white px-2.5 py-1 rounded-lg text-xs font-bold min-w-[32px] text-center" id="timer-hours">00</div>
+                <span class="font-bold text-ght-dark">:</span>
+                <div class="bg-ght-dark text-white px-2.5 py-1 rounded-lg text-xs font-bold min-w-[32px] text-center" id="timer-minutes">00</div>
+                <span class="font-bold text-ght-dark">:</span>
+                <div class="bg-ght-dark text-white px-2.5 py-1 rounded-lg text-xs font-bold min-w-[32px] text-center" id="timer-seconds">00</div>
+              </div>
+            </div>
+
+            <div class="flex items-end gap-3 pb-2 pt-2">
+              <span class="text-3xl font-bold text-ght-dark tracking-tight">₦98,500</span>
+              <span class="text-sm font-bold text-ght-muted line-through pb-1">₦115,000</span>
+            </div>
+            <div class="pt-2">
+              <button class="bg-ght-accent text-white px-8 py-3.5 rounded-xl text-sm font-bold shadow-md hover:bg-orange-600 transition-colors flex items-center gap-2">
+                <span>Grab this deal</span>
+                <iconify-icon icon="solar:arrow-right-bold"></iconify-icon>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Hero Image -->
+          <div class="relative z-10 w-full md:w-1/2 mt-8 md:mt-0 flex justify-center items-center h-full min-h-[280px]">
+            <!-- Decorative backdrop -->
+            <div class="absolute inset-0 bg-gradient-to-tr from-[#FFF5ED] to-white rounded-3xl -z-10 group-hover:scale-105 transition-transform duration-500"></div>
+            <div class="absolute top-10 right-10 w-32 h-32 bg-ght-primary/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <img src="assets/img/hero.png" alt="Pantry Starter Pack" class="w-full max-h-[300px] object-contain group-hover:scale-105 transition-transform duration-500">
+          </div>
+        </section>
+
+        <!-- 2. Shop by Category -->
+        <section>
+          <div class="flex items-center justify-between mb-5">
+            <h2 class="text-xl font-bold tracking-tight text-ght-dark">Categories</h2>
+            <a href="#" class="text-xs font-bold text-ght-accent hover:underline">View all</a>
+          </div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4" id="ght-category-list">
+            <!-- Grains & Rice Category Card -->
+            <div class="relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-50/30 border border-green-100 rounded-2xl p-5 cursor-pointer group hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center overflow-hidden shadow-sm border border-green-100 group-hover:scale-110 transition-transform">
+                  <img src="assets/img/categories img/rice.png" alt="Grains & Rice" class="w-full h-full object-cover">
+                </div>
+                <span class="text-[10px] font-bold text-green-700 bg-green-100/60 px-2.5 py-1 rounded-full uppercase tracking-wider">120+ Items</span>
+              </div>
+              <h3 class="font-bold text-ght-dark text-base group-hover:text-green-700 transition-colors">Grains & Rice</h3>
+              <p class="text-xs text-ght-muted mt-1">Premium local and foreign rice, beans, and seeds.</p>
+              <div class="absolute bottom-0 right-0 w-24 h-24 bg-green-200/10 rounded-full blur-xl pointer-events-none group-hover:bg-green-200/20 transition-all"></div>
+            </div>
+            
+            <!-- Cooking Oil Category Card -->
+            <div class="relative overflow-hidden bg-gradient-to-br from-amber-50 to-yellow-50/30 border border-amber-100 rounded-2xl p-5 cursor-pointer group hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center overflow-hidden shadow-sm border border-amber-100 group-hover:scale-110 transition-transform">
+                  <img src="assets/img/categories img/vegetable oil.png" alt="Cooking Oil" class="w-full h-full object-cover">
+                </div>
+                <span class="text-[10px] font-bold text-amber-700 bg-amber-100/60 px-2.5 py-1 rounded-full uppercase tracking-wider">45 Items</span>
+              </div>
+              <h3 class="font-bold text-ght-dark text-base group-hover:text-amber-700 transition-colors">Cooking Oil</h3>
+              <p class="text-xs text-ght-muted mt-1">Pure vegetable, palm, and refined oils in bulk.</p>
+              <div class="absolute bottom-0 right-0 w-24 h-24 bg-amber-200/10 rounded-full blur-xl pointer-events-none group-hover:bg-amber-200/20 transition-all"></div>
+            </div>
+
+            <!-- Tubers & Flours Category Card -->
+            <div class="relative overflow-hidden bg-gradient-to-br from-orange-50 to-red-50/30 border border-orange-100 rounded-2xl p-5 cursor-pointer group hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <div class="flex items-center justify-between mb-4">
+                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center overflow-hidden shadow-sm border border-orange-100 group-hover:scale-110 transition-transform">
+                  <img src="assets/img/categories img/garri.png" alt="Tubers & Flours" class="w-full h-full object-cover">
+                </div>
+                <span class="text-[10px] font-bold text-orange-700 bg-orange-100/60 px-2.5 py-1 rounded-full uppercase tracking-wider">80 Items</span>
+              </div>
+              <h3 class="font-bold text-ght-dark text-base group-hover:text-orange-700 transition-colors">Tubers & Flours</h3>
+              <p class="text-xs text-ght-muted mt-1">Premium garri, flour, starch, and yam products.</p>
+              <div class="absolute bottom-0 right-0 w-24 h-24 bg-orange-200/10 rounded-full blur-xl pointer-events-none group-hover:bg-orange-200/20 transition-all"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. Popular This Week (Products Grid) -->
+        <section>
+          <div class="flex items-center justify-between mb-5">
+            <h2 class="text-xl font-bold tracking-tight text-ght-dark">Restock Favorites</h2>
+            <a href="#" class="text-xs font-bold text-ght-accent hover:underline">View catalog</a>
+          </div>
+          
+          <div id="ght-products-grid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+            <!-- Dynamically populated from js/customer/products.js -->
+          </div>
+        </section>
+
+      </div>
+
+      <!-- RIGHT COLUMN: WIDGETS  -->
+      <aside class="lg:col-span-3 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-6 h-fit">
+        
+        <!-- Widget 1: My Wallet -->
+        <div class="bg-ght-dark rounded-[24px] p-7 text-white shadow-xl relative overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-32 h-32 bg-ght-accent rounded-full blur-[40px] opacity-20 pointer-events-none"></div>
+          
+          <div class="relative z-10 flex items-center justify-between mb-6">
+            <div class="flex items-center gap-2 text-white/70">
+              <iconify-icon icon="solar:wallet-bold" class="text-lg"></iconify-icon>
+              <h3 class="font-bold text-sm tracking-widest uppercase text-[10px]">My Wallet</h3>
+            </div>
+            <button class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors">
+              <iconify-icon icon="solar:menu-dots-bold"></iconify-icon>
+            </button>
+          </div>
+          
+          <div class="relative z-10 mb-6">
+            <span class="text-[11px] text-white/50 font-medium block mb-1">Available Balance</span>
+            <span class="text-3xl font-bold tracking-tight">₦125,000</span>
+          </div>
+          
+          <button id="ght-action-fund-widget" class="relative z-10 w-full bg-ght-accent text-white hover:bg-orange-600 py-3 rounded-xl font-bold text-sm shadow-lg transition-all flex items-center justify-center gap-2">
+            <iconify-icon icon="solar:add-circle-bold" class="text-lg"></iconify-icon>
+            <span>Top up wallet</span>
+          </button>
+        </div>
+
+        <!-- Widget 2: Active Order Tracker -->
+        <div class="bg-white border border-ght-border p-6 rounded-[24px] shadow-sm">
+          <div class="flex justify-between items-center mb-5">
+            <h3 class="font-bold text-sm text-ght-dark tracking-tight">Active Order</h3>
+            <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-ght-accent hover:underline">View All</a>
+          </div>
+          
+          <div class="bg-ght-surface rounded-2xl p-5 space-y-4">
+            <div class="flex justify-between items-start">
+              <div>
+                <span class="text-[9px] text-ght-muted font-bold uppercase tracking-widest block mb-0.5">#SB-2505012</span>
+                <span class="text-xs font-bold text-ght-dark">Wholesale Restock</span>
+              </div>
+              <span class="bg-green-100 text-green-700 text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">On the way</span>
+            </div>
+            
+            <div class="pt-1">
+              <span class="text-[10px] text-ght-muted font-medium block mb-0.5">Estimated delivery</span>
+              <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold tracking-tight text-ght-dark">18</span>
+                <span class="text-xs font-bold text-ght-muted">mins</span>
+              </div>
+            </div>
+
+            <div class="relative pt-3 pb-1">
+              <div class="h-1.5 w-full bg-white rounded-full overflow-hidden">
+                <div class="h-full bg-ght-primary w-2/3 rounded-full relative">
+                  <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white rounded-full border-2 border-ght-primary shadow-sm"></div>
+                </div>
+              </div>
+              <div class="flex justify-between text-[8px] font-bold text-ght-muted uppercase mt-2">
+                <span>Warehouse</span>
+                <span class="text-ght-primary">In Transit</span>
+                <span>Delivered</span>
+              </div>
+            </div>
+          </div>
+          
+          <button id="ght-action-track" class="w-full mt-4 py-2.5 bg-white text-ght-dark font-bold text-xs rounded-xl hover:bg-ght-surface transition-colors border border-ght-border shadow-sm">
+            Track Live Status
+          </button>
+        </div>
+
+        <!-- Widget 3: Special Offers -->
+        <div class="bg-white border border-ght-border p-6 rounded-[24px] shadow-sm">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="font-bold text-sm text-ght-dark tracking-tight">Special Offers</h3>
+          </div>
+          
+          <div class="space-y-3">
+            <div class="bg-white border border-ght-border rounded-xl p-3 flex gap-4 cursor-pointer hover:border-ght-accent transition-colors group">
+              <div class="w-14 h-14 bg-[#FFF8F3] rounded-lg flex items-center justify-center shrink-0 border border-[#FDEBDE] group-hover:bg-orange-50">
+                <iconify-icon icon="solar:box-minimalistic-bold" class="text-2xl text-ght-accent"></iconify-icon>
+              </div>
+              <div class="flex flex-col justify-center">
+                <div class="flex items-center gap-2 mb-0.5">
+                  <h4 class="font-bold text-xs text-ght-dark">Pantry Box</h4>
+                  <span class="bg-red-50 text-red-600 text-[8px] font-bold px-1.5 rounded uppercase tracking-wider">12% OFF</span>
+                </div>
+                <div class="flex items-end gap-1.5 mt-1">
+                  <span class="text-xs font-bold text-ght-dark">₦58,000</span>
+                  <span class="text-[9px] text-ght-muted line-through font-medium">₦66,000</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Widget 4: Delivery Promo -->
+        <div class="bg-ght-dark rounded-[24px] p-6 relative overflow-hidden text-white shadow-lg flex items-center cursor-pointer hover:scale-[1.02] transition-transform">
+          <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-ght-primary/20 rounded-full blur-2xl"></div>
+          <div class="relative z-10 w-2/3 pr-2">
+            <div class="flex items-center gap-1.5 text-ght-primary mb-2">
+              <iconify-icon icon="solar:routing-2-bold" class="text-sm"></iconify-icon>
+              <span class="text-[9px] font-bold uppercase tracking-widest">Free Shipping</span>
+            </div>
+            <h3 class="font-bold text-sm leading-tight">Free delivery on orders over <span class="text-ght-primary">₦50,000</span></h3>
+          </div>
+          <div class="relative z-10 w-1/3 flex justify-end">
+            <div class="w-12 h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white text-2xl shadow-inner">
+              <iconify-icon icon="solar:scooter-bold"></iconify-icon>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+    </div>
+  </main>
+
+  <!-- ========================================== -->
+  <!-- MODAL TEMPLATE PLACEHOLDERS -->
+  <!-- ========================================== -->
+  
+  <!-- PRODUCT MODAL -->
+  <div id="product-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden" role="dialog" aria-modal="true">
+    <div id="ght-pm-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+    <div class="relative bg-white w-full max-w-3xl mx-4 rounded-[24px] shadow-2xl overflow-hidden flex flex-col max-h-[90vh] z-10 border border-ght-border">
+      
+      <div class="h-14 border-b border-ght-border flex items-center justify-between px-6 bg-ght-background shrink-0">
+        <span class="font-bold text-xs uppercase tracking-widest text-ght-dark">Wholesale Details</span>
+        <button id="ght-pm-close" class="text-ght-muted hover:text-ght-dark bg-white border border-ght-border w-8 h-8 flex items-center justify-center rounded-full transition-all shadow-sm">
+          <iconify-icon icon="solar:close-linear" class="text-lg"></iconify-icon>
+        </button>
+      </div>
+
+      <div class="overflow-y-auto p-6 md:p-8 flex flex-col md:flex-row gap-8">
+        <div class="w-full md:w-5/12 aspect-square bg-ght-surface border border-ght-border rounded-[20px] overflow-hidden shrink-0 flex items-center justify-center">
+          <!-- Full bleed image for modal too -->
+          <img id="ght-pm-image" src="assets/img/1.png" alt="" class="w-full h-full object-cover mix-blend-multiply" onerror="this.onerror=null;this.src='assets/img/1.png';">
+        </div>
+
+        <div class="flex-1 space-y-6">
+          <div>
+            <span id="ght-pm-category" class="text-[9px] font-bold tracking-widest uppercase text-ght-primary bg-green-50 px-2 py-1 rounded border border-green-100">Category</span>
+            <h2 id="ght-pm-name" class="text-2xl font-bold tracking-tight text-ght-dark mt-3 leading-tight">Product Name</h2>
+            <div class="flex items-center gap-3 mt-2">
+              <div class="flex items-center gap-1 text-[11px] text-yellow-500 font-bold">
+                <iconify-icon icon="solar:star-bold"></iconify-icon>
+                <span id="ght-pm-rating" class="text-ght-dark">4.8</span>
+              </div>
+              <div class="w-1 h-1 rounded-full bg-ght-border"></div>
+              <span id="ght-pm-stock-badge" class="text-green-700 font-bold text-[11px]">In Stock</span>
+            </div>
+          </div>
+
+          <p id="ght-pm-desc" class="text-[13px] text-ght-muted font-medium leading-relaxed">Detailed descriptions go here.</p>
+
+          <div class="bg-ght-surface border border-ght-border rounded-2xl p-5 flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-bold text-ght-muted uppercase tracking-widest block mb-1">Base Price</span>
+              <div class="flex items-end gap-1">
+                <span id="ght-pm-price" class="text-2xl font-bold text-ght-dark tracking-tight">₦0</span>
+                <span id="ght-pm-unit" class="text-xs font-bold text-ght-muted pb-1">/ Unit</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-4">
+            <div id="ght-purchase-mode-wrapper" class="hidden">
+              <div class="flex gap-2 p-1 bg-ght-surface border border-ght-border rounded-xl">
+                <button id="ght-btn-mode-whole" class="flex-1 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-ght-dark border border-ght-border transition-all">Whole Unit</button>
+                <button id="ght-btn-mode-partial" class="flex-1 py-2 text-xs font-bold rounded-lg text-ght-muted hover:text-ght-dark transition-all">Partial Unit</button>
+              </div>
+            </div>
+
+            <div id="ght-whole-qty-container" class="flex items-center justify-between bg-white border border-ght-border p-3 rounded-2xl shadow-sm">
+              <span class="text-xs font-bold text-ght-dark pl-2">Quantity</span>
+              <div class="flex items-center gap-4">
+                <button id="ght-qty-minus" class="w-8 h-8 rounded-full bg-ght-surface text-ght-dark hover:bg-slate-200 transition-colors flex items-center justify-center font-bold">-</button>
+                <span id="ght-qty-val" class="font-bold text-sm w-4 text-center">1</span>
+                <button id="ght-qty-plus" class="w-8 h-8 rounded-full bg-ght-surface text-ght-dark hover:bg-slate-200 transition-colors flex items-center justify-center font-bold">+</button>
+              </div>
+            </div>
+
+            <div id="ght-partial-qty-container" class="hidden space-y-2">
+              <span class="text-[10px] font-bold text-ght-dark uppercase tracking-widest block">Select Fraction (<span id="ght-partial-unit-name" class="text-ght-accent"></span>)</span>
+              <div id="ght-partial-presets" class="flex flex-wrap gap-2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-6 border-t border-ght-border bg-white flex items-center justify-between shrink-0">
+        <div>
+          <span class="text-[9px] font-bold text-ght-muted uppercase tracking-widest block mb-0.5">Total Estimate</span>
+          <span id="ght-pm-est-total" class="text-2xl font-bold text-ght-accent tracking-tight">₦0</span>
+        </div>
+        <button id="ght-pm-add-to-cart" class="bg-ght-dark text-white hover:bg-black rounded-xl font-bold text-sm px-8 py-3.5 shadow-md transition-all flex items-center gap-2">
+          <iconify-icon icon="solar:cart-plus-bold" class="text-lg"></iconify-icon>
+          <span>Add to Cart</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div id="wallet-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden" role="dialog" aria-modal="true">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+    <div class="relative bg-white w-full max-w-md mx-4 rounded-[24px] shadow-2xl p-8 border border-ght-border z-10">
+      <h3 class="font-bold text-xl tracking-tight text-ght-dark mb-2">Top Up Wallet</h3>
+      <p class="text-sm font-medium text-ght-muted mb-6">Funding forms placeholder (Ezzey).</p>
+      <button id="wallet-modal-close" class="ght-btn bg-ght-surface text-ght-dark border border-ght-border w-full">Close</button>
+    </div>
+  </div>
+
+  <div id="order-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden" role="dialog" aria-modal="true">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+    <div class="relative bg-white w-full max-w-xl mx-4 rounded-[24px] shadow-2xl p-8 border border-ght-border z-10">
+      <h3 class="font-bold text-xl tracking-tight text-ght-dark mb-2">Track Delivery</h3>
+      <p class="text-sm font-medium text-ght-muted mb-6">Tracking timeline placeholder (Jessica).</p>
+      <button id="order-modal-close" class="ght-btn bg-ght-surface text-ght-dark border border-ght-border w-full">Close</button>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="ght-toast-container" class="fixed bottom-8 right-8 z-50 flex flex-col gap-3 pointer-events-none"></div>
+
+  <!-- MOBILE MENU DRAWER -->
+  <div id="mobile-menu-drawer" class="fixed inset-0 z-50 flex justify-end hidden" role="dialog" aria-modal="true">
+    <div id="mobile-menu-drawer-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+    <div id="mobile-menu-drawer-panel" class="relative bg-white w-full max-w-xs h-full shadow-2xl p-6 flex flex-col justify-between z-10 transform translate-x-full transition-transform duration-300">
+      <div class="space-y-6">
+        <div class="flex items-center justify-between border-b border-ght-border pb-4">
+          <div class="flex items-center gap-2">
+            <img src="assets/logo.png" alt="FoodLift Logo" class="h-[38px] object-contain">
+          </div>
+          <button id="mobile-menu-drawer-close" class="text-ght-muted hover:text-ght-dark bg-ght-surface border border-ght-border w-8 h-8 flex items-center justify-center rounded-full transition-all">
+            <iconify-icon icon="solar:close-linear" class="text-lg"></iconify-icon>
+          </button>
+        </div>
+        
+        <nav class="flex flex-col gap-4 text-base font-semibold text-ght-dark">
+          <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-ght-surface transition-colors"><iconify-icon icon="solar:wallet-linear" class="text-xl text-ght-accent"></iconify-icon> Wallet</a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-ght-surface transition-colors"><iconify-icon icon="solar:box-linear" class="text-xl text-ght-primary"></iconify-icon> Orders</a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-ght-surface transition-colors"><iconify-icon icon="solar:user-linear" class="text-xl text-blue-500"></iconify-icon> Profile</a>
+          <div class="h-px bg-ght-border my-2"></div>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-ght-surface transition-colors"><iconify-icon icon="solar:tag-linear" class="text-xl text-purple-500"></iconify-icon> Deals</a>
+          <a href="#" class="flex items-center gap-3 p-3 rounded-xl hover:bg-ght-surface transition-colors"><iconify-icon icon="solar:box-minimalistic-linear" class="text-xl text-amber-600"></iconify-icon> Bulk Packs</a>
+        </nav>
+      </div>
+      
+      <div class="border-t border-ght-border pt-4 space-y-4">
+        <div class="flex items-center gap-2 bg-green-50 px-3 py-2 rounded-xl text-green-700 text-xs font-semibold">
+          <iconify-icon icon="solar:routing-2-linear" class="text-ght-primary text-lg"></iconify-icon>
+          <span>Fast delivery in <strong>Lagos</strong></span>
+        </div>
+        <a href="#" class="flex items-center gap-2 p-3 rounded-xl hover:bg-ght-surface transition-colors text-sm font-semibold text-ght-muted">
+          <iconify-icon icon="solar:question-circle-linear" class="text-lg"></iconify-icon>
+          <span>Help Center</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- CART DRAWER -->
+  <div id="cart-drawer" class="fixed inset-0 z-50 flex justify-end hidden" role="dialog" aria-modal="true">
+    <div id="cart-drawer-backdrop" class="absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+    <div id="cart-drawer-panel" class="relative bg-white w-full max-w-md h-full shadow-2xl p-6 flex flex-col justify-between z-10 transform translate-x-full transition-transform duration-300">
+      <div>
+        <div class="flex items-center justify-between border-b border-ght-border pb-4 mb-4">
+          <h3 class="font-bold text-lg text-ght-dark">Your Cart</h3>
+          <button id="cart-drawer-close" class="text-ght-muted hover:text-ght-dark bg-ght-surface border border-ght-border w-8 h-8 flex items-center justify-center rounded-full transition-all">
+            <iconify-icon icon="solar:close-linear" class="text-lg"></iconify-icon>
+          </button>
+        </div>
+        <p class="text-sm text-ght-muted">Your shopping cart is currently empty.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main ES App Script Bootstrapper -->
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodLift - Shared UI Components Library</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Iconify Icons -->
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'ght-primary': '#8dc63f',
+            'ght-primary-hover': '#7cb342',
+            'ght-accent': '#f7931e',
+            'ght-dark': '#0A0A0A',
+            'ght-muted': 'rgba(0, 0, 0, 0.45)',
+            'ght-border': 'rgba(0, 0, 0, 0.08)',
+            'ght-background': '#FAFAFA',
+            'ght-surface': '#F4F4F4'
+          },
+          fontFamily: {
+            sans: ['"DM Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-ght-background text-ght-dark font-sans min-h-screen p-8">
+  <div class="max-w-6xl mx-auto space-y-12">
+    
+    <!-- Library Header -->
+    <header class="border-b border-ght-border pb-6">
+      <h1 class="text-3xl font-bold tracking-tight text-ght-dark">Shared UI Component Guidelines</h1>
+      <p class="text-ght-muted text-sm mt-2">Design specifications, component guidelines, and HTML boilerplate. Use the <code class="bg-ght-surface px-1.5 py-0.5 rounded font-bold text-ght-accent">ght-</code> class namespace prefix.</p>
+    </header>
+
+    <!-- Tailwind Config & Reset Block -->
+    <section class="bg-white border border-ght-border rounded-2xl p-6 space-y-4">
+      <h2 class="text-lg font-bold">1. How to Setup & Reset</h2>
+      <p class="text-xs text-ght-muted font-medium">To run the templates and render styles correctly, ensure your base HTML files load these assets in the document header:</p>
+      
+      <pre class="bg-ght-dark text-white text-[11px] p-4 rounded-xl overflow-x-auto"><code>&lt;!-- Fonts --&gt;
+&lt;link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet"&gt;
+
+&lt;!-- Iconify --&gt;
+&lt;script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Tailwind CSS with Project Theme Config --&gt;
+&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;
+&lt;script&gt;
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'ght-primary': '#8dc63f',
+          'ght-primary-hover': '#7cb342',
+          'ght-accent': '#f7931e',
+          'ght-dark': '#0A0A0A',
+          'ght-muted': 'rgba(0, 0, 0, 0.45)',
+          'ght-border': 'rgba(0, 0, 0, 0.08)',
+          'ght-background': '#FAFAFA',
+          'ght-surface': '#F4F4F4'
+        },
+        fontFamily: {
+          sans: ['"DM Sans"', 'sans-serif'],
+        }
+      }
+    }
+  }
+&lt;/script&gt;</code></pre>
+    </section>
+
+    <!-- Buttons -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">2. Buttons</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6 flex flex-wrap gap-4 items-center">
+          <button class="bg-ght-accent text-white px-6 py-3 rounded-xl text-xs font-bold hover:bg-orange-600 transition-colors">Primary Button</button>
+          <button class="bg-ght-dark text-white hover:bg-black rounded-xl font-bold text-xs px-6 py-3 transition-all flex items-center gap-2">
+            <iconify-icon icon="solar:cart-plus-bold"></iconify-icon> Add to Cart
+          </button>
+          <button class="bg-white border border-ght-border text-ght-accent hover:bg-ght-accent hover:text-white hover:border-ght-accent rounded-lg px-4 py-1.5 text-xs font-bold transition-colors shadow-sm">+ Add</button>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/buttons.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Inputs -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">3. Inputs</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6 space-y-4">
+          <div class="relative flex items-center bg-ght-surface border border-ght-border rounded-full pl-5 pr-1.5 py-1.5 max-w-md">
+            <iconify-icon icon="solar:magnifer-linear" class="text-ght-muted text-lg mr-3 shrink-0"></iconify-icon>
+            <input type="text" placeholder="Search for groceries..." class="w-full bg-transparent text-xs outline-none text-ght-dark placeholder:text-ght-muted font-medium h-8">
+            <button class="bg-ght-accent text-white px-5 h-8 rounded-full text-xs font-bold shrink-0">Search</button>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/inputs.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Selects -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">4. Selects</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6 space-y-4">
+          <div class="flex gap-2 p-1 bg-ght-surface border border-ght-border rounded-xl max-w-xs">
+            <button class="flex-1 py-1.5 text-xs font-bold rounded-lg bg-white shadow-sm text-ght-dark border border-ght-border">Option A</button>
+            <button class="flex-1 py-1.5 text-xs font-bold rounded-lg text-ght-muted">Option B</button>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/selects.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Modals -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">5. Modals</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <button onclick="document.getElementById('demo-modal').classList.remove('hidden')" class="bg-ght-accent text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow">Open Modal Preview</button>
+          
+          <div id="demo-modal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="document.getElementById('demo-modal').classList.add('hidden')"></div>
+            <div class="relative bg-white w-full max-w-sm mx-4 rounded-[24px] shadow-2xl p-6 border border-ght-border z-10">
+              <h3 class="font-bold text-lg text-ght-dark mb-4">Demo Modal</h3>
+              <p class="text-xs text-ght-muted mb-6">Click backdrop blur to close this modal window.</p>
+              <button onclick="document.getElementById('demo-modal').classList.add('hidden')" class="w-full bg-ght-surface text-ght-dark py-2 rounded-xl text-xs font-bold">Close Dialog</button>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/modals.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Drawers -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">6. Drawers</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <button onclick="document.getElementById('demo-drawer').classList.remove('hidden')" class="bg-ght-dark text-white px-6 py-2.5 rounded-xl text-xs font-bold shadow">Open Drawer Preview</button>
+          
+          <div id="demo-drawer" class="fixed inset-0 z-50 flex justify-end hidden">
+            <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="document.getElementById('demo-drawer').classList.add('hidden')"></div>
+            <div class="relative bg-white w-64 h-full shadow-2xl p-6 z-10">
+              <h3 class="font-bold text-base text-ght-dark mb-4">Sidebar Drawer</h3>
+              <p class="text-xs text-ght-muted mb-6">Click overlay to close.</p>
+              <button onclick="document.getElementById('demo-drawer').classList.add('hidden')" class="w-full bg-ght-surface text-ght-dark py-2 rounded-xl text-xs font-bold">Close Drawer</button>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/drawers.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tables -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">7. Tables</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <div class="w-full overflow-hidden border border-ght-border rounded-xl bg-white max-w-sm">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="bg-ght-surface text-ght-muted font-bold border-b border-ght-border">
+                  <th class="px-4 py-2">Tier</th>
+                  <th class="px-4 py-2 text-right">Price</th>
+                </tr>
+              </thead>
+              <tbody class="font-semibold">
+                <tr class="border-b border-ght-border"><td class="px-4 py-2">5+ Units</td><td class="px-4 py-2 text-right">₦63,000</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/tables.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">8. Cards</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-50/30 border border-green-100 rounded-2xl p-5 cursor-pointer max-w-xs">
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center overflow-hidden shadow-sm border border-green-100">
+              <img src="../assets/img/categories img/rice.png" alt="Grains" class="w-full h-full object-cover">
+            </div>
+            <span class="text-[10px] font-bold text-green-700 bg-green-100/60 px-2.5 py-1 rounded-full uppercase tracking-wider">120+ Items</span>
+          </div>
+          <h3 class="font-bold text-ght-dark text-base">Grains & Rice</h3>
+          <p class="text-xs text-ght-muted mt-1">Premium local and foreign rice, beans, and seeds.</p>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/cards.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Status Badges -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">9. Status Badges</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6 flex flex-wrap gap-4 items-center">
+          <span class="bg-green-100 text-green-700 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">On the way</span>
+          <span class="bg-yellow-100 text-yellow-700 text-[9px] font-bold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Pending</span>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/status_badges.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Toasts -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">10. Toasts</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <div class="flex items-center gap-3 px-4 py-3 rounded-2xl border bg-green-50 border-green-200 text-green-800 max-w-xs">
+            <iconify-icon icon="solar:check-circle-bold" class="text-lg text-green-600"></iconify-icon>
+            <span class="font-medium text-xs">Added directly to cart!</span>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/toasts.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sidebar -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">11. Sidebar Widgets</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-ght-dark rounded-[24px] p-6 text-white max-w-xs relative overflow-hidden">
+          <div class="relative z-10 flex items-center justify-between mb-4">
+            <span class="text-[10px] text-white/50 uppercase font-bold tracking-widest">My Wallet</span>
+          </div>
+          <span class="text-2xl font-bold tracking-tight">₦125,000</span>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/sidebar.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navbar -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">12. Navbar</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-xl p-4 flex justify-between items-center max-w-md">
+          <img src="../assets/logo.png" alt="Logo" class="h-8 object-contain">
+          <span class="text-xs text-ght-muted font-bold">Hello, Uche</span>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/navbar.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mobile Navigation -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">13. Mobile Navigation</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <iconify-icon icon="solar:hamburger-menu-linear" class="text-xl text-ght-dark"></iconify-icon>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/mobile_navigation.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">14. Product Grid</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <div class="grid grid-cols-2 gap-4 max-w-sm">
+            <div class="h-20 bg-ght-surface rounded-xl flex items-center justify-center text-xs font-bold text-ght-muted">Card Slot 1</div>
+            <div class="h-20 bg-ght-surface rounded-xl flex items-center justify-center text-xs font-bold text-ght-muted">Card Slot 2</div>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/product_grid.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Product Details Modal -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">15. Product Details Modal</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <p class="text-xs text-ght-muted">Full modal layout with details view panels, description text blocks, and price display tags.</p>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/product_details_modal.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search Interface -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">16. Search Interface</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <div class="relative flex items-center bg-ght-surface border border-ght-border rounded-full pl-4 pr-1 py-1 max-w-xs">
+            <iconify-icon icon="solar:magnifer-linear" class="text-ght-muted mr-2"></iconify-icon>
+            <input type="text" placeholder="Search..." class="w-full bg-transparent text-xs outline-none">
+            <button class="bg-ght-accent text-white px-3 py-1 rounded-full text-[10px] font-bold">Search</button>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/search_interface.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Category Filters -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">17. Category Filters</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <div class="w-full overflow-hidden border border-green-100 rounded-xl p-4 bg-green-50/35 flex items-center gap-3 max-w-xs">
+            <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center overflow-hidden shrink-0">
+              <img src="../assets/img/categories img/rice.png" alt="Category" class="w-full h-full object-cover">
+            </div>
+            <span class="text-xs font-bold">Grains & Rice</span>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/category_filters.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quantity Selector -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">18. Quantity Selector</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <div class="flex items-center gap-3 bg-ght-surface p-2 rounded-xl max-w-xs justify-between">
+            <span class="text-xs font-bold px-2">Qty</span>
+            <div class="flex items-center gap-3">
+              <button class="w-6 h-6 rounded-full bg-white text-xs font-bold border">-</button>
+              <span class="text-xs font-bold">1</span>
+              <button class="w-6 h-6 rounded-full bg-white text-xs font-bold border">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/quantity_selector.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Partial Purchase Selector -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">19. Partial Purchase Selector</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6">
+          <button class="py-1.5 px-3 text-[11px] font-bold rounded-lg border border-ght-primary bg-ght-primary/10 text-ght-primary">Half Bag</button>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/partial_purchase_selector.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Empty State -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">20. Empty State</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6 flex justify-center">
+          <div class="text-center max-w-xs space-y-2">
+            <h4 class="font-bold text-xs text-ght-dark">No Items Added</h4>
+            <p class="text-[11px] text-ght-muted">Your listings view is currently empty.</p>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/empty_state.html</code></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- No Results State -->
+    <section class="space-y-4">
+      <h2 class="text-lg font-bold border-b border-ght-border pb-2">21. No Results State</h2>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div class="lg:col-span-2 bg-white border border-ght-border rounded-2xl p-6 flex justify-center">
+          <div class="text-center max-w-xs space-y-2">
+            <h4 class="font-bold text-xs text-ght-dark">No Results Found</h4>
+            <p class="text-[11px] text-ght-muted">Check spelling or try a different search word.</p>
+          </div>
+        </div>
+        <div class="bg-white border border-ght-border rounded-2xl p-6 flex items-center">
+          <p class="text-xs text-ght-muted font-medium">Source code: <code class="bg-ght-surface px-1 text-ght-dark rounded font-mono">_components/no_results_state.html</code></p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>

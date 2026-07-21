@@ -1,0 +1,18 @@
+<!-- Toasts Component Library (Tailwind CSS + JS Animation framework) -->
+
+<!-- 1. Toast Outer Fixed Container -->
+<div id="ght-toast-container" class="fixed bottom-8 right-8 z-50 flex flex-col gap-3 pointer-events-none">
+  
+  <!-- Success Toast (Visual Reference) -->
+  <div class="flex items-center gap-3 px-4 py-3 rounded-2xl shadow-lg transform transition-all duration-300 translate-y-0 opacity-100 pointer-events-auto border bg-green-50/90 border-green-200 text-green-800 backdrop-blur-md">
+    <iconify-icon icon="solar:check-circle-bold" class="text-xl text-green-600"></iconify-icon>
+    <span class="font-medium text-sm">Added directly to cart!</span>
+  </div>
+  
+  <!-- Error Toast (Visual Reference) -->
+  <div class="flex items-center gap-3 px-4 py-3 rounded-2xl shadow-lg transform transition-all duration-300 translate-y-0 opacity-100 pointer-events-auto border bg-red-50/90 border-red-200 text-red-800 backdrop-blur-md">
+    <iconify-icon icon="solar:danger-circle-bold" class="text-xl text-red-600"></iconify-icon>
+    <span class="font-medium text-sm">Failed to load products.</span>
+  </div>
+
+</div>

@@ -1,0 +1,44 @@
+<!-- Cards Component Library (Tailwind CSS) -->
+
+<!-- 1. Product Grid Card -->
+<div class="bg-white border border-ght-border flex flex-col h-full cursor-pointer hover:shadow-md hover:border-ght-accent/50 transition-all group rounded-[20px] overflow-hidden max-w-sm">
+  <!-- Top Image -->
+  <div class="aspect-[4/3] w-full relative overflow-hidden bg-ght-surface">
+    <img src="assets/img/rices (1).jpg" alt="Product Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+    <div class="absolute top-2 left-2 bg-white/90 backdrop-blur-md px-2 py-0.5 rounded shadow-sm">
+      <span class="text-[9px] font-bold text-ght-primary uppercase tracking-widest">Category</span>
+    </div>
+  </div>
+  
+  <!-- Content -->
+  <div class="flex-1 flex flex-col p-4">
+    <h3 class="font-bold text-sm text-ght-dark line-clamp-2 leading-tight group-hover:text-ght-accent transition-colors">Mama Gold Premium Rice</h3>
+    <p class="text-[10px] text-ght-muted mt-1 font-medium">50kg Bag</p>
+    
+    <div class="mt-4 flex items-end justify-between">
+      <div class="flex flex-col">
+        <span class="text-base font-bold text-ght-dark tracking-tight leading-none">₦65,000</span>
+        <div class="flex items-center gap-1 mt-1">
+          <iconify-icon icon="solar:star-bold" class="text-[10px] text-yellow-500"></iconify-icon>
+          <span class="text-[9px] font-bold text-ght-muted">4.8 (128)</span>
+        </div>
+      </div>
+      <button class="bg-white border border-ght-border text-ght-accent hover:bg-ght-accent hover:text-white hover:border-ght-accent rounded-lg flex items-center justify-center px-4 py-1.5 text-[11px] font-bold transition-colors shadow-sm shrink-0">
+        + Add
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 2. Reconstructed Premium Category Card -->
+<div class="relative overflow-hidden bg-gradient-to-br from-green-50 to-emerald-50/30 border border-green-100 rounded-2xl p-5 cursor-pointer group hover:shadow-md transition-all duration-300 hover:-translate-y-1 max-w-sm">
+  <div class="flex items-center justify-between mb-4">
+    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center overflow-hidden shadow-sm border border-green-100 group-hover:scale-110 transition-transform">
+      <img src="assets/img/categories img/rice.png" alt="Grains" class="w-full h-full object-cover">
+    </div>
+    <span class="text-[10px] font-bold text-green-700 bg-green-100/60 px-2.5 py-1 rounded-full uppercase tracking-wider">120+ Items</span>
+  </div>
+  <h3 class="font-bold text-ght-dark text-base group-hover:text-green-700 transition-colors">Grains & Rice</h3>
+  <p class="text-xs text-ght-muted mt-1">Premium local and foreign rice, beans, and seeds.</p>
+  <div class="absolute bottom-0 right-0 w-24 h-24 bg-green-200/10 rounded-full blur-xl pointer-events-none group-hover:bg-green-200/20 transition-all"></div>
+</div>
