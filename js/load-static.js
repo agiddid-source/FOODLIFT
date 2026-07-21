@@ -1,11 +1,5 @@
 // load-static.js
-// Fetches the shared header + nav fragments and injects them into the
-// page's placeholders. Requires the page to be served over http(s) —
-// fetch() of local files will fail under file:// due to CORS.
-//
-// Dispatches "fl:componentsReady" on `document` once both are in place,
-// so page-specific scripts (see dashboard.js) can safely wire up
-// behavior on elements that only exist after this injection runs.
+// Fetches the shared header + nav fragments and injects them into the page's placeholders. 
 
 window.addEventListener("DOMContentLoaded", function () {
   const headerRequest = fetch("_components/header.html")

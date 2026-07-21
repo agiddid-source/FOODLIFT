@@ -280,7 +280,6 @@ html, body {
 }
 
 /* Content cards */
-
 .dash-card {
   background: var(--fl-surface);
   border: 1px solid var(--fl-divider);
