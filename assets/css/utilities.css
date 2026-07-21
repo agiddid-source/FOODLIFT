@@ -1,8 +1,3 @@
-/* Hallmark · component: styling-utilities · genre: modern-minimal · theme: Plain
- * states: default · hover · focus · active · disabled · loading · error · success
- * contrast: pass (46–50)
- */
-
 .ght-no-scrollbar::-webkit-scrollbar {
   display: none;
 }

@@ -1,8 +1,3 @@
-/* Hallmark · component: styling-tokens · genre: modern-minimal · theme: Custom
- * states: default · hover · focus · active · disabled · loading · error · success
- * contrast: pass (46–50)
- */
-
 :root {
   --ght-color-primary: #7A9C44;
   --ght-color-primary-hover: #67853A;
