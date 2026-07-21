@@ -1,19 +1,17 @@
-/* ==========================================================================
-   FoodLift — Dashboard Design System
-   Tokens measured directly off the UI lead's dashboard sample.
-   Sits alongside auth.css: auth screens stay orange-primary, in-app
-   screens (this file) lean on the green-primary palette from the sample.
-   ========================================================================== */
-
+/* FoodLift — Dashboard Design System */
 :root {
   --fl-page-bg: #fafafa;
   --fl-sidebar-bg: #f4f4f4;
-  --fl-divider: #e5e5e5;
+  --fl-surface: #f4f4f4;
+  --fl-divider: rgba(0, 0, 0, 0.08);
 
   --fl-green-primary: #8cc540;
   --fl-green-deep: #7fb546;
   --fl-green-soft: #ebf9d6;
   --fl-green-soft-icon: #4d7c0f;
+
+  --fl-text-primary: #0a0a0a;
+  --fl-text-secondary: rgba(0, 0, 0, 0.45);
 
   --fl-pill-bg: #ededed;
   --fl-danger: #dc2626;
@@ -27,22 +25,10 @@ body.dashboard-body {
   background: var(--fl-page-bg);
 }
 
-/* --------------------------------------------------------------------
-   Shell
-   -------------------------------------------------------------------- */
-
+/* Shell */
 html, body {
   height: 100%;
 }
-
-/* App-shell layout: the sidebar is pinned to the viewport height and the
-   content column scrolls internally. Without this, .dash-shell simply
-   grows to match whichever column is tallest — so once a page's content
-   area gets long enough to need scrolling, the sidebar's background (and
-   Sign Out link) stretches and scrolls away with it instead of staying
-   put. Pinning the sidebar + scoping scroll to .dash-content keeps the
-   sidebar exactly one viewport tall no matter how much page content a
-   given module ends up rendering. */
 
 .dash-shell {
   height: 100vh;
@@ -62,11 +48,6 @@ html, body {
   display: flex;
   flex-direction: column;
   padding: 1.75rem 1.5rem;
-
-  /* Quiet scrollbar: invisible at rest, a thin low-contrast thumb only
-     once the sidebar is actually being interacted with. Keeps the
-     "content scrolls, sidebar stays put" fix from last time from
-     announcing itself with a permanent scrollbar track. */
   scrollbar-width: thin;
   scrollbar-color: transparent transparent;
 }
@@ -123,10 +104,7 @@ html, body {
   padding: 2rem 2.5rem 3rem;
 }
 
-/* --------------------------------------------------------------------
-   Sidebar — logo + nav
-   -------------------------------------------------------------------- */
-
+/* Sidebar — logo + nav */
 .dash-logo-block {
   display: flex;
   align-items: center;
@@ -148,7 +126,7 @@ html, body {
   gap: 0.85rem;
   padding: 0.85rem 1rem;
   border-radius: var(--fl-radius-control);
-  color: #9ca3af;
+  color: var(--fl-text-secondary);
   font-weight: 500;
   font-size: 0.95rem;
   transition: background 0.15s ease, color 0.15s ease;
@@ -162,7 +140,7 @@ html, body {
 
 .dash-nav-item:hover {
   background: #ffffff;
-  color: #374151;
+  color: var(--fl-text-primary);
 }
 
 .dash-nav-item.is-active {
@@ -198,10 +176,7 @@ html, body {
   background: #fef2f2;
 }
 
-/* --------------------------------------------------------------------
-   Header widgets
-   -------------------------------------------------------------------- */
-
+/* Header widgets */
 .balance-pill {
   display: inline-flex;
   align-items: center;
@@ -210,7 +185,7 @@ html, body {
   border-radius: 999px;
   padding: 0.55rem 1.1rem;
   font-size: 0.875rem;
-  color: #374151;
+  color: var(--fl-text-secondary);
 }
 
 .balance-pill .balance-icon {
@@ -239,7 +214,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #4b5563;
+  color: var(--fl-text-secondary);
   transition: background 0.15s ease;
 }
 
@@ -260,10 +235,7 @@ html, body {
   font-size: 0.9rem;
 }
 
-/* --------------------------------------------------------------------
-   Hero banner
-   -------------------------------------------------------------------- */
-
+/* Hero banner */
 .dash-hero {
   border-radius: var(--fl-radius-hero);
   background: linear-gradient(135deg, var(--fl-green-primary) 0%, var(--fl-green-deep) 100%);
@@ -307,14 +279,12 @@ html, body {
   box-shadow: 0 14px 28px -10px rgba(17, 24, 39, 0.3);
 }
 
-/* --------------------------------------------------------------------
-   Content cards
-   -------------------------------------------------------------------- */
+/* Content cards */
 
 .dash-card {
-  background: #ffffff;
+  background: var(--fl-surface);
+  border: 1px solid var(--fl-divider);
   border-radius: var(--fl-radius-card);
-  box-shadow: 0 1px 2px rgba(17, 24, 39, 0.04), 0 8px 20px -12px rgba(17, 24, 39, 0.08);
   padding: 1.75rem 2rem;
 }
 
@@ -327,7 +297,7 @@ html, body {
 .dash-card-title {
   font-size: 1.05rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--fl-text-primary);
 }
 
 .dash-card-link {
@@ -335,13 +305,13 @@ html, body {
   align-items: center;
   gap: 0.4rem;
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--fl-text-secondary);
   font-weight: 500;
   transition: color 0.15s ease;
 }
 
 .dash-card-link:hover {
-  color: #111827;
+  color: var(--fl-text-primary);
 }
 
 /* Empty state placeholder for the shipments card. The sample screen
@@ -354,33 +324,30 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  color: #9ca3af;
+  color: var(--fl-text-secondary);
   text-align: center;
 }
 
 .dash-empty-state i {
   font-size: 1.5rem;
-  color: #d1d5db;
+  color: rgba(0, 0, 0, 0.18);
 }
 
-/* --------------------------------------------------------------------
-   Quick actions
-   -------------------------------------------------------------------- */
-
+/* Quick actions */
 .quick-action {
   display: flex;
   align-items: flex-start;
   gap: 1rem;
-  background: #fafafa;
-  border: 1px solid #f1f1f1;
+  background: var(--fl-page-bg);
+  border: 1px solid var(--fl-divider);
   border-radius: var(--fl-radius-control);
   padding: 1rem 1.1rem;
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .quick-action:hover {
-  background: #f5f5f5;
-  border-color: #e5e5e5;
+  background: #f0f0f0;
+  border-color: rgba(0, 0, 0, 0.14);
 }
 
 .quick-action-icon {
@@ -399,23 +366,16 @@ html, body {
 .quick-action-title {
   font-weight: 700;
   font-size: 0.9rem;
-  color: #111827;
+  color: var(--fl-text-primary);
 }
 
 .quick-action-desc {
   font-size: 0.8rem;
-  color: #9ca3af;
+  color: var(--fl-text-secondary);
   margin-top: 0.15rem;
   line-height: 1.45;
 }
-/* --------------------------------------------------------------------
-   Mobile navigation
-   Below the lg breakpoint (1024px) the sidebar becomes an off-canvas
-   drawer (hidden by default, toggled via the header hamburger button),
-   and a fixed bottom tab bar surfaces the 4 highest-traffic modules for
-   quick thumb access, matching the pattern in the reference screenshot.
-   -------------------------------------------------------------------- */
-
+/* Mobile navigation */
 .dash-hamburger {
   display: none;
   width: 2.5rem;
@@ -499,7 +459,7 @@ html, body {
   }
 
   .dash-content {
-    padding: 1.5rem 1.25rem 6.5rem; /* clears the fixed bottom tab bar */
+    padding: 1.5rem 1.25rem 6.5rem; 
   }
 
   .dash-hero {
@@ -555,14 +515,7 @@ html, body {
     color: var(--fl-green-primary);
   }
 }
-/* --------------------------------------------------------------------
-   Component-loader support
-   -------------------------------------------------------------------- */
-
-/* #navPlaceholder wraps the fetched <aside>, backdrop, and bottom-nav as
-   one unit for a single fetch/injection — display:contents means it
-   doesn't itself become a flex item inside .dash-shell, so its children
-   behave exactly as if they were direct children of .dash-shell. */
+/* Component-loader support */
 #navPlaceholder {
   display: contents;
 }
@@ -575,7 +528,7 @@ html, body {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  color: #6b7280;
+  color: var(--fl-text-secondary);
   font-size: 0.9rem;
 }
 
@@ -592,4 +545,9 @@ html, body {
   to {
     transform: rotate(360deg);
   }
+}
+
+body.dashboard-body {
+  font-family: "DM Sans", sans-serif;
+  color: var(--fl-text-primary);
 }
