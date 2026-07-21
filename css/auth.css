@@ -1,0 +1,335 @@
+/* ==========================================================
+   FOODLIFT AUTHENTICATION STYLESHEET
+   Shared by:
+   - login.html
+   - forgot-password.html
+   - reset-password.html
+========================================================== */
+
+/* ==============================
+   GOOGLE FONT
+============================== */
+
+body {
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(
+        135deg,
+        #fffdf8 0%,
+        #fff7ed 55%,
+        #f7fee7 100%
+    );
+}
+
+/* ==============================
+   AUTH CONTAINER
+============================== */
+
+.auth-wrapper {
+    min-height: 100vh;
+}
+
+.auth-card {
+    border-radius: 2rem;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+}
+
+/* ==============================
+   LEFT BRANDING PANEL
+============================== */
+
+.auth-branding {
+    background: linear-gradient(
+        180deg,
+        rgba(236, 253, 245, .8),
+        rgba(255, 247, 237, .8)
+    );
+}
+
+.brand-logo {
+    width: 150px;
+}
+
+.brand-heading {
+    line-height: 1.05;
+}
+
+.brand-description {
+    max-width: 470px;
+}
+
+/* ==============================
+   FEATURE CHIPS
+============================== */
+
+.feature-chip {
+    background: white;
+    border: 1px solid #f3f4f6;
+    border-radius: 999px;
+    padding: .75rem 1rem;
+
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+
+    font-size: .9rem;
+
+    box-shadow:
+        0 4px 10px rgba(0,0,0,.05);
+
+    transition: all .25s ease;
+}
+
+.feature-chip:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.08);
+}
+
+/* ==============================
+   CART ILLUSTRATION
+============================== */
+
+.cart-circle {
+    width: 230px;
+    height: 230px;
+
+    border-radius: 999px;
+
+    background: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow:
+        0 20px 40px rgba(0,0,0,.12);
+}
+
+.cart-circle i {
+    font-size: 4rem;
+    color: #f97316;
+}
+
+/* ==============================
+   FORM
+============================== */
+
+.auth-form {
+    width: 100%;
+    max-width: 480px;
+}
+
+.auth-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.auth-subtitle {
+    color: #6b7280;
+    margin-top: .5rem;
+}
+
+/* ==============================
+   LABELS
+============================== */
+
+.auth-label {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: .5rem;
+}
+
+/* ==============================
+   INPUTS
+============================== */
+
+.auth-input {
+    width: 100%;
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    background: white;
+
+    padding:
+        1rem
+        1rem
+        1rem
+        3rem;
+
+    transition: all .25s ease;
+}
+
+.auth-input:focus {
+
+    border-color: #f97316;
+
+    box-shadow:
+        0 0 0 4px rgba(249,115,22,.15);
+
+    outline: none;
+}
+
+.input-icon {
+    color: #9ca3af;
+}
+
+/* ==============================
+   BUTTONS
+============================== */
+
+.btn-primary {
+
+    border-radius: 18px;
+
+    background: #f97316;
+
+    color: white;
+
+    font-weight: 600;
+
+    padding: 1rem;
+
+    transition: all .25s ease;
+}
+
+.btn-primary:hover {
+
+    background: #ea580c;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 15px 35px rgba(249,115,22,.35);
+}
+
+.btn-secondary {
+
+    border: 1px solid #e5e7eb;
+
+    border-radius: 18px;
+
+    background: white;
+
+    font-weight: 500;
+
+    transition: all .25s ease;
+}
+
+.btn-secondary:hover {
+
+    background: #fff7ed;
+
+    border-color: #fb923c;
+}
+
+/* ==============================
+   LINKS
+============================== */
+
+.auth-link {
+
+    color: #f97316;
+
+    transition: .25s;
+}
+
+.auth-link:hover {
+
+    color: #ea580c;
+}
+
+/* ==============================
+   ALERTS
+============================== */
+
+.alert-error {
+
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+
+    padding: 1rem;
+
+    border-radius: 1rem;
+
+    border: 1px solid #fecaca;
+
+    background: #fef2f2;
+
+    color: #dc2626;
+}
+
+.alert-success {
+
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+
+    padding: 1rem;
+
+    border-radius: 1rem;
+
+    border: 1px solid #bbf7d0;
+
+    background: #f0fdf4;
+
+    color: #15803d;
+}
+
+/* ==============================
+   FOOTER
+============================== */
+
+.auth-footer {
+
+    color: #9ca3af;
+
+    font-size: .9rem;
+}
+
+/* ==============================
+   ANIMATIONS
+============================== */
+
+.hover-lift {
+
+    transition: all .25s ease;
+}
+
+.hover-lift:hover {
+
+    transform: translateY(-3px);
+}
+
+/* ==============================
+   RESPONSIVE
+============================== */
+
+@media (max-width: 1024px) {
+
+    .auth-branding {
+        display: none;
+    }
+
+    .auth-title {
+        font-size: 2.25rem;
+    }
+
+}
+
+@media (max-width: 640px) {
+
+    .auth-card {
+        border-radius: 1.5rem;
+    }
+
+    .auth-title {
+        font-size: 2rem;
+    }
+
+}
