@@ -1,0 +1,69 @@
+<aside class="dash-sidebar" id="dashSidebar">
+
+  <div class="dash-logo-block">
+    <img src="static/images/FoodLift Logo.jpg" alt="FoodLift — Lifting homes with affordable foods" class="w-36">
+    <button type="button" class="dash-sidebar-close" id="sidebarCloseBtn" aria-label="Close menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <nav class="dash-nav">
+    <a href="#" class="dash-nav-item" data-module="dashboard">
+      <i class="fa-solid fa-grip"></i>
+      <span>Dashboard</span>
+    </a>
+    <a href="#" class="dash-nav-item" data-module="inventory">
+      <i class="fa-solid fa-boxes-stacked"></i>
+      <span>Inventory</span>
+    </a>
+    <a href="#" class="dash-nav-item" data-module="orders">
+      <i class="fa-solid fa-cart-flatbed"></i>
+      <span>Orders</span>
+    </a>
+    <a href="#" class="dash-nav-item" data-module="dispatch">
+      <i class="fa-solid fa-truck"></i>
+      <span>Dispatch</span>
+    </a>
+    <a href="#" class="dash-nav-item" data-module="staff">
+      <i class="fa-solid fa-users"></i>
+      <span>Warehouse Staff</span>
+    </a>
+    <a href="#" class="dash-nav-item" data-module="reports">
+      <i class="fa-solid fa-chart-line"></i>
+      <span>Reports</span>
+    </a>
+    <a href="#" class="dash-nav-item" data-module="settings">
+      <i class="fa-solid fa-gear"></i>
+      <span>Settings</span>
+    </a>
+  </nav>
+
+  <a href="login.html" class="dash-signout">
+    <i class="fa-solid fa-right-from-bracket"></i>
+    <span>Sign Out</span>
+  </a>
+
+</aside>
+
+<!-- Backdrop shown behind the sidebar drawer on mobile -->
+<div class="dash-sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- MOBILE BOTTOM TAB BAR -->
+<nav class="dash-bottom-nav" aria-label="Primary mobile navigation">
+  <a href="pages/inventory.html" class="dash-tab" data-module="inventory">
+    <i class="fa-solid fa-boxes-stacked"></i>
+    <span>Inventory</span>
+  </a>
+  <a href="pages/orders.html" class="dash-tab" data-module="orders">
+    <i class="fa-solid fa-cart-flatbed"></i>
+    <span>Orders</span>
+  </a>
+  <a href="pages/dispatch.html" class="dash-tab" data-module="dispatch">
+    <i class="fa-solid fa-truck"></i>
+    <span>Dispatch</span>
+  </a>
+  <a href="pages/reports.html" class="dash-tab" data-module="reports">
+    <i class="fa-solid fa-chart-line"></i>
+    <span>Reports</span>
+  </a>
+</nav>

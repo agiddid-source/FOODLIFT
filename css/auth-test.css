@@ -1,0 +1,318 @@
+/* ==========================================================================
+   FoodLift — Auth Design System
+   Tokens pulled from the UI lead's dashboard sample:
+   - Near-black "wallet" card accent   #121212
+   - Primary orange CTA                #F97316 / hover #EA580C
+   - Lime/green success + fresh accent #65A30D / bg #ECFCCB
+   - Cream marketing-panel gradient    #FFFDF8 → #FFF7ED → #F7FEE7
+   ========================================================================== */
+
+:root {
+  --fl-orange: #f97316;
+  --fl-orange-dark: #ea580c;
+  --fl-orange-soft: #fff1e0;
+  --fl-ink: #121212;
+  --fl-ink-soft: #262626;
+  --fl-lime: #65a30d;
+  --fl-lime-soft: #ecfccb;
+  --fl-green-text: #15803d;
+  --fl-green-bg: #dcfce7;
+  --fl-red-text: #dc2626;
+  --fl-red-bg: #fef2f2;
+  --fl-red-border: #fecaca;
+  --fl-radius-card: 1.75rem;
+  --fl-radius-control: 0.875rem;
+}
+
+/* --------------------------------------------------------------------
+   Shell
+   -------------------------------------------------------------------- */
+
+.auth-card {
+  background: #ffffff;
+  border-radius: var(--fl-radius-card);
+  overflow: hidden;
+}
+
+.auth-form {
+  width: 100%;
+  max-width: 26rem;
+}
+
+.auth-title {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.01em;
+}
+
+.auth-subtitle {
+  margin-top: 0.5rem;
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.auth-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+.auth-link {
+  color: var(--fl-orange);
+  font-weight: 600;
+  transition: color 0.15s ease;
+}
+
+.auth-link:hover {
+  color: var(--fl-orange-dark);
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------
+   Inputs
+   -------------------------------------------------------------------- */
+
+.auth-input {
+  width: 100%;
+  padding: 0.95rem 1rem 0.95rem 2.85rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: var(--fl-radius-control);
+  background: #fafafa;
+  color: #111827;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.auth-input::placeholder {
+  color: #9ca3af;
+}
+
+.auth-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: var(--fl-orange);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+
+.auth-input.field-error {
+  border-color: #fca5a5;
+  background: #fff5f5;
+}
+
+.input-icon {
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------- */
+
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: var(--fl-orange);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 1rem 1.5rem;
+  border-radius: var(--fl-radius-control);
+  box-shadow: 0 10px 20px -8px rgba(249, 115, 22, 0.45);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary:hover {
+  background: var(--fl-orange-dark);
+  box-shadow: 0 12px 24px -8px rgba(234, 88, 12, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-primary:disabled,
+.btn-primary.is-loading {
+  opacity: 0.85;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: #ffffff;
+  color: #111827;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 1.5px solid #e5e7eb;
+  border-radius: var(--fl-radius-control);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background: #fafafa;
+  border-color: #d1d5db;
+}
+
+/* Spinner shown inside a button while a mock request is "in flight".
+   This is a pure UI/timing simulation for prototype purposes only —
+   no request is actually made. See TODO comments in each auth/*.js file
+   for where the real fetch() call belongs.
+
+   The button only ever shows ONE thing at a time: its label, or the
+   spinner in place of the label. The "what's happening" message lives
+   in the toast component below instead of a second span inside the
+   button — that's what was causing the label and the loading text to
+   render side by side. */
+.btn-spinner {
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #ffffff;
+  animation: fl-spin 0.7s linear infinite;
+  display: none;
+}
+
+.is-loading .btn-spinner {
+  display: inline-block;
+}
+
+.is-loading .btn-label {
+  display: none;
+}
+
+@keyframes fl-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --------------------------------------------------------------------
+   Toast
+   A single fixed-position toast used to communicate "what's happening"
+   during a simulated request (e.g. "Signing in…"). Call showToast()
+   (defined per-page in each auth/*.js file) rather than duplicating
+   this markup — one #toast per page is enough.
+   -------------------------------------------------------------------- */
+
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%) translateY(0.5rem);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--fl-ink);
+  color: #ffffff;
+  padding: 0.85rem 1.35rem;
+  border-radius: 999px;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 60;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-spinner {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  animation: fl-spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+/* --------------------------------------------------------------------
+   Alerts / states
+   -------------------------------------------------------------------- */
+
+.alert-error {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--fl-red-bg);
+  border: 1px solid var(--fl-red-border);
+  color: var(--fl-red-text);
+  border-radius: var(--fl-radius-control);
+  padding: 0.9rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.alert-success {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  background: var(--fl-lime-soft);
+  border: 1px solid #d9f99d;
+  color: #365314;
+  border-radius: var(--fl-radius-card);
+  padding: 1.25rem 1.4rem;
+}
+
+.alert-success i {
+  color: var(--fl-lime);
+  font-size: 1.35rem;
+  margin-top: 0.1rem;
+}
+
+.alert-error i {
+  color: var(--fl-red-text);
+}
+
+/* --------------------------------------------------------------------
+   Marketing panel — floating info chips (styled after the "Stock Alert"
+   / "Delivery on the way" bubbles in the dashboard sample)
+   -------------------------------------------------------------------- */
+
+.floating-chip {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #ffffff;
+  border-radius: 1.1rem;
+  padding: 0.7rem 1rem;
+  box-shadow: 0 12px 30px -10px rgba(17, 24, 39, 0.18);
+}
+
+.floating-chip .chip-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+.floating-chip .chip-label {
+  font-size: 0.7rem;
+  color: #9ca3af;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.floating-chip .chip-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #111827;
+}
