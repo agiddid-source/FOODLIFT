@@ -1,335 +1,326 @@
-/* ==========================================================
-   FOODLIFT AUTHENTICATION STYLESHEET
-   Shared by:
-   - login.html
-   - forgot-password.html
-   - reset-password.html
-========================================================== */
+/* ==========================================================================
+   FoodLift — Auth Design System (v2)
+   Rebuilt against Design System V1 (typography + background/surface/text/
+   border tokens). Orange stays the auth-specific accent, unchanged — same
+   logic as leaving green untouched on the dashboard: auth screens are
+   conversion-focused and orange is the established CTA color there;
+   in-app screens lean green. Both trace back to the logo.
+   ========================================================================== */
 
-/* ==============================
-   GOOGLE FONT
-============================== */
+:root {
+  /* Design System V1 — neutrals */
+  --fl-page-bg: #fafafa;
+  --fl-surface: #f4f4f4;
+  --fl-text-primary: #0a0a0a;
+  --fl-text-secondary: rgba(0, 0, 0, 0.45);
+  --fl-border-subtle: rgba(0, 0, 0, 0.08);
+
+  /* Auth-specific accent — unchanged */
+  --fl-orange: #f97316;
+  --fl-orange-dark: #ea580c;
+  --fl-orange-soft: #fff1e0;
+  --fl-ink: #121212;
+  --fl-lime: #65a30d;
+  --fl-lime-soft: #ecfccb;
+
+  /* Semantic (unchanged) */
+  --fl-red-text: #dc2626;
+  --fl-red-bg: #fef2f2;
+  --fl-red-border: #fecaca;
+
+  --fl-radius-card: 1.75rem;
+  --fl-radius-control: 0.875rem;
+}
 
 body {
-    font-family: "Poppins", sans-serif;
-    background: linear-gradient(
-        135deg,
-        #fffdf8 0%,
-        #fff7ed 55%,
-        #f7fee7 100%
-    );
+  font-family: "DM Sans", sans-serif;
+  color: var(--fl-text-primary);
 }
 
-/* ==============================
-   AUTH CONTAINER
-============================== */
-
-.auth-wrapper {
-    min-height: 100vh;
-}
+/* --------------------------------------------------------------------
+   Shell
+   -------------------------------------------------------------------- */
 
 .auth-card {
-    border-radius: 2rem;
-    overflow: hidden;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(12px);
+  background: var(--fl-surface);
+  border-radius: var(--fl-radius-card);
+  overflow: hidden;
 }
-
-/* ==============================
-   LEFT BRANDING PANEL
-============================== */
-
-.auth-branding {
-    background: linear-gradient(
-        180deg,
-        rgba(236, 253, 245, .8),
-        rgba(255, 247, 237, .8)
-    );
-}
-
-.brand-logo {
-    width: 150px;
-}
-
-.brand-heading {
-    line-height: 1.05;
-}
-
-.brand-description {
-    max-width: 470px;
-}
-
-/* ==============================
-   FEATURE CHIPS
-============================== */
-
-.feature-chip {
-    background: white;
-    border: 1px solid #f3f4f6;
-    border-radius: 999px;
-    padding: .75rem 1rem;
-
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-
-    font-size: .9rem;
-
-    box-shadow:
-        0 4px 10px rgba(0,0,0,.05);
-
-    transition: all .25s ease;
-}
-
-.feature-chip:hover {
-    transform: translateY(-2px);
-    box-shadow:
-        0 10px 25px rgba(0,0,0,.08);
-}
-
-/* ==============================
-   CART ILLUSTRATION
-============================== */
-
-.cart-circle {
-    width: 230px;
-    height: 230px;
-
-    border-radius: 999px;
-
-    background: white;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    box-shadow:
-        0 20px 40px rgba(0,0,0,.12);
-}
-
-.cart-circle i {
-    font-size: 4rem;
-    color: #f97316;
-}
-
-/* ==============================
-   FORM
-============================== */
 
 .auth-form {
-    width: 100%;
-    max-width: 480px;
+  width: 100%;
+  max-width: 26rem;
 }
 
 .auth-title {
-    font-size: 3rem;
-    font-weight: 700;
-    color: #111827;
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: var(--fl-text-primary);
+  letter-spacing: -0.01em;
 }
 
 .auth-subtitle {
-    color: #6b7280;
-    margin-top: .5rem;
+  margin-top: 0.5rem;
+  color: var(--fl-text-secondary);
+  line-height: 1.6;
 }
-
-/* ==============================
-   LABELS
-============================== */
 
 .auth-label {
-    font-weight: 600;
-    color: #1f2937;
-    margin-bottom: .5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--fl-text-primary);
+  margin-bottom: 0.5rem;
 }
-
-/* ==============================
-   INPUTS
-============================== */
-
-.auth-input {
-    width: 100%;
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 18px;
-
-    background: white;
-
-    padding:
-        1rem
-        1rem
-        1rem
-        3rem;
-
-    transition: all .25s ease;
-}
-
-.auth-input:focus {
-
-    border-color: #f97316;
-
-    box-shadow:
-        0 0 0 4px rgba(249,115,22,.15);
-
-    outline: none;
-}
-
-.input-icon {
-    color: #9ca3af;
-}
-
-/* ==============================
-   BUTTONS
-============================== */
-
-.btn-primary {
-
-    border-radius: 18px;
-
-    background: #f97316;
-
-    color: white;
-
-    font-weight: 600;
-
-    padding: 1rem;
-
-    transition: all .25s ease;
-}
-
-.btn-primary:hover {
-
-    background: #ea580c;
-
-    transform: translateY(-2px);
-
-    box-shadow:
-        0 15px 35px rgba(249,115,22,.35);
-}
-
-.btn-secondary {
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 18px;
-
-    background: white;
-
-    font-weight: 500;
-
-    transition: all .25s ease;
-}
-
-.btn-secondary:hover {
-
-    background: #fff7ed;
-
-    border-color: #fb923c;
-}
-
-/* ==============================
-   LINKS
-============================== */
 
 .auth-link {
-
-    color: #f97316;
-
-    transition: .25s;
+  color: var(--fl-orange);
+  font-weight: 700;
+  transition: color 0.15s ease;
 }
 
 .auth-link:hover {
-
-    color: #ea580c;
+  color: var(--fl-orange-dark);
+  text-decoration: underline;
 }
 
-/* ==============================
-   ALERTS
-============================== */
+/* --------------------------------------------------------------------
+   Inputs
+   -------------------------------------------------------------------- */
+
+.auth-input {
+  width: 100%;
+  padding: 0.95rem 1rem 0.95rem 2.85rem;
+  border: 1.5px solid var(--fl-border-subtle);
+  border-radius: var(--fl-radius-control);
+  background: #ffffff;
+  color: var(--fl-text-primary);
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.auth-input::placeholder {
+  color: var(--fl-text-secondary);
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: var(--fl-orange);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.12);
+}
+
+.auth-input.field-error {
+  border-color: #fca5a5;
+  background: #fff5f5;
+}
+
+.input-icon {
+  color: var(--fl-text-secondary);
+  font-size: 0.95rem;
+}
+
+/* --------------------------------------------------------------------
+   Buttons
+   -------------------------------------------------------------------- */
+
+.btn-primary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: var(--fl-orange);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 1rem 1.5rem;
+  border-radius: var(--fl-radius-control);
+  box-shadow: 0 10px 20px -8px rgba(249, 115, 22, 0.45);
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+}
+
+.btn-primary:hover {
+  background: var(--fl-orange-dark);
+  box-shadow: 0 12px 24px -8px rgba(234, 88, 12, 0.5);
+}
+
+.btn-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-primary:disabled,
+.btn-primary.is-loading {
+  opacity: 0.85;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: #ffffff;
+  color: var(--fl-text-primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: 1.5px solid var(--fl-border-subtle);
+  border-radius: var(--fl-radius-control);
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--fl-page-bg);
+  border-color: rgba(0, 0, 0, 0.14);
+}
+
+/* Button label — hidden while a mock request is "in flight" so the
+   button shows spinner-only (no text). The actual "Signing in…" /
+   "Creating your account…" messaging lives in the toast instead. */
+.btn-label {
+  display: inline;
+}
+
+.is-loading .btn-label {
+  display: none;
+}
+
+/* Spinner shown inside a button while a mock request is "in flight".
+   Pure UI/timing simulation — no request is actually made. See the
+   TODO comments in each auth/*.js file for where the real fetch()
+   call belongs. */
+.btn-spinner {
+  width: 1.05rem;
+  height: 1.05rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #ffffff;
+  animation: fl-spin 0.7s linear infinite;
+  display: none;
+}
+
+.is-loading .btn-spinner {
+  display: inline-block;
+}
+
+@keyframes fl-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* --------------------------------------------------------------------
+   Alerts / states (semantic colors — unchanged)
+   -------------------------------------------------------------------- */
 
 .alert-error {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--fl-red-bg);
+  border: 1px solid var(--fl-red-border);
+  color: var(--fl-red-text);
+  border-radius: var(--fl-radius-control);
+  padding: 0.9rem 1.1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
 
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-
-    padding: 1rem;
-
-    border-radius: 1rem;
-
-    border: 1px solid #fecaca;
-
-    background: #fef2f2;
-
-    color: #dc2626;
+.alert-error i {
+  color: var(--fl-red-text);
 }
 
 .alert-success {
-
-    display: flex;
-    align-items: center;
-    gap: .75rem;
-
-    padding: 1rem;
-
-    border-radius: 1rem;
-
-    border: 1px solid #bbf7d0;
-
-    background: #f0fdf4;
-
-    color: #15803d;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  background: var(--fl-lime-soft);
+  border: 1px solid #d9f99d;
+  color: #365314;
+  border-radius: var(--fl-radius-card);
+  padding: 1.25rem 1.4rem;
 }
 
-/* ==============================
-   FOOTER
-============================== */
-
-.auth-footer {
-
-    color: #9ca3af;
-
-    font-size: .9rem;
+.alert-success i {
+  color: var(--fl-lime);
+  font-size: 1.35rem;
+  margin-top: 0.1rem;
 }
 
-/* ==============================
-   ANIMATIONS
-============================== */
+/* --------------------------------------------------------------------
+   Toast — communicates in-flight status during a simulated request
+   -------------------------------------------------------------------- */
 
-.hover-lift {
-
-    transition: all .25s ease;
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  transform: translate(-50%, 1rem);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--fl-ink);
+  color: #ffffff;
+  padding: 0.9rem 1.4rem;
+  border-radius: 999px;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.45);
+  font-size: 0.875rem;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 999;
 }
 
-.hover-lift:hover {
-
-    transform: translateY(-3px);
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
 }
 
-/* ==============================
-   RESPONSIVE
-============================== */
-
-@media (max-width: 1024px) {
-
-    .auth-branding {
-        display: none;
-    }
-
-    .auth-title {
-        font-size: 2.25rem;
-    }
-
+.toast-spinner {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--fl-orange);
+  animation: fl-spin 0.7s linear infinite;
+  flex-shrink: 0;
 }
 
-@media (max-width: 640px) {
+/* --------------------------------------------------------------------
+   Marketing panel — floating info chips
+   -------------------------------------------------------------------- */
 
-    .auth-card {
-        border-radius: 1.5rem;
-    }
+.floating-chip {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #ffffff;
+  border-radius: 1.1rem;
+  padding: 0.7rem 1rem;
+  box-shadow: 0 12px 30px -10px rgba(17, 24, 39, 0.18);
+}
 
-    .auth-title {
-        font-size: 2rem;
-    }
+.floating-chip .chip-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
 
+.floating-chip .chip-label {
+  font-size: 0.7rem;
+  color: var(--fl-text-secondary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.floating-chip .chip-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--fl-text-primary);
 }
