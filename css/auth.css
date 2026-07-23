@@ -1,11 +1,6 @@
-/* ==========================================================================
-   FoodLift — Auth Design System (v2)
-   Rebuilt against Design System V1 (typography + background/surface/text/
-   border tokens). Orange stays the auth-specific accent, unchanged — same
-   logic as leaving green untouched on the dashboard: auth screens are
+/* FoodLift — Auth Design System (v1) auth screens are
    conversion-focused and orange is the established CTA color there;
-   in-app screens lean green. Both trace back to the logo.
-   ========================================================================== */
+   in-app screens lean green. Both trace back to the logo. */
 
 :root {
   /* Design System V1 — neutrals */
@@ -15,7 +10,7 @@
   --fl-text-secondary: rgba(0, 0, 0, 0.45);
   --fl-border-subtle: rgba(0, 0, 0, 0.08);
 
-  /* Auth-specific accent — unchanged */
+  /* Auth-specific accent */
   --fl-orange: #f97316;
   --fl-orange-dark: #ea580c;
   --fl-orange-soft: #fff1e0;
@@ -23,7 +18,7 @@
   --fl-lime: #65a30d;
   --fl-lime-soft: #ecfccb;
 
-  /* Semantic (unchanged) */
+  /* Semantic */
   --fl-red-text: #dc2626;
   --fl-red-bg: #fef2f2;
   --fl-red-border: #fecaca;
@@ -37,10 +32,7 @@ body {
   color: var(--fl-text-primary);
 }
 
-/* --------------------------------------------------------------------
-   Shell
-   -------------------------------------------------------------------- */
-
+/* Shell */
 .auth-card {
   background: var(--fl-surface);
   border-radius: var(--fl-radius-card);
@@ -83,10 +75,7 @@ body {
   text-decoration: underline;
 }
 
-/* --------------------------------------------------------------------
-   Inputs
-   -------------------------------------------------------------------- */
-
+/* Inputs */
 .auth-input {
   width: 100%;
   padding: 0.95rem 1rem 0.95rem 2.85rem;
@@ -118,10 +107,7 @@ body {
   font-size: 0.95rem;
 }
 
-/* --------------------------------------------------------------------
-   Buttons
-   -------------------------------------------------------------------- */
-
+/* Buttons */
 .btn-primary {
   position: relative;
   display: inline-flex;
@@ -208,10 +194,7 @@ body {
   }
 }
 
-/* --------------------------------------------------------------------
-   Alerts / states (semantic colors — unchanged)
-   -------------------------------------------------------------------- */
-
+/* Alerts / states (semantic colors — unchanged) */
 .alert-error {
   display: flex;
   align-items: center;
@@ -246,10 +229,7 @@ body {
   margin-top: 0.1rem;
 }
 
-/* --------------------------------------------------------------------
-   Toast — communicates in-flight status during a simulated request
-   -------------------------------------------------------------------- */
-
+/*Toast Notification */
 .toast {
   position: fixed;
   left: 50%;
@@ -286,10 +266,7 @@ body {
   flex-shrink: 0;
 }
 
-/* --------------------------------------------------------------------
-   Marketing panel — floating info chips
-   -------------------------------------------------------------------- */
-
+/* Marketing panel — floating info chips */
 .floating-chip {
   position: absolute;
   display: flex;
