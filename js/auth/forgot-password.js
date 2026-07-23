@@ -1,4 +1,5 @@
 // forgot-password.js
+// Presentation-layer prototype only — no email is actually sent.
 
 document.addEventListener("DOMContentLoaded", () => {
     const forgotPasswordForm = document.getElementById("forgotPasswordForm");
@@ -10,6 +11,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const successState = document.getElementById("successState");
     const successMessage = document.getElementById("successMessage");
 
+    const submitBtn = document.getElementById("submitBtn");
+    const toast = document.getElementById("toast");
+    const toastMessage = document.getElementById("toastMessage");
+
     if (!forgotPasswordForm) return;
 
     forgotPasswordForm.addEventListener("submit", (e) => {
@@ -18,42 +23,56 @@ document.addEventListener("DOMContentLoaded", () => {
         const email = emailInput.value.trim();
 
         hideError();
+        clearHighlight(emailInput);
 
         // Validate email
         if (email === "") {
             showError("Please enter your email address.");
+            highlightField(emailInput);
             return;
         }
 
         if (!isValidEmail(email)) {
             showError("Please enter a valid email address.");
+            highlightField(emailInput);
             return;
         }
 
-        /*
-            Future Backend Integration
+        // --- Loading state (UI simulation only) -----------------------------
+        // The button swaps its label for a spinner, and a toast communicates
+        // what's happening for a simulated 1–5s, mimicking real network
+        // latency. Replace the setTimeout block below with the real fetch()
+        // call.
+        setLoading(true);
 
-            POST /api/auth/forgot-password
+        const delay = mockLatency();
+        showToast("Sending reset link…", delay);
 
-            Body:
-            {
-                email: email
-            }
+        setTimeout(() => {
+            /*
+                Future Backend Integration
 
-            Backend should:
-            - Check if email exists
-            - Generate reset token
-            - Send reset email
+                POST /api/auth/forgot-password
+                Body: { email }
 
-        */
+                Backend should:
+                - Check if email exists
+                - Generate reset token
+                - Send reset email
 
-        // Show success state
-        forgotPasswordForm.classList.add("hidden");
+                On success -> show success state (as below)
+                On failure -> setLoading(false); showError("Something went wrong. Please try again.")
+            */
 
-        successMessage.textContent =
-            `We've sent a password reset link to ${email}. Please check your inbox (and spam folder if necessary).`;
+            setLoading(false);
 
-        successState.classList.remove("hidden");
+            forgotPasswordForm.classList.add("hidden");
+
+            successMessage.textContent =
+                `We've sent a password reset link to ${email}. Please check your inbox (and spam folder if necessary).`;
+
+            successState.classList.remove("hidden");
+        }, delay);
     });
 
     function isValidEmail(email) {
@@ -62,14 +81,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showError(message) {
         messageText.textContent = message;
-
         formMessage.classList.remove("hidden");
-        formMessage.classList.remove("alert-success");
-        formMessage.classList.add("alert-error");
     }
 
     function hideError() {
         formMessage.classList.add("hidden");
         messageText.textContent = "";
+    }
+
+    function highlightField(field) {
+        field.classList.add("field-error");
+    }
+
+    function clearHighlight(field) {
+        field.classList.remove("field-error");
+    }
+
+    function setLoading(isLoading) {
+        submitBtn.disabled = isLoading;
+        submitBtn.classList.toggle("is-loading", isLoading);
+    }
+
+    // Toast — shows a status message for a given duration, then hides itself.
+    function showToast(message, duration) {
+        toastMessage.textContent = message;
+        toast.classList.add("show");
+        return setTimeout(() => toast.classList.remove("show"), duration);
+    }
+
+    // Random delay generator — stands in for real network latency.
+    function mockLatency(minMs = 1000, maxMs = 5000) {
+        return Math.floor(Math.random() * (maxMs - minMs + 1)) + minMs;
     }
 });
