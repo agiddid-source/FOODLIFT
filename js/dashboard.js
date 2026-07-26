@@ -1,9 +1,13 @@
+import { initInventory } from "./warehouse/inventory.js";
 // dashboard.js
 // Presentation-layer behavior for the warehouse dashboard shell.
 // Uses event delegation throughout (listening on document, not on
 // specific elements) because the header/nav are injected asynchronously
 // by load-static.js — elements referenced by ID may not exist yet at
 // the moment this script first runs.
+
+
+
 
 const MODULE_TITLES = {
   dashboard: "Dashboard",
@@ -67,6 +71,11 @@ function loadModule(name) {
     .then((html) => {
       target.innerHTML = html;
       setActiveModule(name);
+
+      // Module-specific initialization Ezzey
+      if (name === "inventory") {
+      initInventory();
+    }
     })
     .catch(() => {
       // TODO: once real modules exist, this only fires on an actual
@@ -75,6 +84,7 @@ function loadModule(name) {
         '<div class="module-loading"><i class="fa-solid fa-triangle-exclamation" style="color:#dc2626;font-size:1.5rem;"></i>' +
         "<p>Couldn't load this section. Please try again.</p></div>";
     });
+    
 }
 
 document.addEventListener("fl:componentsReady", function () {
@@ -107,3 +117,5 @@ document.addEventListener("keydown", function (e) {
 window.addEventListener("resize", function () {
   if (window.innerWidth >= 1024) closeSidebar();
 });
+
+
