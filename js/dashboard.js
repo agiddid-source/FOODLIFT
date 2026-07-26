@@ -1,23 +1,35 @@
 import { initInventory } from "./warehouse/inventory.js";
 // dashboard.js
-// Presentation-layer behavior for the warehouse dashboard shell.
+// Presentation-layer behavior for the dashboard shell. Role-agnostic —
+// reused as-is across warehouse, rider, etc.
 // Uses event delegation throughout (listening on document, not on
 // specific elements) because the header/nav are injected asynchronously
 // by load-static.js — elements referenced by ID may not exist yet at
 // the moment this script first runs.
+//
+// Reusable across roles: a page can supply its own module title map and
+// fragment folder by setting these BEFORE this script runs, e.g.
+//   <script>
+//     window.FL_MODULE_TITLES = { dashboard: "Dashboard", deliveries: "Deliveries", ... };
+//     window.FL_MODULE_BASE = "pages/rider/";
+//   </script>
+//   <script src="js/dashboard.js"></script>
+// With no override, it falls back to the original warehouse defaults.
 
+const MODULE_TITLES = Object.assign(
+  {
+    dashboard: "Dashboard",
+    inventory: "Inventory",
+    orders: "Orders",
+    dispatch: "Dispatch",
+    staff: "Warehouse Staff",
+    reports: "Reports",
+    settings: "Settings",
+  },
+  window.FL_MODULE_TITLES || {}
+);
 
-
-
-const MODULE_TITLES = {
-  dashboard: "Dashboard",
-  inventory: "Inventory",
-  orders: "Orders",
-  dispatch: "Dispatch",
-  staff: "Warehouse Staff",
-  reports: "Reports",
-  settings: "Settings",
-};
+const MODULE_BASE = window.FL_MODULE_BASE || "pages/";
 
 function openSidebar() {
   const sidebar = document.getElementById("dashSidebar");
@@ -63,7 +75,7 @@ function loadModule(name) {
     (MODULE_TITLES[name] || "module") +
     "…</p></div>";
 
-  fetch("pages/" + name + ".html")
+  fetch(MODULE_BASE + name + ".html")
     .then((response) => {
       if (!response.ok) throw new Error("Module not found: " + name);
       return response.text();
@@ -78,8 +90,7 @@ function loadModule(name) {
     }
     })
     .catch(() => {
-      // TODO: once real modules exist, this only fires on an actual
-      // fetch/network failure — keep it, don't remove it as "unreachable."
+      // TODO: once real modules exist, this only fires on an actual fetch/network failure 
       target.innerHTML =
         '<div class="module-loading"><i class="fa-solid fa-triangle-exclamation" style="color:#dc2626;font-size:1.5rem;"></i>' +
         "<p>Couldn't load this section. Please try again.</p></div>";
@@ -106,7 +117,7 @@ document.addEventListener("click", function (e) {
   if (moduleLink) {
     e.preventDefault();
     loadModule(moduleLink.dataset.module);
-    closeSidebar(); // tidy mobile UX: picking a module closes the drawer
+    closeSidebar(); 
   }
 });
 

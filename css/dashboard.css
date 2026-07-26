@@ -109,8 +109,8 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 1.5rem;
-  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
   border-bottom: 1px solid var(--fl-divider);
 }
 
