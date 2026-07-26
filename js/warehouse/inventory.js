@@ -150,3 +150,136 @@ function renderRows(tableBody, emptyState, items) {
     tableBody.appendChild(row);
   });
 }
+
+
+/* ------------------------------------------------------------------ */
+/* Stock modal: CREATE / EDIT state + submit handling                  */
+/* ------------------------------------------------------------------ */
+function wireStockModal({ tableBody, emptyState, categoryFilter }) {
+  const modal = document.getElementById("stock-modal");
+  const form = document.getElementById("stock-item-form");
+ 
+  if (!modal || !form) {
+    console.warn("wireStockModal(): #stock-modal / #stock-item-form not found in the DOM.");
+    return () => {};
+  }
+ 
+  const modalTitle = document.getElementById("stockModalTitle");
+  const skuInput = document.getElementById("stock-item-sku");
+  const nameInput = document.getElementById("stock-item-name");
+  const categorySelect = document.getElementById("stock-item-category");
+  const categoryCustomInput = document.getElementById("stock-item-category-custom");
+  const quantityInput = document.getElementById("stock-item-quantity");
+  const priceInput = document.getElementById("stock-item-price");
+  const statusSelect = document.getElementById("stock-item-status");
+  const closeBtn = document.getElementById("stock-modal-close-btn");
+  const cancelBtn = document.getElementById("stock-modal-cancel-btn");
+ 
+  // Toggle the custom-category text field alongside the preset dropdown.
+  categorySelect?.addEventListener("change", () => {
+    const isCustom = categorySelect.value === CUSTOM_CATEGORY_VALUE;
+    categoryCustomInput.classList.toggle("hidden", !isCustom);
+    categoryCustomInput.required = isCustom;
+    if (isCustom) categoryCustomInput.focus();
+  });
+ 
+  closeBtn?.addEventListener("click", () => modal.close());
+  cancelBtn?.addEventListener("click", () => modal.close());
+ 
+  // Clicking the ::backdrop (outside the form panel) closes the dialog.
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) modal.close();
+  });
+ 
+  // Clear any stale "duplicate SKU" validity message as soon as the user edits it.
+  skuInput?.addEventListener("input", () => skuInput.setCustomValidity(""));
+ 
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+ 
+    const category =
+      categorySelect.value === CUSTOM_CATEGORY_VALUE
+        ? categoryCustomInput.value.trim()
+        : categorySelect.value;
+ 
+    const itemData = {
+      id: skuInput.value.trim(),
+      name: nameInput.value.trim(),
+      category,
+      quantity: Number(quantityInput.value),
+      unitPrice: Number(priceInput.value),
+      status: statusSelect.value,
+    };
+ 
+    if (form.dataset.mode === "EDIT") {
+      const index = inventoryItems.findIndex((item) => item.id === form.dataset.editingSku);
+      if (index !== -1) {
+        inventoryItems[index] = { ...inventoryItems[index], ...itemData };
+      }
+    } else {
+      const isDuplicate = inventoryItems.some((item) => item.id === itemData.id);
+      if (isDuplicate) {
+        skuInput.setCustomValidity(`SKU "${itemData.id}" already exists — SKUs must be unique.`);
+        skuInput.reportValidity();
+        return;
+      }
+      inventoryItems.push(itemData);
+    }
+ 
+    renderRows(tableBody, emptyState, inventoryItems);
+    populateCategoryOptions(categoryFilter, inventoryItems);
+ 
+    modal.close();
+ 
+    // Simulates persistence back to products.json.
+    console.log("Updated inventoryItems (simulating persistence to products.json):", inventoryItems);
+  });
+ 
+  function openStockModal({ mode, item = null }) {
+    form.reset();
+    skuInput.setCustomValidity("");
+    categoryCustomInput.classList.add("hidden");
+    categoryCustomInput.required = false;
+ 
+    if (mode === "EDIT" && item) {
+      form.dataset.mode = "EDIT";
+      form.dataset.editingSku = item.id;
+ 
+      skuInput.value = item.id;
+      skuInput.readOnly = true;
+      skuInput.setAttribute("aria-readonly", "true");
+ 
+      nameInput.value = item.name;
+      quantityInput.value = item.quantity;
+      priceInput.value = item.unitPrice;
+      statusSelect.value = item.status;
+ 
+      if (PRESET_CATEGORIES.includes(item.category)) {
+        categorySelect.value = item.category;
+      } else {
+        categorySelect.value = CUSTOM_CATEGORY_VALUE;
+        categoryCustomInput.classList.remove("hidden");
+        categoryCustomInput.value = item.category;
+        categoryCustomInput.required = true;
+      }
+ 
+      modalTitle.textContent = `Update Item: ${item.id}`;
+    } else {
+      form.dataset.mode = "CREATE";
+      delete form.dataset.editingSku;
+ 
+      skuInput.readOnly = false;
+      skuInput.removeAttribute("aria-readonly");
+      categorySelect.value = "Produce";
+      statusSelect.value = "In Stock";
+ 
+      modalTitle.textContent = "Add New Inventory Item";
+    }
+ 
+    modal.showModal();
+    (mode === "EDIT" ? nameInput : skuInput).focus();
+  }
+ 
+  return openStockModal;
+}
+ 

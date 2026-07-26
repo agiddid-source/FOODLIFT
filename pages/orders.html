@@ -7,13 +7,48 @@
   into the Inventory module to confirm availability. Presentation-layer
   only — mock order data, no real-time socket/polling logic.
 -->
-<div class="h-full flex flex-col items-center justify-center text-center">
-  <div class="w-24 h-24 rounded-full bg-[#8CC63F]/10 flex items-center justify-center">
-    <i class="fa-solid fa-cart-flatbed text-4xl text-[#8CC63F]"></i>
+<!-- pages/orders.html -->
+<div id="ordersModule" class="space-y-6 animate-in fade-in duration-300">
+  
+  <!-- HEADER & ACTIONS -->
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h3 class="text-xl font-bold text-[#0A0A0A]">Order Fulfillment</h3>
+      <p class="text-sm text-[rgba(0,0,0,0.45)]">Confirm item availability and process rider handoffs.</p>
+    </div>
+    <div class="relative w-full sm:w-64">
+      <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-[rgba(0,0,0,0.45)]"></i>
+      <input 
+        type="text" 
+        id="orderSearch" 
+        placeholder="Search Order ID..." 
+        class="w-full pl-10 pr-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm focus:outline-none focus:border-[#8DC63F]"
+      >
+    </div>
   </div>
-  <h3 class="text-3xl font-bold mt-8 text-[#0A0A0A]">Orders</h3>
-  <p class="text-[rgba(0,0,0,0.45)] mt-4 max-w-xl">
-    Incoming order notifications will land here — the first stop in the
-    fulfillment flow.
-  </p>
+
+  <!-- FILTER TABS -->
+  <div class="flex space-x-2 border-b border-[rgba(0,0,0,0.08)] overflow-x-auto pb-px">
+    <button class="order-filter-btn px-4 py-2.5 text-sm font-bold text-[#F7931E] border-b-2 border-[#F7931E] whitespace-nowrap" data-status="Pending Verification">
+      Pending Verification
+    </button>
+    <button class="order-filter-btn px-4 py-2.5 text-sm font-medium text-[rgba(0,0,0,0.45)] hover:text-[#0A0A0A] border-b-2 border-transparent whitespace-nowrap transition" data-status="Awaiting Rider Pick-up">
+      Awaiting Pick-up
+    </button>
+    <button class="order-filter-btn px-4 py-2.5 text-sm font-medium text-[rgba(0,0,0,0.45)] hover:text-[#0A0A0A] border-b-2 border-transparent whitespace-nowrap transition" data-status="Handed to Rider">
+      Completed
+    </button>
+  </div>
+
+  <!-- ORDERS GRID -->
+  <div id="ordersListContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+    <!-- JS will populate order cards here -->
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div id="ordersEmptyState" class="hidden flex-col items-center justify-center py-16 bg-white rounded-2xl border border-[rgba(0,0,0,0.08)] shadow-sm">
+    <i class="fa-solid fa-box-open text-4xl text-[rgba(0,0,0,0.45)] mb-4"></i>
+    <h4 class="text-[#0A0A0A] font-bold">No orders found</h4>
+    <p class="text-sm text-[rgba(0,0,0,0.45)] mt-1">There are no orders matching this status.</p>
+  </div>
 </div>

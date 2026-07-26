@@ -1,4 +1,6 @@
-import { initInventory } from "./warehouse/inventory.js";
+import { initInventory } from './warehouse/inventory.js';
+import { initOrders } from './warehouse/orders.js';
+
 // dashboard.js
 // Presentation-layer behavior for the dashboard shell. Role-agnostic —
 // reused as-is across warehouse, rider, etc.
@@ -87,6 +89,9 @@ function loadModule(name) {
       // Module-specific initialization Ezzey
       if (name === "inventory") {
       initInventory();
+    }
+    if (name === "orders") {
+      initOrders();
     }
     })
     .catch(() => {
