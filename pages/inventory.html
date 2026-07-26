@@ -8,13 +8,69 @@
   No real locking/concurrency logic belongs in this JS per the
   no-simulated-backend rule — that's a real backend's job.
 -->
-<div class="h-full flex flex-col items-center justify-center text-center">
-  <div class="w-24 h-24 rounded-full bg-[#8CC63F]/10 flex items-center justify-center">
-    <i class="fa-solid fa-boxes-stacked text-4xl text-[#8CC63F]"></i>
+
+
+<div id="inventoryModule" class="space-y-6">
+
+  <!-- ACTIONS BAR -->
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div>
+      <p class="text-lg text-[rgba(0,0,0,0.45)]">Inventory of stock available.</p>
+    </div>
+    <button id="restockBtn" data-modal-target="stock-modal" class="bg-[#F7931E] hover:bg-[#e08216] text-white px-5 py-2.5 rounded-full font-medium text-sm transition">
+      + Add New Item
+    </button>
   </div>
-  <h3 class="text-3xl font-bold mt-8 text-[#0A0A0A]">Inventory</h3>
-  <p class="text-[rgba(0,0,0,0.45)] mt-4 max-w-xl">
-    Stock levels and item availability will live here — confirm availability
-    and reserve items against incoming orders.
-  </p>
+
+  <!-- SEARCH & FILTER BAR -->
+  <div class="flex flex-col md:flex-row gap-4 items-center justify-between">
+    <!-- Search Input -->
+    <div class="relative w-full md:w-80">
+      <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-[rgba(0,0,0,0.45)]"></i>
+      <label for="inventorySearch" class="sr-only">Search product or SKU</label>
+      <input
+        type="text"
+        id="inventorySearch"
+        placeholder="Search product or SKU..."
+        class="w-full pl-10 pr-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm focus:outline-none focus:border-[#8DC63F]"
+      >
+    </div>
+
+    <!-- Category Filter -->
+    <div class="w-full md:w-48">
+      <label for="categoryFilter" class="sr-only">Filter by category</label>
+      <select id="categoryFilter" class="w-full px-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm focus:outline-none focus:border-[#8DC63F]">
+        <option value="all">All Categories</option>
+        <!-- Additional <option> elements are generated from data/inventory.json by initInventory() -->
+      </select>
+    </div>
+  </div>
+
+  <!-- INVENTORY TABLE -->
+  <div class="overflow-x-auto bg-white rounded-2xl border border-[rgba(0,0,0,0.08)]">
+    <table class="w-full text-left text-sm">
+      <thead class="bg-[#FAFAFA] border-b border-[rgba(0,0,0,0.08)] text-[rgba(0,0,0,0.45)] font-medium">
+        <tr>
+          <th class="p-4">SKU</th>
+          <th class="p-4">Item Name</th>
+          <th class="p-4">Category</th>
+          <th class="p-4">Quantity</th>
+          <th class="p-4">Unit Price</th>
+          <th class="p-4">Status</th>
+          <th class="p-4 text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="inventoryTableBody">
+        <!-- Rows are rendered dynamically from data/inventory.json by initInventory() -->
+      </tbody>
+    </table>
+
+    <!-- Empty state (shown when a search/filter matches nothing) -->
+    <div id="inventoryEmptyState" class="hidden flex-col items-center justify-center gap-2 py-16 text-center">
+      <i class="fa-solid fa-box-open text-2xl text-[rgba(0,0,0,0.45)]"></i>
+      <p class="text-sm font-medium text-[#0A0A0A]">No items match your search</p>
+      <p class="text-xs text-[rgba(0,0,0,0.45)]">Try a different keyword or category.</p>
+    </div>
+  </div>
+
 </div>
