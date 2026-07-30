@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grains & Rice — FoodLift Wholesale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="js/customer/catalog-utils.js"></script>
+  <script src="js/customer/cart-store.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'ght-primary': '#8dc63f',
+            'ght-primary-hover': '#7cb342',
+            'ght-accent': '#f7931e',
+            'ght-dark': '#0A0A0A',
+            'ght-muted': 'rgba(0, 0, 0, 0.45)',
+            'ght-border': 'rgba(0, 0, 0, 0.08)',
+            'ght-background': '#FAFAFA',
+            'ght-surface': '#F4F4F4'
+          },
+          fontFamily: {
+            sans: ['"DM Sans"', 'sans-serif'],
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            }
+          },
+          animation: {
+            marquee: 'marquee 25s linear infinite',
+          }
+        } 
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="assets/css/globals.css">
+  <link rel="stylesheet" href="assets/css/utilities.css">
+  <link rel="stylesheet" href="assets/css/animations.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <style>
+    :root {
+      --ght-color-primary: #8dc63f;
+      --ght-color-primary-hover: #7cb342;
+      --ght-color-accent: #f7931e;
+      --ght-color-accent-strong: #de7600;
+      --ght-color-accent-light: #fff7ed;
+      --ght-color-dark: #0A0A0A;
+      --ght-color-muted: rgba(0, 0, 0, 0.45);
+      --ght-color-border: rgba(0, 0, 0, 0.08);
+      --ght-color-background: #FAFAFA;
+      --ght-color-surface: #F4F4F4;
+      --ght-color-white: #FFFFFF;
+      --ght-font-sans: 'DM Sans', sans-serif;
+      --ght-shadow-subtle: 0 1px 3px rgba(10, 10, 10, 0.06);
+      --ght-shadow-card: 0 10px 30px -18px rgba(10, 10, 10, 0.16);
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.2); }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(16px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .card-in { animation: cardIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .card-in:nth-child(1) { animation-delay: 0ms; }
+    .card-in:nth-child(2) { animation-delay: 40ms; }
+    .card-in:nth-child(3) { animation-delay: 80ms; }
+    .card-in:nth-child(4) { animation-delay: 120ms; }
+    .card-in:nth-child(5) { animation-delay: 160ms; }
+    .card-in:nth-child(6) { animation-delay: 200ms; }
+    .card-in:nth-child(7) { animation-delay: 240ms; }
+    .card-in:nth-child(8) { animation-delay: 280ms; }
+    .card-in:nth-child(9) { animation-delay: 320ms; }
+    .card-in:nth-child(10) { animation-delay: 360ms; }
+    .card-in:nth-child(11) { animation-delay: 400ms; }
+    .card-in:nth-child(12) { animation-delay: 440ms; }
+
+    .prod-card {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    }
+    .prod-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px -12px rgba(0,0,0,0.12), 0 4px 12px -4px rgba(0,0,0,0.06);
+    }
+    .prod-card .quick-actions {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .prod-card:hover .quick-actions {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .img-wrap img {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .prod-card:hover .img-wrap img {
+      transform: scale(1.06);
+    }
+
+    .filter-section .filter-body {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .filter-section.open .filter-body {
+      grid-template-rows: 1fr;
+    }
+    .filter-section .filter-inner { overflow: hidden; }
+    .filter-section .chevron {
+      transition: transform 0.3s ease;
+    }
+    .filter-section.open .chevron {
+      transform: rotate(180deg);
+    }
+
+    .custom-check {
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(0,0,0,0.12);
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .custom-check:checked {
+      background: #8dc63f;
+      border-color: #8dc63f;
+    }
+    .custom-check:checked::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 1px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: #F4F4F4;
+      border-radius: 99px;
+      outline: none;
+    }
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #8dc63f;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.15s ease;
+    }
+    input[type=range]::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+    }
+
+    .drawer-panel {
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .drawer-backdrop {
+      transition: opacity 0.3s ease;
+    }
+
+    .snap-scroll {
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .snap-scroll > * {
+      scroll-snap-align: start;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .badge-shimmer {
+      background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 50%, #3b82f6 100%);
+      background-size: 200% 100%;
+      animation: shimmer 3s ease infinite;
+    }
+
+    .stock-bar {
+      height: 3px;
+      background: #F4F4F4;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+    .stock-bar-fill {
+      height: 100%;
+      border-radius: 99px;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Categories grid styles: compact list, 5 columns on large screens */
+    .categories-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0.75rem; align-items: stretch; }
+    @media (min-width: 640px) { .categories-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
+    @media (min-width: 1024px) { .categories-grid { grid-template-columns: repeat(5, minmax(0,1fr)); } }
+
+    .category-card { border-radius: 12px; padding: 0.85rem; position: relative; overflow: hidden; display: flex; gap: 0.75rem; align-items: center; min-height: 92px; height: 92px; justify-content: space-between; }
+    .category-card .thumb { width:48px; height:48px; border-radius:12px; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow: var(--ght-shadow-subtle); overflow:hidden; flex-shrink:0; }
+    .category-card .meta { flex:1; }
+    .category-badge { position:absolute; top:10px; right:10px; background:rgba(141,198,63,0.1); color:#5f8f21; padding:3px 7px; border-radius:999px; font-weight:700; font-size:10px; }
+    .category-title { font-size:15px; font-weight:700; margin:0 0 3px 0; }
+    .category-desc { color:var(--ght-color-muted); font-size:12px; margin:0; }
+    .catalog-hero { background: linear-gradient(180deg, #ffffff 0%, #fbfaf7 100%); border-bottom: 1px solid var(--ght-color-border); }
+    .chip-btn { border: 1px solid var(--ght-color-border); background: #fff; color: var(--ght-color-dark); }
+    .chip-btn.is-active { background: var(--ght-color-dark); color: #fff; border-color: var(--ght-color-dark); }
+  </style>
+</head>
+<body class="bg-ght-background text-ght-dark font-sans min-h-screen antialiased">
+  <div class="bg-ght-dark text-white text-[10px] font-bold uppercase tracking-[0.2em] overflow-hidden whitespace-nowrap py-2 border-b border-white/10 relative z-50">
+    <div class="animate-marquee inline-block w-[200%]">
+      <span class="mx-8">🔥 FLASH SALE: 15% OFF ALL GRAINS!</span>
+      <span class="mx-8">🚚 FREE DELIVERY ON ORDERS OVER ₦50,000</span>
+      <span class="mx-8">📦 NEW WHOLESALE BUNDLES AVAILABLE</span>
+      <span class="mx-8 text-ght-primary">⭐ REFER A FRIEND, GET ₦5,000</span>
+      <span class="mx-8">🔥 FLASH SALE: 15% OFF ALL GRAINS!</span>
+      <span class="mx-8">🚚 FREE DELIVERY ON ORDERS OVER ₦50,000</span>
+      <span class="mx-8">📦 NEW WHOLESALE BUNDLES AVAILABLE</span>
+      <span class="mx-8 text-ght-primary">⭐ REFER A FRIEND, GET ₦5,000</span>
+    </div>
+  </div>
+
+  <header class="bg-white border-b border-ght-border sticky top-0 z-40">
+    <div class="max-w-[1440px] mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <button class="lg:hidden w-10 h-10 rounded-full border border-ght-border flex items-center justify-center hover:bg-ght-surface transition-all active:scale-95 shrink-0" id="mobile-filter-toggle">
+          <iconify-icon icon="solar:filter-linear" class="text-lg text-ght-dark"></iconify-icon>
+        </button>
+        <a href="index.html" class="flex items-center gap-2.5 shrink-0 group">
+          <img src="assets/logo.png" alt="FoodLift Logo" class="h-[42px] object-contain">
+          <div class="hidden sm:block border-l border-ght-border pl-3 ml-1">
+            <span class="font-bold text-sm tracking-tight block leading-none">FoodLift</span>
+            <span class="text-[9px] text-ght-muted font-bold uppercase tracking-widest">Wholesale</span>
+          </div>
+        </a>
+      </div>
+      <div class="flex-1 max-w-xl hidden md:block mx-4">
+        <div class="w-full relative flex items-center bg-ght-surface border border-ght-border rounded-full pl-5 pr-1.5 py-1.5 focus-within:bg-white focus-within:border-ght-primary focus-within:shadow-md transition-all">
+          <iconify-icon icon="solar:magnifer-linear" class="text-ght-muted text-lg mr-3 shrink-0"></iconify-icon>
+          <input type="text" placeholder="Search rice, beans, oil, spices..." class="ght-input w-full bg-transparent text-sm outline-none text-ght-dark placeholder:text-ght-muted/70 font-medium h-8 border-0 shadow-none p-0">
+          <button class="bg-ght-accent text-white px-5 h-8 rounded-full text-xs font-bold hover:bg-orange-600 transition-colors shrink-0 shadow-sm">Search</button>
+        </div>
+      </div>
+      <div class="flex items-center gap-1.5 md:gap-2 shrink-0">
+        <button class="md:hidden w-10 h-10 rounded-full border border-ght-border flex items-center justify-center hover:bg-ght-surface transition-all active:scale-95 shrink-0">
+          <iconify-icon icon="solar:magnifer-linear" class="text-lg text-ght-dark"></iconify-icon>
+        </button>
+        <button class="relative w-10 h-10 rounded-full hover:bg-ght-surface flex items-center justify-center transition-all active:scale-95 border border-transparent hover:border-ght-border">
+          <iconify-icon icon="solar:cart-large-linear" class="text-xl text-ght-dark"></iconify-icon>
+          <span class="absolute -top-0.5 -right-0.5 w-5 h-5 bg-ght-accent text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-sm">3</span>
+        </button>
+        <button class="hidden md:flex items-center gap-2.5 text-ght-dark hover:bg-ght-surface py-1.5 pl-1.5 pr-4 rounded-full transition-all border border-transparent hover:border-ght-border active:scale-95">
+          <div class="w-8 h-8 rounded-full border border-ght-border flex items-center justify-center bg-ght-background overflow-hidden shrink-0">
+            <iconify-icon icon="solar:user-rounded-linear" class="text-lg text-ght-muted"></iconify-icon>
+          </div>
+          <div class="text-left">
+            <span class="block text-xs font-bold tracking-tight leading-none">Hello, Uche</span>
+            <span class="text-[9px] text-ght-muted font-medium">Wallet: ₦125,000</span>
+          </div>
+        </button>
+      </div>
+    </div>
+    <div class="border-t border-ght-border bg-white hidden md:block">
+      <div class="max-w-[1440px] mx-auto px-4 md:px-6 h-12 flex items-center justify-between">
+        <nav class="flex items-center gap-8 text-sm font-semibold text-ght-dark">
+          <a href="index.html" class="hover:text-ght-primary transition-colors">Home</a>
+          <a href="#" class="hover:text-ght-primary transition-colors">Categories</a>
+          <a href="#" class="hover:text-ght-primary transition-colors">Deals</a>
+        </nav>
+        <div class="flex items-center gap-6 text-[13px] text-ght-muted font-medium">
+          <div class="flex items-center gap-2 bg-green-50 px-3 py-1 rounded-full text-green-700">
+            <iconify-icon icon="solar:routing-2-linear" class="text-ght-primary text-base"></iconify-icon>
+            <span>Fast delivery in <strong class="font-bold">Lagos</strong></span>
+          </div>
+          <a href="#" class="flex items-center gap-1.5 hover:text-ght-dark transition-colors">
+            <iconify-icon icon="solar:question-circle-linear" class="text-base"></iconify-icon>
+            <span>Help</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CATALOG HEADER -->
+  <section class="catalog-hero">
+    <div class="max-w-[1440px] mx-auto px-4 md:px-6 py-6 md:py-8">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-5">
+        <div class="space-y-3 max-w-2xl">
+          <nav class="flex items-center gap-2 text-[11px] font-bold text-ght-muted uppercase tracking-wider">
+            <a href="index.html" class="hover:text-ght-dark transition-colors">Home</a>
+            <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
+            <span class="text-ght-dark">Products</span>
+          </nav>
+          <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-ght-dark leading-[1.1]">Wholesale Products</h1>
+          <p class="text-sm text-ght-muted font-medium leading-relaxed max-w-md">
+            Explore our verified wholesale catalog — rice, oils, flours and everyday staples. Filter, sort and quick-add to cart.
+          </p>
+        </div>
+        <div class="grid grid-cols-2 gap-3 sm:flex sm:items-center shrink-0">
+          <div class="bg-white border border-ght-border rounded-2xl px-5 py-3 text-left sm:text-center shadow-sm">
+            <span id="hero-product-count" class="text-2xl font-bold text-ght-dark block leading-none">0</span>
+            <span class="text-[10px] font-bold text-ght-muted uppercase tracking-wider mt-1 block">Products</span>
+          </div>
+          <div class="bg-white border border-ght-border rounded-2xl px-5 py-3 text-left sm:text-center shadow-sm">
+            <span class="text-2xl font-bold text-ght-primary block leading-none">24h</span>
+            <span class="text-[10px] font-bold text-ght-muted uppercase tracking-wider mt-1 block">Lagos Delivery</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <!-- CATEGORIES -->
+    <section class="max-w-[1440px] mx-auto px-4 md:px-6 py-5 md:py-6">
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h2 class="text-xl font-bold text-ght-dark">Shop by category</h2>
+          <p class="text-xs text-ght-muted font-medium mt-1">Choose a group to narrow the list instantly.</p>
+        </div>
+        <a href="categories.html" class="ght-btn ght-btn-secondary text-xs rounded-xl px-3 py-2">View all</a>
+      </div>
+      <div id="categories-grid" class="categories-grid"></div>
+    </section>
+
+  <!-- MAIN LAYOUT -->
+  <main class="max-w-[1440px] mx-auto px-4 md:px-6 pb-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+
+      <!-- SIDEBAR FILTERS -->
+      <aside class="hidden lg:block lg:col-span-3 h-fit">
+        <div class="ght-glass-card rounded-[24px] overflow-hidden">
+          <div class="flex items-center justify-between p-5 border-b border-ght-border">
+            <div class="flex items-center gap-2">
+              <iconify-icon icon="solar:filter-bold" class="text-ght-dark text-sm"></iconify-icon>
+              <h3 class="font-bold text-sm text-ght-dark tracking-tight">Filters</h3>
+            </div>
+            <button id="clear-filters" class="ght-btn ght-btn-ghost text-[11px] font-bold px-0 py-0 h-auto">Clear all</button>
+          </div>
+          <div class="p-5 space-y-1">
+
+            <div class="filter-section open">
+              <button class="filter-trigger w-full flex items-center justify-between py-3 text-left">
+                <span class="text-xs font-bold text-ght-dark uppercase tracking-wider">Subcategory</span>
+                <iconify-icon icon="solar:alt-arrow-down-linear" class="chevron text-ght-muted text-sm"></iconify-icon>
+              </button>
+              <div class="filter-body">
+                <div class="filter-inner space-y-2.5 pb-2">
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" class="custom-check" data-category-filter="Grains & Rice">
+                    <span class="text-[13px] font-semibold text-ght-dark group-hover:text-ght-primary transition-colors">Grains & Rice</span>
+                    <span class="text-[11px] text-ght-muted font-medium ml-auto bg-ght-surface px-2 py-0.5 rounded-full">4</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" class="custom-check" data-category-filter="Tubers & Flours">
+                    <span class="text-[13px] font-semibold text-ght-dark group-hover:text-ght-primary transition-colors">Tubers & Flours</span>
+                    <span class="text-[11px] text-ght-muted font-medium ml-auto bg-ght-surface px-2 py-0.5 rounded-full">3</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" class="custom-check" data-category-filter="Cooking Oil">
+                    <span class="text-[13px] font-semibold text-ght-dark group-hover:text-ght-primary transition-colors">Cooking Oil</span>
+                    <span class="text-[11px] text-ght-muted font-medium ml-auto bg-ght-surface px-2 py-0.5 rounded-full">2</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" class="custom-check">
+                    <span class="text-[13px] font-semibold text-ght-dark group-hover:text-ght-primary transition-colors">Partial Packs</span>
+                    <span class="text-[11px] text-ght-muted font-medium ml-auto bg-ght-surface px-2 py-0.5 rounded-full">6</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="h-px bg-ght-border"></div>
+
+            <div class="filter-section open">
+              <button class="filter-trigger w-full flex items-center justify-between py-3 text-left">
+                <span class="text-xs font-bold text-ght-dark uppercase tracking-wider">Price Range</span>
+                <iconify-icon icon="solar:alt-arrow-down-linear" class="chevron text-ght-muted text-sm"></iconify-icon>
+              </button>
+              <div class="filter-body">
+                <div class="filter-inner space-y-4 pb-2">
+                  <div class="flex items-center gap-3">
+                    <div class="flex-1 bg-ght-surface border border-ght-border rounded-xl px-3 py-2.5 focus-within:border-ght-primary focus-within:bg-white transition-all">
+                      <span class="text-[10px] text-ght-muted font-bold uppercase tracking-wider block mb-0.5">Min</span>
+                      <span class="text-sm font-bold text-ght-dark">N10,000</span>
+                    </div>
+                    <span class="text-ght-muted font-bold">—</span>
+                    <div class="flex-1 bg-ght-surface border border-ght-border rounded-xl px-3 py-2.5 focus-within:border-ght-primary focus-within:bg-white transition-all">
+                      <span class="text-[10px] text-ght-muted font-bold uppercase tracking-wider block mb-0.5">Max</span>
+                      <span class="text-sm font-bold text-ght-dark">N150,000</span>
+                    </div>
+                  </div>
+                  <input type="range" min="10000" max="150000" value="80000" class="w-full">
+                  <div class="flex justify-between text-[11px] font-bold text-ght-muted">
+                    <span>N10k</span>
+                    <span>N150k</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="h-px bg-ght-border"></div>
+
+            <div class="filter-section">
+              <button class="filter-trigger w-full flex items-center justify-between py-3 text-left">
+                <span class="text-xs font-bold text-ght-dark uppercase tracking-wider">Brands</span>
+                <iconify-icon icon="solar:alt-arrow-down-linear" class="chevron text-ght-muted text-sm"></iconify-icon>
+              </button>
+              <div class="filter-body">
+                <div class="filter-inner space-y-2.5 pb-2">
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" class="custom-check">
+                    <span class="text-[13px] font-semibold text-ght-dark group-hover:text-ght-primary transition-colors">Mama's Pride</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" class="custom-check">
+                    <span class="text-[13px] font-semibold text-ght-dark group-hover:text-ght-primary transition-colors">Royal Stallion</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" class="custom-check">
+                    <span class="text-[13px] font-semibold text-ght-dark group-hover:text-ght-primary transition-colors">Ofada Gold</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" class="custom-check">
+                    <span class="text-[13px] font-semibold text-ght-dark group-hover:text-ght-primary transition-colors">Caprice</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="checkbox" class="custom-check">
+                    <span class="text-[13px] font-semibold text-ght-dark group-hover:text-ght-primary transition-colors">Dangote</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="h-px bg-ght-border"></div>
+
+            <div class="filter-section">
+              <button class="filter-trigger w-full flex items-center justify-between py-3 text-left">
+                <span class="text-xs font-bold text-ght-dark uppercase tracking-wider">Rating</span>
+                <iconify-icon icon="solar:alt-arrow-down-linear" class="chevron text-ght-muted text-sm"></iconify-icon>
+              </button>
+              <div class="filter-body">
+                <div class="filter-inner space-y-2.5 pb-2">
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="radio" name="rating" class="custom-check" style="border-radius:50%">
+                    <div class="flex items-center gap-0.5">
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                    </div>
+                    <span class="text-xs font-bold text-ght-dark ml-1">& Up</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="radio" name="rating" class="custom-check" style="border-radius:50%">
+                    <div class="flex items-center gap-0.5">
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-linear" class="text-yellow-500 text-sm"></iconify-icon>
+                    </div>
+                    <span class="text-xs font-bold text-ght-dark ml-1">& Up</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer group">
+                    <input type="radio" name="rating" class="custom-check" style="border-radius:50%">
+                    <div class="flex items-center gap-0.5">
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-bold" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-linear" class="text-yellow-500 text-sm"></iconify-icon>
+                      <iconify-icon icon="solar:star-linear" class="text-yellow-500 text-sm"></iconify-icon>
+                    </div>
+                    <span class="text-xs font-bold text-ght-dark ml-1">& Up</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="h-px bg-ght-border"></div>
+
+            <div class="filter-section open">
+              <button class="filter-trigger w-full flex items-center justify-between py-3 text-left">
+                <span class="text-xs font-bold text-ght-dark uppercase tracking-wider">Availability</span>
+                <iconify-icon icon="solar:alt-arrow-down-linear" class="chevron text-ght-muted text-sm"></iconify-icon>
+              </button>
+              <div class="filter-body">
+                <div class="filter-inner space-y-2.5 pb-2">
+                  <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" class="custom-check" id="desktop-instock">
+                    <span class="text-[13px] font-semibold text-ght-dark">In Stock Only</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" class="custom-check">
+                    <span class="text-[13px] font-semibold text-ght-dark">On Sale</span>
+                  </label>
+                  <label class="flex items-center gap-3 cursor-pointer">
+                    <input type="checkbox" class="custom-check">
+                    <span class="text-[13px] font-semibold text-ght-dark">Free Delivery Eligible</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-5 border-t border-ght-border bg-ght-surface/30">
+            <button class="ght-btn ght-btn-primary w-full py-3 rounded-xl" id="desktop-results-btn">
+              Show Products
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- PRODUCT GRID AREA -->
+      <div class="lg:col-span-9 space-y-5">
+
+        <!-- Toolbar -->
+        <div class="ght-glass-card rounded-[18px] px-4 py-3 flex flex-col xl:flex-row xl:items-center justify-between gap-3">
+          <div class="min-w-0">
+            <p id="results-summary" class="text-sm font-bold text-ght-dark">Loading products...</p>
+            <div id="catalog-chips" class="flex items-center gap-2 overflow-x-auto snap-scroll pt-2 pb-1 -mx-1 px-1"></div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <span class="text-xs font-bold text-ght-muted hidden md:inline">Sort by</span>
+            <div class="relative">
+              <select class="appearance-none bg-white border border-ght-border rounded-xl text-xs font-bold text-ght-dark pl-4 pr-10 py-2.5 outline-none focus:border-ght-primary focus:shadow-sm cursor-pointer hover:border-ght-dark transition-colors">
+                <option>Recommended</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+                <option>Best Selling</option>
+                <option>Newest First</option>
+              </select>
+              <iconify-icon icon="solar:alt-arrow-down-linear" class="absolute right-3 top-1/2 -translate-y-1/2 text-ght-muted text-xs pointer-events-none"></iconify-icon>
+            </div>
+            <div class="hidden sm:flex items-center bg-white border border-ght-border rounded-xl p-1">
+              <button class="view-btn w-8 h-8 rounded-lg bg-ght-dark text-white flex items-center justify-center shadow-sm transition-all" data-view="grid" onclick="setView('grid')">
+                <iconify-icon icon="solar:widget-2-bold" class="text-sm"></iconify-icon>
+              </button>
+              <button class="view-btn w-8 h-8 rounded-lg flex items-center justify-center text-ght-muted hover:text-ght-dark transition-all" data-view="list" onclick="setView('list')">
+                <iconify-icon icon="solar:list-bold" class="text-sm"></iconify-icon>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product grid will be rendered here from data/products.json -->
+        <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-5"></div>
+
+        <!-- Pagination -->
+        <div class="flex items-center justify-between pt-6">
+          <p id="pagination-summary" class="text-xs text-ght-muted hidden sm:block"></p>
+          <div class="flex items-center gap-1.5 mx-auto sm:mx-0">
+            <button class="w-10 h-10 rounded-xl border border-ght-border bg-white flex items-center justify-center text-ght-muted hover:text-ght-dark hover:bg-ght-surface transition-all active:scale-95 disabled:opacity-40" disabled>
+              <iconify-icon icon="solar:alt-arrow-left-linear" class="text-lg"></iconify-icon>
+            </button>
+            <button class="w-10 h-10 rounded-xl bg-ght-dark text-white flex items-center justify-center text-xs font-bold shadow-sm">1</button>
+            <button class="w-10 h-10 rounded-xl border border-ght-border bg-white flex items-center justify-center text-xs font-bold text-ght-dark hover:bg-ght-surface transition-all active:scale-95">2</button>
+            <button class="w-10 h-10 rounded-xl border border-ght-border bg-white flex items-center justify-center text-xs font-bold text-ght-dark hover:bg-ght-surface transition-all active:scale-95">3</button>
+            <span class="text-xs text-ght-muted px-1">...</span>
+            <button class="w-10 h-10 rounded-xl border border-ght-border bg-white flex items-center justify-center text-xs font-bold text-ght-dark hover:bg-ght-surface transition-all active:scale-95">12</button>
+            <button class="w-10 h-10 rounded-xl border border-ght-border bg-white flex items-center justify-center text-ght-muted hover:text-ght-dark hover:bg-ght-surface transition-all active:scale-95">
+              <iconify-icon icon="solar:alt-arrow-right-linear" class="text-lg"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MOBILE FILTER DRAWER -->
+  <div id="mobile-filter-drawer" class="fixed inset-0 z-50 flex justify-end hidden" role="dialog" aria-modal="true">
+    <div id="mobile-filter-backdrop" class="drawer-backdrop absolute inset-0 bg-black/40 backdrop-blur-sm opacity-0"></div>
+    <div id="mobile-filter-panel" class="drawer-panel relative bg-white w-full max-w-sm h-full shadow-2xl flex flex-col z-10 transform translate-x-full">
+      <div class="flex items-center justify-between p-4 border-b border-ght-border shrink-0">
+        <div class="flex items-center gap-2">
+          <iconify-icon icon="solar:filter-bold" class="text-ght-dark text-sm"></iconify-icon>
+          <h3 class="font-bold text-lg text-ght-dark">Filters</h3>
+        </div>
+        <button id="mobile-filter-close" class="w-9 h-9 rounded-full border border-ght-border flex items-center justify-center hover:bg-ght-surface transition-colors active:scale-95">
+          <iconify-icon icon="solar:close-linear" class="text-lg text-ght-dark"></iconify-icon>
+        </button>
+      </div>
+      <div class="flex-1 overflow-y-auto p-5 space-y-6" style="scrollbar-width: thin;">
+        <div class="space-y-3">
+          <h4 class="text-[10px] font-bold text-ght-muted uppercase tracking-widest">Subcategory</h4>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" checked class="custom-check">
+            <span class="text-sm font-semibold text-ght-dark">Local Rice</span>
+            <span class="text-xs text-ght-muted font-medium ml-auto bg-ght-surface px-2 py-0.5 rounded-full">48</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="custom-check">
+            <span class="text-sm font-semibold text-ght-dark">Foreign Rice</span>
+            <span class="text-xs text-ght-muted font-medium ml-auto bg-ght-surface px-2 py-0.5 rounded-full">36</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="custom-check">
+            <span class="text-sm font-semibold text-ght-dark">Beans & Legumes</span>
+            <span class="text-xs text-ght-muted font-medium ml-auto bg-ght-surface px-2 py-0.5 rounded-full">32</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="custom-check">
+            <span class="text-sm font-semibold text-ght-dark">Seeds & Nuts</span>
+            <span class="text-xs text-ght-muted font-medium ml-auto bg-ght-surface px-2 py-0.5 rounded-full">26</span>
+          </label>
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-[10px] font-bold text-ght-muted uppercase tracking-widest">Price Range</h4>
+          <div class="flex items-center gap-3">
+            <div class="flex-1 bg-ght-surface border border-ght-border rounded-xl px-3 py-2.5">
+              <span class="text-[10px] text-ght-muted font-bold uppercase tracking-wider block mb-0.5">Min</span>
+              <span class="text-sm font-bold text-ght-dark">N10,000</span>
+            </div>
+            <span class="text-ght-muted font-bold">—</span>
+            <div class="flex-1 bg-ght-surface border border-ght-border rounded-xl px-3 py-2.5">
+              <span class="text-[10px] text-ght-muted font-bold uppercase tracking-wider block mb-0.5">Max</span>
+              <span class="text-sm font-bold text-ght-dark">N150,000</span>
+            </div>
+          </div>
+          <input type="range" class="w-full">
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-[10px] font-bold text-ght-muted uppercase tracking-widest">Brands</h4>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="custom-check">
+            <span class="text-sm font-semibold text-ght-dark">Mama's Pride</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="custom-check">
+            <span class="text-sm font-semibold text-ght-dark">Royal Stallion</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="custom-check">
+            <span class="text-sm font-semibold text-ght-dark">Ofada Gold</span>
+          </label>
+        </div>
+        <div class="space-y-3">
+          <h4 class="text-[10px] font-bold text-ght-muted uppercase tracking-widest">Availability</h4>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" checked class="custom-check">
+            <span class="text-sm font-semibold text-ght-dark">In Stock Only</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="custom-check">
+            <span class="text-sm font-semibold text-ght-dark">On Sale</span>
+          </label>
+          <label class="flex items-center gap-3 cursor-pointer">
+            <input type="checkbox" class="custom-check">
+            <span class="text-sm font-semibold text-ght-dark">Free Delivery Eligible</span>
+          </label>
+        </div>
+      </div>
+      <div class="p-4 border-t border-ght-border shrink-0 space-y-2 bg-white">
+        <button class="ght-btn ght-btn-primary w-full py-3.5 rounded-xl">
+          Apply Filters · 142 Results
+        </button>
+        <button class="ght-btn ght-btn-secondary w-full py-3 rounded-xl">
+          Reset All
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile filter drawer
+    const drawer = document.getElementById('mobile-filter-drawer');
+    const backdrop = document.getElementById('mobile-filter-backdrop');
+    const panel = document.getElementById('mobile-filter-panel');
+
+    document.getElementById('mobile-filter-toggle').addEventListener('click', () => {
+      drawer.classList.remove('hidden');
+      setTimeout(() => {
+        backdrop.classList.remove('opacity-0');
+        panel.classList.remove('translate-x-full');
+      }, 10);
+    });
+
+    function closeDrawer() {
+      backdrop.classList.add('opacity-0');
+      panel.classList.add('translate-x-full');
+      setTimeout(() => drawer.classList.add('hidden'), 350);
+    }
+
+    document.getElementById('mobile-filter-close').addEventListener('click', closeDrawer);
+    backdrop.addEventListener('click', closeDrawer);
+
+    // Desktop filter accordion
+    document.querySelectorAll('.filter-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const section = trigger.closest('.filter-section');
+        section.classList.toggle('open');
+      });
+    });
+
+    // View toggle
+    function setView(view) {
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        if (btn.dataset.view === view) {
+          btn.classList.add('bg-ght-dark', 'text-white', 'shadow-sm');
+          btn.classList.remove('text-ght-muted');
+        } else {
+          btn.classList.remove('bg-ght-dark', 'text-white', 'shadow-sm');
+          btn.classList.add('text-ght-muted');
+        }
+      });
+    }
+    let allProducts = [];
+    let activeCategory = new URLSearchParams(window.location.search).get('category') || 'All';
+    let inStockOnly = false;
+
+    function updateSummaries(filtered, total) {
+      const start = filtered.length ? 1 : 0;
+      const end = Math.min(filtered.length, 12);
+      const summary = `${filtered.length} of ${total} wholesale products`;
+      const resultsSummary = document.getElementById('results-summary');
+      const paginationSummary = document.getElementById('pagination-summary');
+      const heroCount = document.getElementById('hero-product-count');
+      const resultsBtn = document.getElementById('desktop-results-btn');
+      if (resultsSummary) resultsSummary.textContent = `Showing ${start}-${end} of ${filtered.length} products`;
+      if (paginationSummary) paginationSummary.innerHTML = `Showing <strong class="text-ght-dark">${start}-${end}</strong> of <strong class="text-ght-dark">${filtered.length}</strong> products`;
+      if (heroCount) heroCount.textContent = total;
+      if (resultsBtn) resultsBtn.textContent = `Show ${summary}`;
+    }
+
+    function syncChips() {
+      document.querySelectorAll('#catalog-chips button').forEach(btn => {
+        btn.classList.toggle('is-active', btn.dataset.category === activeCategory);
+      });
+    }
+
+    function renderCatalogChips(categories) {
+      const chipContainer = document.getElementById('catalog-chips');
+      if (!chipContainer) return;
+      chipContainer.innerHTML = '';
+      ['All', ...categories].forEach(cat => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.dataset.category = cat;
+        btn.className = 'chip-btn shrink-0 text-[11px] font-bold px-4 py-2 rounded-full transition-colors';
+        btn.textContent = cat;
+        btn.addEventListener('click', () => {
+          activeCategory = cat;
+          document.querySelectorAll('[data-category-filter]').forEach(input => {
+            input.checked = input.dataset.categoryFilter === cat;
+          });
+          loadProducts();
+        });
+        chipContainer.appendChild(btn);
+      });
+      syncChips();
+    }
+
+    // Load product data and render product cards using local assets and components
+    async function loadProducts(filters = {}) {
+      try {
+        if (!allProducts.length) {
+          const res = await fetch('data/products.json');
+          allProducts = await res.json();
+        }
+        const products = allProducts;
+        const grid = document.getElementById('product-grid');
+        grid.innerHTML = '';
+
+        if (filters.category) activeCategory = filters.category;
+        if (typeof filters.inStock === 'boolean') inStockOnly = filters.inStock;
+
+        const filtered = products.filter(p => {
+          if (activeCategory !== 'All' && p.category !== activeCategory) return false;
+          if (inStockOnly && p.stock <= 0) return false;
+          return true;
+        });
+        updateSummaries(filtered, products.length);
+        syncChips();
+
+        const tpl = document.getElementById('tpl-product-card');
+        if (!tpl) {
+          // fallback to old renderer if template missing
+          console.warn('Template not found, rendering fallback');
+          filtered.forEach(p => {
+            const col = document.createElement('div');
+            col.className = 'prod-card card-in bg-white border border-ght-border rounded-[20px] overflow-hidden group cursor-pointer';
+            col.textContent = p.name;
+            grid.appendChild(col);
+          });
+          return;
+        }
+
+        filtered.forEach(p => {
+          const node = tpl.content.firstElementChild.cloneNode(true);
+          node.dataset.id = p.id;
+          node.style.cursor = 'pointer';
+          node.addEventListener('click', () => { window.location.href = FoodLiftCatalog.productUrl(p); });
+          const img = node.querySelector('[data-field=image]');
+          if (img) { img.src = p.image; img.alt = p.name; }
+          const name = node.querySelector('[data-field=name]'); if (name) name.textContent = p.name;
+          const cat = node.querySelector('[data-field=category]'); if (cat) cat.textContent = p.category;
+          const unit = node.querySelector('[data-field=unit]'); if (unit) unit.textContent = p.unit;
+          const price = node.querySelector('[data-field=price]'); if (price) price.textContent = '₦' + Number(p.price_per_unit).toLocaleString();
+          const rating = node.querySelector('[data-field=rating]'); if (rating) rating.textContent = p.rating + (p.stock ? ` (${p.stock})` : '');
+          const addBtn = node.querySelector('[data-field=addBtn]'); if (addBtn) addBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            window.FoodLiftCart.add(p);
+            addBtn.textContent = 'Added';
+            setTimeout(() => { addBtn.textContent = 'Add'; }, 1000);
+          });
+
+          grid.appendChild(node);
+        });
+      } catch (err) {
+        console.error('Failed to load products', err);
+      }
+    }
+
+    // Inject reusable components where applicable
+    async function injectComponents() {
+      const compFiles = ['_components/cards.html'];
+      for (const f of compFiles) {
+        try {
+          const res = await fetch(f);
+          const html = await res.text();
+          // append to body as hidden templates
+          const div = document.createElement('div');
+          div.style.display = 'none';
+          div.innerHTML = html;
+          document.body.appendChild(div);
+        } catch (e) { console.warn('component load failed', f, e); }
+      }
+    }
+    // Build categories and hero chips dynamically based on products and available category images
+    const categoryImages = [
+      'assets/img/categories img/beans.png',
+      'assets/img/categories img/garri.png',
+      'assets/img/categories img/hero.png',
+      'assets/img/categories img/palm oil.png',
+      'assets/img/categories img/rice.png',
+      'assets/img/categories img/spahgetti.png',
+      'assets/img/categories img/Tin tomatoes.png',
+      'assets/img/categories img/vegetable oil.png',
+      'assets/img/categories img/vegetable oil2.png'
+    ];
+
+    function findImageForCategory(cat) {
+      const key = cat.toLowerCase();
+      for (const img of categoryImages) {
+        const name = img.split('/').pop().toLowerCase();
+        if (key.includes('rice') && name.includes('rice')) return img;
+        if (key.includes('oil') && (name.includes('oil') || name.includes('palm'))) return img;
+        if (key.includes('garri') && name.includes('garri')) return img;
+        if (key.includes('bean') && name.includes('bean')) return img;
+        if (key.includes('tomato') && name.includes('tin')) return img;
+        if (key.includes('spag') && name.includes('spah')) return img;
+      }
+      return categoryImages[0];
+    }
+
+    async function renderCategories() {
+      try {
+        const res = await fetch('data/products.json');
+        const products = await res.json();
+        allProducts = products;
+        const cats = Array.from(new Set(products.map(p => p.category)));
+        const grid = document.getElementById('categories-grid');
+        grid.innerHTML = '';
+
+        cats.forEach(cat => {
+          const lowerCat = cat.toLowerCase();
+          const count = products.filter(p => {
+            const name = (p.name || '').toLowerCase();
+            const catField = (p.category || '').toLowerCase();
+            return catField === lowerCat || name.includes(lowerCat) || catField.includes(lowerCat) || name.includes(lowerCat.split(' ')[0]);
+          }).length;
+          const img = findImageForCategory(cat);
+          const a = document.createElement('a');
+          a.href = FoodLiftCatalog.categoryUrl(cat);
+          a.className = 'category-card bg-white border border-ght-border';
+          a.innerHTML = `
+            <div class="thumb">
+              <img src="${img}" alt="${cat}" class="w-full h-full object-cover">
+            </div>
+            <div class="meta">
+              <h3 class="category-title">${cat}</h3>
+              <p class="category-desc">${cat}</p>
+            </div>
+            <span class="category-badge">${count} ITEMS</span>
+          `;
+          a.addEventListener('click', (e) => { e.preventDefault(); selectCategoryChip(cat); });
+          grid.appendChild(a);
+        });
+
+        renderCatalogChips(cats);
+      } catch (e) {
+        console.error('Failed to render categories', e);
+      }
+    }
+
+    function selectCategoryChip(catName) {
+      activeCategory = catName;
+      document.querySelectorAll('[data-category-filter]').forEach(input => {
+        input.checked = input.dataset.categoryFilter === catName;
+      });
+      loadProducts();
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      await injectComponents();
+      await renderCategories();
+      document.querySelectorAll('[data-category-filter]').forEach(input => {
+        input.checked = input.dataset.categoryFilter === activeCategory;
+      });
+      document.querySelectorAll('[data-category-filter]').forEach(input => {
+        input.addEventListener('change', () => {
+          document.querySelectorAll('[data-category-filter]').forEach(other => {
+            if (other !== input) other.checked = false;
+          });
+          activeCategory = input.checked ? input.dataset.categoryFilter : 'All';
+          loadProducts();
+        });
+      });
+      const inStockCheckbox = document.getElementById('desktop-instock');
+      if (inStockCheckbox) {
+        inStockCheckbox.addEventListener('change', () => {
+          inStockOnly = inStockCheckbox.checked;
+          loadProducts();
+        });
+      }
+      const clearFilters = document.getElementById('clear-filters');
+      if (clearFilters) {
+        clearFilters.addEventListener('click', () => {
+          activeCategory = 'All';
+          inStockOnly = false;
+          document.querySelectorAll('.filter-section input').forEach(input => { input.checked = false; });
+          loadProducts();
+        });
+      }
+      loadProducts();
+    });
+  
+    // Wire simple filter UI: category chips and 'In Stock' checkbox
+    function collectFilters() {
+      return { category: activeCategory, inStock: inStockOnly };
+    }
+
+    // end helpers
+  </script>
+</body>
+</html>

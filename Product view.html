@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details - FoodLift Wholesale</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/css/globals.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <style>
+    body { font-family: 'DM Sans', sans-serif; background: var(--ght-color-background); color: var(--ght-color-dark); }
+    .detail-card { background: #fff; border: 1px solid var(--ght-color-border); border-radius: 20px; box-shadow: var(--ght-shadow-subtle); }
+    .catalog-crumb { background: #fff; border: 1px solid var(--ght-color-border); border-radius: 999px; padding: 6px; box-shadow: var(--ght-shadow-subtle); }
+    .thumb-btn.is-active { border-color: var(--ght-color-primary); }
+    .mode-btn.is-active { background: #fff; color: var(--ght-color-dark); border-color: var(--ght-color-border); box-shadow: var(--ght-shadow-subtle); }
+    .tier-row.is-active { border-color: rgba(141,198,63,.45); background: rgba(141,198,63,.08); }
+  </style>
+</head>
+<body class="min-h-screen antialiased pb-24 md:pb-0">
+  <header class="bg-white border-b border-ght-border sticky top-0 z-40">
+    <div class="max-w-[1440px] mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <a href="ProductList.html" class="w-10 h-10 rounded-full border border-ght-border flex items-center justify-center hover:bg-ght-surface transition-colors shrink-0" aria-label="Back to products">
+          <iconify-icon icon="solar:arrow-left-linear" class="text-lg text-ght-dark"></iconify-icon>
+        </a>
+        <a href="index.html" class="flex items-center gap-2.5 shrink-0">
+          <img src="assets/logo.png" alt="FoodLift Logo" class="h-10 object-contain">
+          <div class="hidden sm:block border-l border-ght-border pl-3">
+            <span class="font-bold text-sm block leading-none">FoodLift</span>
+            <span class="text-[9px] text-ght-muted font-bold uppercase tracking-widest">Wholesale</span>
+          </div>
+        </a>
+      </div>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-bold">
+        <a href="ProductList.html" class="text-ght-muted hover:text-ght-dark">Products</a>
+        <a href="categories.html" class="text-ght-muted hover:text-ght-dark">Categories</a>
+      </nav>
+      <button class="relative w-10 h-10 rounded-full hover:bg-ght-surface flex items-center justify-center border border-transparent hover:border-ght-border">
+        <iconify-icon icon="solar:cart-large-linear" class="text-xl text-ght-dark"></iconify-icon>
+        <span data-cart-count class="absolute top-0.5 right-0.5 w-4 h-4 bg-ght-accent text-white text-[9px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="product-root" class="max-w-[1440px] mx-auto px-4 md:px-6 py-5 md:py-8"></main>
+
+  <div id="mobile-cta" class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-ght-border p-3 z-40 hidden"></div>
+
+  <script src="js/customer/catalog-utils.js"></script>
+  <script src="js/customer/cart-store.js"></script>
+  <script>
+    const root = document.getElementById('product-root');
+    const mobileCta = document.getElementById('mobile-cta');
+    let product;
+    let products = [];
+    let qty = 1;
+    let selectedFactor = 1;
+
+    function param(name) {
+      return new URLSearchParams(window.location.search).get(name);
+    }
+
+    function activeUnitLabel() {
+      if (selectedFactor === 1) return product.unit;
+      const partial = product.partial_units.find(unit => Number(unit.factor) === Number(selectedFactor));
+      return partial ? partial.name : product.unit;
+    }
+
+    function unitPrice() {
+      return selectedFactor === 1 ? FoodLiftCatalog.tierPrice(product, qty) : product.price_per_unit * selectedFactor;
+    }
+
+    function totalPrice() {
+      return unitPrice() * qty;
+    }
+
+    function updatePurchaseUi() {
+      document.querySelectorAll('[data-qty]').forEach(el => { el.textContent = qty; });
+      document.querySelectorAll('[data-total]').forEach(el => { el.textContent = FoodLiftCatalog.money(totalPrice()); });
+      document.querySelectorAll('[data-unit-price]').forEach(el => { el.textContent = FoodLiftCatalog.money(unitPrice()); });
+      document.querySelectorAll('[data-unit-label]').forEach(el => { el.textContent = activeUnitLabel(); });
+      document.querySelectorAll('.tier-row').forEach(row => {
+        row.classList.toggle('is-active', qty >= Number(row.dataset.qty));
+      });
+    }
+
+    function changeQty(delta) {
+      const next = qty + delta;
+      if (next < product.min_order || next > product.stock) return;
+      qty = next;
+      updatePurchaseUi();
+    }
+
+    function selectUnit(factor) {
+      selectedFactor = Number(factor);
+      document.querySelectorAll('[data-factor]').forEach(btn => {
+        btn.classList.toggle('is-active', Number(btn.dataset.factor) === selectedFactor);
+      });
+      updatePurchaseUi();
+    }
+
+    function renderStars(rating) {
+      const full = Math.round(Number(rating || 0));
+      return Array.from({ length: 5 }, (_, index) => `<iconify-icon icon="solar:star-bold" class="text-sm ${index < full ? 'text-yellow-500' : 'text-ght-border'}"></iconify-icon>`).join('');
+    }
+
+    function renderUnitOptions() {
+      const options = [{ name: product.unit, factor: 1 }, ...(product.partial_units || [])];
+      return options.map((option, index) => `
+        <button type="button" data-factor="${option.factor}" class="mode-btn ${index === 0 ? 'is-active' : ''} px-4 py-2.5 rounded-xl border border-transparent bg-ght-surface text-ght-muted font-bold text-xs transition-all">
+          ${option.name}
+        </button>
+      `).join('');
+    }
+
+    function renderTierRows() {
+      const tiers = [{ qty: product.min_order, price: product.price_per_unit }, ...(product.wholesale_tiers || [])];
+      return tiers.map(tier => `
+        <div class="tier-row flex items-center justify-between gap-3 rounded-2xl border border-ght-border p-4" data-qty="${tier.qty}">
+          <div>
+            <p class="text-sm font-bold text-ght-dark">${tier.qty}+ ${product.unit}</p>
+            <p class="text-xs text-ght-muted font-medium">${tier.qty === product.min_order ? 'Standard wholesale rate' : 'Volume discount unlocked'}</p>
+          </div>
+          <p class="text-sm font-bold text-ght-dark">${FoodLiftCatalog.money(tier.price)}</p>
+        </div>
+      `).join('');
+    }
+
+    function renderRelated() {
+      const related = products.filter(item => item.category === product.category && item.id !== product.id).slice(0, 4);
+      if (!related.length) return '';
+      return `
+        <section class="mt-10 md:mt-14">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="text-xl font-bold tracking-tight">Related products</h2>
+              <p class="text-xs text-ght-muted font-medium mt-1">More items from ${product.category}</p>
+            </div>
+            <a href="${FoodLiftCatalog.categoryUrl(product.category)}" class="text-xs font-bold text-ght-accent">View category</a>
+          </div>
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+            ${related.map(item => `
+              <a href="${FoodLiftCatalog.productUrl(item)}" class="bg-white border border-ght-border rounded-2xl p-3 group hover:shadow-md transition-all">
+                <div class="aspect-square bg-ght-surface rounded-xl overflow-hidden mb-3">
+                  <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="FoodLiftCatalog.safeImage(event)">
+                </div>
+                <h3 class="font-bold text-sm text-ght-dark truncate">${item.name}</h3>
+                <p class="text-[10px] text-ght-muted mt-1">${item.unit}</p>
+                <p class="text-sm font-bold text-ght-dark mt-2">${FoodLiftCatalog.money(item.price_per_unit)}</p>
+              </a>
+            `).join('')}
+          </div>
+        </section>
+      `;
+    }
+
+    function renderProduct() {
+      qty = product.min_order || 1;
+      selectedFactor = 1;
+      document.title = `${product.name} - FoodLift Wholesale`;
+      root.innerHTML = `
+        <nav class="catalog-crumb inline-flex items-center gap-1.5 text-[11px] md:text-xs font-bold text-ght-muted uppercase tracking-wider mb-5 max-w-full overflow-x-auto whitespace-nowrap">
+          <a href="index.html" class="px-2 py-1 rounded-full hover:bg-ght-surface hover:text-ght-dark">Home</a>
+          <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
+          <a href="ProductList.html" class="px-2 py-1 rounded-full hover:bg-ght-surface hover:text-ght-dark">Products</a>
+          <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
+          <a href="${FoodLiftCatalog.categoryUrl(product.category)}" class="px-2 py-1 rounded-full hover:bg-ght-surface hover:text-ght-dark">${product.category}</a>
+          <iconify-icon icon="solar:alt-arrow-right-linear" class="text-[10px]"></iconify-icon>
+          <span class="bg-ght-dark text-white px-3 py-1 rounded-full truncate max-w-[180px] md:max-w-md">${product.name}</span>
+        </nav>
+
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
+          <div class="lg:col-span-7 space-y-3">
+            <div class="detail-card overflow-hidden aspect-[4/3] md:aspect-square relative group">
+              <div class="absolute top-3 left-3 z-10 flex flex-col gap-2">
+                <span class="bg-ght-primary text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">Verified</span>
+                ${product.wholesale_tiers?.length ? '<span class="bg-ght-dark text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider shadow-sm">Bulk pricing</span>' : ''}
+              </div>
+              <img id="main-product-img" src="${product.image || FoodLiftCatalog.fallbackImage}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" onerror="FoodLiftCatalog.safeImage(event)">
+            </div>
+            <div class="flex gap-2 overflow-x-auto pb-2">
+              ${(product.partial_units?.length ? [product.image, FoodLiftCatalog.categoryImage(product.category)] : [product.image]).map((image, index) => `
+                <button type="button" class="thumb-btn ${index === 0 ? 'is-active' : ''} shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-xl border-2 border-transparent overflow-hidden bg-white" data-src="${image || FoodLiftCatalog.fallbackImage}">
+                  <img src="${image || FoodLiftCatalog.fallbackImage}" alt="${product.name}" class="w-full h-full object-cover" onerror="FoodLiftCatalog.safeImage(event)">
+                </button>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="lg:col-span-5 space-y-5">
+            <div class="space-y-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <span class="text-[10px] font-bold tracking-widest uppercase text-ght-primary bg-green-50 px-2.5 py-1 rounded-full border border-green-100">${product.category}</span>
+                <span class="text-[10px] font-bold tracking-widest uppercase ${product.stock > 0 ? 'text-green-700 bg-green-50 border-green-100' : 'text-red-700 bg-red-50 border-red-100'} px-2.5 py-1 rounded-full border">${product.stock > 0 ? `${product.stock} in stock` : 'Out of stock'}</span>
+              </div>
+              <h1 class="text-2xl md:text-4xl font-bold tracking-tight leading-tight">${product.name}</h1>
+              <div class="flex items-center gap-3 text-sm">
+                <div class="flex items-center gap-1">${renderStars(product.rating)}<span class="font-bold ml-1">${product.rating}</span></div>
+                <span class="text-xs text-ght-muted font-medium">SKU: FL-${String(product.id).padStart(4, '0')}</span>
+              </div>
+              <p class="text-sm text-ght-muted font-medium leading-relaxed">${product.description}</p>
+            </div>
+
+            <div class="detail-card p-5 md:p-6 space-y-4">
+              <div class="flex items-end justify-between gap-4">
+                <div>
+                  <span class="text-[10px] font-bold text-ght-muted uppercase tracking-widest block mb-1">Wholesale price</span>
+                  <div class="flex items-baseline gap-2">
+                    <span data-unit-price class="text-3xl md:text-4xl font-bold tracking-tight">${FoodLiftCatalog.money(product.price_per_unit)}</span>
+                    <span class="text-sm text-ght-muted font-bold">/ <span data-unit-label>${product.unit}</span></span>
+                  </div>
+                </div>
+                <div class="text-right">
+                  <span class="text-[10px] font-bold text-ght-muted uppercase tracking-widest block mb-1">Total</span>
+                  <span data-total class="text-lg font-bold text-ght-primary">${FoodLiftCatalog.money(product.price_per_unit)}</span>
+                </div>
+              </div>
+              <div class="rounded-xl bg-ght-surface p-3 text-xs font-semibold text-ght-muted">Minimum order: <strong class="text-ght-dark">${product.min_order} ${product.unit}</strong></div>
+            </div>
+
+            <div class="space-y-2">
+              <span class="text-xs font-bold uppercase tracking-wider">Unit option</span>
+              <div class="flex flex-wrap gap-2">${renderUnitOptions()}</div>
+            </div>
+
+            <div class="space-y-3">
+              <div class="flex items-center justify-between bg-white border border-ght-border p-3 md:p-4 rounded-2xl shadow-sm">
+                <span class="text-xs font-bold uppercase tracking-wider pl-1">Quantity</span>
+                <div class="flex items-center gap-3">
+                  <button type="button" data-minus class="w-10 h-10 rounded-full bg-ght-surface text-ght-dark hover:bg-slate-200 flex items-center justify-center font-bold text-lg">-</button>
+                  <span data-qty class="font-bold text-lg w-8 text-center">${qty}</span>
+                  <button type="button" data-plus class="w-10 h-10 rounded-full bg-ght-surface text-ght-dark hover:bg-slate-200 flex items-center justify-center font-bold text-lg">+</button>
+                </div>
+              </div>
+              <div class="grid grid-cols-4 gap-2 md:gap-3">
+                <button data-add-cart class="col-span-3 bg-ght-accent text-white hover:bg-orange-600 py-4 rounded-2xl font-bold text-sm shadow-md flex items-center justify-center gap-2">
+                  <iconify-icon icon="solar:cart-plus-bold" class="text-xl"></iconify-icon><span>Add to Cart</span>
+                </button>
+                <button class="col-span-1 bg-ght-dark text-white hover:bg-black py-4 rounded-2xl font-bold text-sm shadow-md flex items-center justify-center">
+                  <iconify-icon icon="solar:wallet-2-bold" class="text-xl"></iconify-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="mt-10 md:mt-14 grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div class="detail-card p-5 lg:col-span-2">
+            <h2 class="text-lg font-bold mb-3">Product details</h2>
+            <p class="text-sm text-ght-muted font-medium leading-relaxed mb-5">${product.description}</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+              <div class="bg-ght-surface rounded-xl p-3"><span class="text-[10px] font-bold text-ght-muted uppercase">Unit</span><p class="text-sm font-bold mt-1">${product.unit}</p></div>
+              <div class="bg-ght-surface rounded-xl p-3"><span class="text-[10px] font-bold text-ght-muted uppercase">Stock</span><p class="text-sm font-bold mt-1">${product.stock}</p></div>
+              <div class="bg-ght-surface rounded-xl p-3"><span class="text-[10px] font-bold text-ght-muted uppercase">Rating</span><p class="text-sm font-bold mt-1">${product.rating}/5</p></div>
+              <div class="bg-ght-surface rounded-xl p-3"><span class="text-[10px] font-bold text-ght-muted uppercase">Partial</span><p class="text-sm font-bold mt-1">${product.supports_partial ? 'Available' : 'Not available'}</p></div>
+            </div>
+          </div>
+          <div class="detail-card p-5">
+            <h2 class="text-lg font-bold mb-3">Bulk tiers</h2>
+            <div class="space-y-3">${renderTierRows()}</div>
+          </div>
+        </section>
+
+        ${renderRelated()}
+      `;
+
+      mobileCta.classList.remove('hidden');
+      mobileCta.innerHTML = `
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2 bg-ght-surface rounded-xl px-3 py-2.5 border border-ght-border">
+            <button type="button" data-minus class="w-7 h-7 rounded-full bg-white border border-ght-border flex items-center justify-center font-bold text-sm">-</button>
+            <span data-qty class="font-bold text-sm w-4 text-center">${qty}</span>
+            <button type="button" data-plus class="w-7 h-7 rounded-full bg-white border border-ght-border flex items-center justify-center font-bold text-sm">+</button>
+          </div>
+              <button data-add-cart class="flex-1 bg-ght-accent text-white py-3 rounded-xl font-bold text-sm shadow-md flex items-center justify-center gap-2">
+            <iconify-icon icon="solar:cart-plus-bold" class="text-lg"></iconify-icon>
+            <span>Add - <span data-total>${FoodLiftCatalog.money(totalPrice())}</span></span>
+          </button>
+        </div>
+      `;
+
+      document.querySelectorAll('[data-plus]').forEach(btn => btn.addEventListener('click', () => changeQty(1)));
+      document.querySelectorAll('[data-minus]').forEach(btn => btn.addEventListener('click', () => changeQty(-1)));
+      document.querySelectorAll('[data-factor]').forEach(btn => btn.addEventListener('click', () => selectUnit(btn.dataset.factor)));
+      document.querySelectorAll('[data-add-cart]').forEach(btn => btn.addEventListener('click', () => {
+        window.FoodLiftCart.add(product, { qty, unitLabel: activeUnitLabel(), unitPrice: unitPrice() });
+        btn.querySelector('span').textContent = 'Added to Cart';
+        setTimeout(() => { btn.querySelector('span').textContent = btn.classList.contains('flex-1') ? `Add - ${FoodLiftCatalog.money(totalPrice())}` : 'Add to Cart'; }, 1200);
+      }));
+      document.querySelectorAll('.thumb-btn').forEach(btn => btn.addEventListener('click', () => {
+        document.querySelectorAll('.thumb-btn').forEach(item => item.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        document.getElementById('main-product-img').src = btn.dataset.src;
+      }));
+      updatePurchaseUi();
+    }
+
+    async function initProductPage() {
+      try {
+        products = await FoodLiftCatalog.getProducts();
+        product = FoodLiftCatalog.byId(products, param('id')) || products[0];
+        if (!product) throw new Error('Product not found');
+        renderProduct();
+      } catch (error) {
+        root.innerHTML = `
+          <section class="bg-white border border-ght-border rounded-2xl p-8 text-center">
+            <h1 class="text-2xl font-bold">Product not found</h1>
+            <p class="text-sm text-ght-muted mt-2">We could not load this product from the local catalog.</p>
+            <a href="ProductList.html" class="ght-btn ght-btn-primary rounded-xl mt-5">Back to products</a>
+          </section>
+        `;
+        console.error(error);
+      }
+    }
+
+    initProductPage();
+    window.FoodLiftCart.syncBadges();
+  </script>
+</body>
+</html>
