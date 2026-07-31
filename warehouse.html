@@ -1,55 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FoodLift | Dashboard</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/dashboard.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-<style>body{font-family:"DM Sans",sans-serif;}</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodLift | Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    body {
+      font-family: "DM Sans", sans-serif;
+    }
+  </style>
 </head>
+
 <body class="dashboard-body">
 
-<div class="dash-shell">
+  <div class="dash-shell">
 
-  <!-- SIDEBAR + BACKDROP + BOTTOM TAB BAR — injected by load-static.js from _components/sidebar.html -->
-  <div id="navPlaceholder"></div>
+    <!-- SIDEBAR + BACKDROP + BOTTOM TAB BAR — injected by load-static.js from _components/sidebar.html -->
+    <div id="navPlaceholder"></div>
 
-  <!-- MAIN -->
-  <div class="dash-main">
+    <!-- MAIN -->
+    <div class="dash-main">
 
-    <!-- HEADER — injected by load-static.js from _components/header.html -->
-    <header></header>
+      <!-- HEADER — injected by load-static.js from _components/header.html -->
+      <header></header>
 
-    <!-- CONTENT -->
-    <main class="dash-content">
+      <!-- CONTENT -->
+      <main class="dash-content">
 
-      <!-- HERO — stays static; it's page chrome, not a swappable module -->
-      <section class="dash-hero">
-        <div>
-          <h2>Welcome back, User!</h2>
-          <p>Receive incoming orders, verify item availability, reserve inventory instantly, and coordinate seamless rider handoffs to keep every shipment moving efficiently.</p>
-        </div>
-        <a href="#" data-module="orders" class="dash-hero-cta">
-          View Pending Orders
-          <i class="fa-solid fa-arrow-right"></i>
-        </a>
-      </section>
+        <!-- HERO — stays static; it's page chrome, not a swappable module -->
+        <section class="dash-hero">
+          <div>
+            <h2>Welcome back, User!</h2>
+            <p>Receive incoming orders, verify item availability, reserve inventory instantly, and coordinate seamless
+              rider handoffs to keep every shipment moving efficiently.</p>
+          </div>
+          <a href="#" data-module="orders" class="dash-hero-cta">
+            View Pending Orders
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </section>
 
-      <!-- MODULE CONTENT — filled by dashboard.js's loadModule(), fed by pages/*.html fragments -->
-      <section
-        id="moduleContent"
-        class="bg-[#F4F4F4] rounded-[28px] border border-[rgba(0,0,0,0.08)] mt-10 min-h-[600px] p-10">
-      </section>
+        <!-- MODULE CONTENT — filled by dashboard.js's loadModule(), fed by pages/*.html fragments -->
+        <section id="moduleContent"
+          class="bg-[#F4F4F4] rounded-[28px] border border-[rgba(0,0,0,0.08)] mt-10 min-h-[600px] p-10">
+        </section>
 
-    </main>
+      </main>
+    </div>
   </div>
-</div>
 
-<!-- Modal: Confirm Order Availability -->
+  <!-- Modal 1: Confirm Order Availability -->
 <dialog 
   id="ezz-confirm-order-modal" 
   class="backdrop:bg-black/50 p-0 rounded-2xl bg-white shadow-xl max-w-lg w-full border-0"
@@ -58,7 +64,7 @@
     <header class="flex items-center justify-between pb-4 mb-4 border-b border-[rgba(0,0,0,0.08)]">
       <div>
         <h2 class="text-lg font-bold text-[#0A0A0A]">Confirm Availability</h2>
-        <p class="text-xs text-[rgba(0,0,0,0.45)]">Verify items for <span id="confirmOrderId" class="font-bold"></span></p>
+        <p class="text-xs text-[rgba(0,0,0,0.45)]">Verify items for <span id="ezz-confirmOrderId" class="font-bold"></span></p>
       </div>
       <button type="button" data-close-modal="ezz-confirm-order-modal" class="text-gray-400 hover:text-gray-600 p-1">
         <i class="fa-solid fa-xmark text-lg"></i>
@@ -66,10 +72,10 @@
     </header>
 
     <div class="space-y-4 mb-6">
-      <p class="text-sm text-[#0A0A0A]">Please physically verify these items are ready for pickup. Once confirmed, the rider will be notified immediately.</p>
+      <p class="text-sm text-[#0A0A0A]">Please physically verify these items are packed and ready. Once confirmed, the rider will be notified to pick them up.</p>
       
       <!-- Order Items List injected via JS -->
-      <div id="ezzConfirmOrderItems" class="bg-[#FAFAFA] border border-[rgba(0,0,0,0.08)] rounded-xl p-4 max-h-48 overflow-y-auto space-y-3">
+      <div id="ezz-confirmOrderItems" class="bg-[#FAFAFA] border border-[rgba(0,0,0,0.08)] rounded-xl p-4 max-h-48 overflow-y-auto space-y-3">
         <!-- JS fills this with item rows -->
       </div>
     </div>
@@ -78,14 +84,14 @@
       <button type="button" data-close-modal="ezz-confirm-order-modal" class="px-4 py-2 text-sm font-semibold text-[rgba(0,0,0,0.45)] hover:text-[#0A0A0A]">
         Cancel
       </button>
-      <button id="btnConfirmAvailability" class="px-5 py-2.5 bg-[#8DC63F] hover:bg-[#7ab033] text-white text-sm font-bold rounded-lg shadow-sm transition">
+      <button id="ezz-btnConfirmAvailability" class="px-5 py-2.5 bg-[#F7931E] hover:bg-[#e08216] text-white text-sm font-bold rounded-lg shadow-sm transition">
         Confirm & Notify Rider
       </button>
     </footer>
   </div>
 </dialog>
 
-<!-- Modal: Rider Handoff Verification -->
+<!-- Modal 2: Rider Handoff Verification -->
 <dialog 
   id="ezz-handoff-modal" 
   class="backdrop:bg-black/50 p-0 rounded-2xl bg-white shadow-xl max-w-sm w-full border-0"
@@ -99,29 +105,34 @@
     </header>
 
     <div class="text-center space-y-4 mb-6">
-      <div class="mx-auto w-16 h-16 bg-[#FAFAFA] border border-[rgba(0,0,0,0.08)] rounded-full flex items-center justify-center mb-2">
-        <i class="fa-solid fa-barcode text-2xl text-[#0A0A0A]"></i>
+      <!-- QR SCANNER CONTAINER (Empty for now, html5-qrcode will use this later) -->
+      <div id="ezz-qr-reader" class="w-full bg-[#FAFAFA] border border-[rgba(0,0,0,0.08)] rounded-xl overflow-hidden min-h-[200px] flex flex-col items-center justify-center">
+        <i class="fa-solid fa-camera text-3xl text-[rgba(0,0,0,0.2)] mb-2"></i>
+        <p class="text-xs text-[rgba(0,0,0,0.45)]">Scanner loading...</p>
       </div>
-      <p class="text-sm text-[rgba(0,0,0,0.45)]">Scan the barcode on the rider's portal or enter the 6-digit verification code to release order <span id="handoffOrderId" class="font-bold text-[#0A0A0A]"></span>.</p>
+
+      <p class="text-sm font-bold text-[rgba(0,0,0,0.45)] uppercase tracking-wider">OR ENTER MANUALLY</p>
       
       <input 
         type="text" 
-        id="riderVerificationCode" 
-        placeholder="e.g. WH-8842" 
-        class="w-full text-center tracking-widest uppercase font-mono px-4 py-3 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-lg text-[#0A0A0A] focus:border-[#F7931E] outline-none"
+        id="ezz-riderVerificationCode" 
+        placeholder="Enter Order ID manually" 
+        class="w-full text-center font-mono px-4 py-3 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm text-[#0A0A0A] focus:border-[#8DC63F] outline-none uppercase"
       >
-      <p id="handoffError" class="text-xs text-red-500 hidden">Invalid verification code.</p>
+      <p id="ezz-handoffError" class="text-xs text-red-500 hidden">Invalid verification code.</p>
     </div>
 
     <footer class="flex flex-col gap-2">
-      <button id="btnVerifyHandoff" class="w-full py-3 bg-[#F7931E] hover:bg-[#e08216] text-white text-sm font-bold rounded-xl shadow-sm transition">
+      <button id="ezz-btnVerifyHandoff" class="w-full py-3 bg-[#8DC63F] hover:bg-[#7ab033] text-white text-sm font-bold rounded-xl shadow-sm transition">
         Verify & Complete Handoff
       </button>
     </footer>
   </div>
 </dialog>
-
-<script src="js/load-static.js"></script>
-<script type="module" src="js/dashboard.js"></script>
+<!-- QR Code Scanner Library -->
+<script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <script src="js/load-static.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
 </body>
+
 </html>

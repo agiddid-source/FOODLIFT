@@ -8,7 +8,7 @@
   only — mock order data, no real-time socket/polling logic.
 -->
 <!-- pages/orders.html -->
-<div id="ordersModule" class="space-y-6 animate-in fade-in duration-300">
+<div id="ezz-ordersModule" class="space-y-6 animate-in fade-in duration-300">
   
   <!-- HEADER & ACTIONS -->
   <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -20,33 +20,33 @@
       <i class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 -translate-y-1/2 text-[rgba(0,0,0,0.45)]"></i>
       <input 
         type="text" 
-        id="orderSearch" 
-        placeholder="Search Order ID..." 
-        class="w-full pl-10 pr-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm focus:outline-none focus:border-[#8DC63F]"
+        id="ezz-orderSearch" 
+        placeholder="Search Order ID or Customer..." 
+        class="w-full pl-10 pr-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm focus:outline-none focus:border-[#F7931E]"
       >
     </div>
   </div>
 
   <!-- FILTER TABS -->
   <div class="flex space-x-2 border-b border-[rgba(0,0,0,0.08)] overflow-x-auto pb-px">
-    <button class="order-filter-btn px-4 py-2.5 text-sm font-bold text-[#F7931E] border-b-2 border-[#F7931E] whitespace-nowrap" data-status="Pending Verification">
+    <button class="ezz-order-filter-btn px-4 py-2.5 text-sm font-bold text-[#F7931E] border-b-2 border-[#F7931E] whitespace-nowrap" data-status="Pending Verification">
       Pending Verification
     </button>
-    <button class="order-filter-btn px-4 py-2.5 text-sm font-medium text-[rgba(0,0,0,0.45)] hover:text-[#0A0A0A] border-b-2 border-transparent whitespace-nowrap transition" data-status="Awaiting Rider Pick-up">
+    <button class="ezz-order-filter-btn px-4 py-2.5 text-sm font-medium text-[rgba(0,0,0,0.45)] hover:text-[#0A0A0A] border-b-2 border-transparent whitespace-nowrap transition" data-status="Awaiting Rider Pick-up">
       Awaiting Pick-up
     </button>
-    <button class="order-filter-btn px-4 py-2.5 text-sm font-medium text-[rgba(0,0,0,0.45)] hover:text-[#0A0A0A] border-b-2 border-transparent whitespace-nowrap transition" data-status="Handed to Rider">
+    <button class="ezz-order-filter-btn px-4 py-2.5 text-sm font-medium text-[rgba(0,0,0,0.45)] hover:text-[#0A0A0A] border-b-2 border-transparent whitespace-nowrap transition" data-status="Handed to Rider">
       Completed
     </button>
   </div>
 
   <!-- ORDERS GRID -->
-  <div id="ordersListContainer" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+  <div id="ezz-ordersListContainer" class="grid grid-cols-1 lg:grid-cols-3 gap-12">
     <!-- JS will populate order cards here -->
   </div>
 
   <!-- EMPTY STATE -->
-  <div id="ordersEmptyState" class="hidden flex-col items-center justify-center py-16 bg-white rounded-2xl border border-[rgba(0,0,0,0.08)] shadow-sm">
+  <div id="ezz-ordersEmptyState" class="hidden flex-col items-center justify-center py-16 bg-white rounded-2xl border border-[rgba(0,0,0,0.08)] shadow-sm">
     <i class="fa-solid fa-box-open text-4xl text-[rgba(0,0,0,0.45)] mb-4"></i>
     <h4 class="text-[#0A0A0A] font-bold">No orders found</h4>
     <p class="text-sm text-[rgba(0,0,0,0.45)] mt-1">There are no orders matching this status.</p>

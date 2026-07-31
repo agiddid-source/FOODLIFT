@@ -2,28 +2,29 @@
 
 let allOrders = [];
 let currentFilter = "Pending Verification";
-let searchQuery = ""; // Tracks the active search input
+let searchQuery = ""; 
+
+// We define the scanner variable globally so we can start/stop it from anywhere
+let html5QrCode = null; 
 
 export async function initOrders() {
-  const root = document.getElementById("ordersModule");
+  const root = document.getElementById("ezz-ordersModule");
   if (!root) return;
 
-  // 1. Fetch Orders Data
   try {
     const response = await fetch("data/orders.json");
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     allOrders = await response.json();
   } catch (error) {
     console.error("Failed to load orders data:", error);
-    document.getElementById("ordersListContainer").innerHTML = `
+    document.getElementById("ezz-ordersListContainer").innerHTML = `
       <div class="col-span-full p-6 text-center text-red-500 font-medium border border-red-200 rounded-2xl">
-        ⚠️ Unable to load orders data. Check /data/orders.json.
+        ⚠️ Unable to load orders data. Order Inventory.
       </div>
     `;
     return;
   }
 
-  // 2. Initialize UI
   wireTabs();
   wireSearch();
   wireModals();
@@ -31,23 +32,20 @@ export async function initOrders() {
 }
 
 // ------------------------------------------------------------------
-// SEARCH LOGIC
+// SEARCH & TABS LOGIC
 // ------------------------------------------------------------------
 function wireSearch() {
-  const searchInput = document.getElementById("orderSearch");
+  const searchInput = document.getElementById("ezz-orderSearch");
   if (!searchInput) return;
 
   searchInput.addEventListener("input", (e) => {
     searchQuery = e.target.value.trim().toLowerCase();
-    renderOrders(); // Re-render grid on every keystroke
+    renderOrders(); 
   });
 }
 
-// ------------------------------------------------------------------
-// TAB NAVIGATION LOGIC
-// ------------------------------------------------------------------
 function wireTabs() {
-  const tabs = document.querySelectorAll(".order-filter-btn");
+  const tabs = document.querySelectorAll(".ezz-order-filter-btn");
   
   tabs.forEach(tab => {
     tab.addEventListener("click", (e) => {
@@ -70,13 +68,12 @@ function wireTabs() {
 // RENDER ORDER CARDS
 // ------------------------------------------------------------------
 function renderOrders() {
-  const listContainer = document.getElementById("ordersListContainer");
-  const emptyState = document.getElementById("ordersEmptyState");
+  const listContainer = document.getElementById("ezz-ordersListContainer");
+  const emptyState = document.getElementById("ezz-ordersEmptyState");
   
   if (!listContainer) return;
   listContainer.innerHTML = "";
 
-  // Filter by active tab AND the search query (matching Order ID or Customer Name)
   const filteredOrders = allOrders.filter(order => {
     const matchesTab = order.status === currentFilter;
     const matchesSearch = 
@@ -119,6 +116,8 @@ function renderOrders() {
       `;
     }
 
+    const itemCountLabel = order.items.length === 1 ? "Item" : "Items";
+
     const card = document.createElement("div");
     card.className = "bg-white p-5 rounded-2xl border border-[rgba(0,0,0,0.08)] shadow-sm flex flex-col gap-4 transition hover:shadow-md";
     card.innerHTML = `
@@ -128,7 +127,7 @@ function renderOrders() {
           <h4 class="text-lg font-bold text-[#0A0A0A] mt-1">${order.customer.name}</h4>
         </div>
         <span class="bg-[#FAFAFA] text-[#0A0A0A] border border-[rgba(0,0,0,0.08)] text-xs font-bold px-3 py-1.5 rounded-full">
-          ${order.items.length} Items
+          ${order.items.length} ${itemCountLabel}
         </span>
       </div>
       
@@ -152,13 +151,10 @@ function renderOrders() {
 // MODAL LOGIC & ACTIONS
 // ------------------------------------------------------------------
 function wireModals() {
-  const listContainer = document.getElementById("ordersListContainer");
-  
-  // Using the exact IDs from the new HTML fragment provided earlier
+  const listContainer = document.getElementById("ezz-ordersListContainer");
   const confirmModal = document.getElementById("ezz-confirm-order-modal");
   const handoffModal = document.getElementById("ezz-handoff-modal");
 
-  // Delegate clicks on action buttons inside order cards
   listContainer?.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-action]");
     if (!btn) return;
@@ -174,37 +170,42 @@ function wireModals() {
     }
   });
 
-  // Action: Confirm Availability
-  document.getElementById("btnConfirmAvailability")?.addEventListener("click", () => {
+  // Action: Confirm Availability -> Moves to "Awaiting Pick-up"
+  document.getElementById("ezz-btnConfirmAvailability")?.addEventListener("click", () => {
     const orderId = confirmModal.dataset.activeOrderId;
     updateOrderStatus(orderId, "Awaiting Rider Pick-up");
-    if (typeof confirmModal.close === "function") confirmModal.close(); // Using semantic <dialog> close
+    if (typeof confirmModal.close === "function") confirmModal.close(); 
   });
 
-  // Action: Confirm Handoff
-  document.getElementById("btnVerifyHandoff")?.addEventListener("click", () => {
+  // Action: Manual Verify Handoff (Fallback if camera is broken)
+  document.getElementById("ezz-btnVerifyHandoff")?.addEventListener("click", () => {
     const orderId = handoffModal.dataset.activeOrderId;
-    const inputCode = document.getElementById("riderVerificationCode").value.trim();
-    const errorMsg = document.getElementById("handoffError");
+    const inputCode = document.getElementById("ezz-riderVerificationCode").value.trim();
+    const errorMsg = document.getElementById("ezz-handoffError");
     
-    // Simple UI validation check
-    if (inputCode === "") {
+    if (inputCode.toUpperCase() !== orderId.toUpperCase()) {
+      errorMsg.textContent = "Order ID does not match. Please check and try again.";
       errorMsg.classList.remove("hidden");
       return;
     }
     
     errorMsg.classList.add("hidden");
     updateOrderStatus(orderId, "Handed to Rider");
-    if (typeof handoffModal.close === "function") handoffModal.close();
+    stopScannerAndCloseModal(handoffModal);
   });
 
-  // Global close button handlers
+  // Global close button handlers (Custom logic to kill camera)
   document.querySelectorAll("[data-close-modal]").forEach(btn => {
     btn.addEventListener("click", () => {
       const targetId = btn.dataset.closeModal;
       const modal = document.getElementById(targetId);
-      if (modal && typeof modal.close === "function") {
-        modal.close();
+      
+      if (modal) {
+        if (targetId === "ezz-handoff-modal") {
+          stopScannerAndCloseModal(modal);
+        } else if (typeof modal.close === "function") {
+          modal.close();
+        }
       }
     });
   });
@@ -212,11 +213,9 @@ function wireModals() {
 
 function openConfirmModal(order, modal) {
   modal.dataset.activeOrderId = order.orderId;
+  document.getElementById("ezz-confirmOrderId").textContent = order.orderId;
 
-  // Populate HTML elements matching the new dialog structure
-  document.getElementById("confirmOrderId").textContent = order.orderId;
-
-  const itemsContainer = document.getElementById("ezzConfirmOrderItems");
+  const itemsContainer = document.getElementById("ezz-confirmOrderItems");
   itemsContainer.innerHTML = order.items.map(item => `
     <div class="flex justify-between items-center py-2 border-b border-[rgba(0,0,0,0.08)] last:border-0">
       <div class="flex flex-col">
@@ -224,7 +223,7 @@ function openConfirmModal(order, modal) {
         <span class="text-xs text-[rgba(0,0,0,0.45)]">SKU: ${item.sku}</span>
       </div>
       <span class="text-sm font-bold text-[#0A0A0A] px-3 py-1 bg-white rounded-lg border border-[rgba(0,0,0,0.08)]">
-        Qty: ${item.quantity}
+        Qty: ${item.quantity} ${item.unit ? item.unit : ''}
       </span>
     </div>
   `).join('');
@@ -232,14 +231,64 @@ function openConfirmModal(order, modal) {
   if (typeof modal.showModal === "function") modal.showModal();
 }
 
+// ------------------------------------------------------------------
+// SCANNER LOGIC
+// ------------------------------------------------------------------
 function openHandoffModal(order, modal) {
   modal.dataset.activeOrderId = order.orderId;
 
-  document.getElementById("handoffOrderId").textContent = order.orderId;
-  document.getElementById("riderVerificationCode").value = ""; // Reset input
-  document.getElementById("handoffError").classList.add("hidden"); // Hide errors
+  document.getElementById("ezz-riderVerificationCode").value = ""; 
+  document.getElementById("ezz-handoffError").classList.add("hidden"); 
 
   if (typeof modal.showModal === "function") modal.showModal();
+
+  // 1. Initialize Scanner if it doesn't exist yet
+  if (!html5QrCode) {
+    html5QrCode = new Html5Qrcode("ezz-qr-reader");
+  }
+
+  // 2. Define what happens when a QR code is read
+  const onScanSuccess = (decodedText) => {
+    if (decodedText.toUpperCase() === order.orderId.toUpperCase()) {
+      // It's a match! Close modal and update order
+      updateOrderStatus(order.orderId, "Handed to Rider");
+      stopScannerAndCloseModal(modal);
+    } else {
+      // Wrong QR code scanned
+      const errorMsg = document.getElementById("ezz-handoffError");
+      errorMsg.textContent = `Scanned ID (${decodedText}) does not match this order.`;
+      errorMsg.classList.remove("hidden");
+    }
+  };
+
+  // 3. Start the Camera
+  html5QrCode.start(
+    { facingMode: "environment" }, // Forces rear camera
+    { fps: 10, qrbox: { width: 250, height: 250 } }, // Scanner settings
+    onScanSuccess,
+    (errorMessage) => {
+      // Ignored: This triggers every frame it doesn't see a QR code
+    }
+  ).catch(err => {
+    console.error("Camera access failed", err);
+    document.getElementById("ezz-qr-reader").innerHTML = `
+      <p class="text-xs text-red-500 p-4 text-center">Camera not available. Please enter the Order ID manually below.</p>
+    `;
+  });
+}
+
+// Safe shutdown for the camera
+function stopScannerAndCloseModal(modal) {
+  if (html5QrCode && html5QrCode.isScanning) {
+    html5QrCode.stop().then(() => {
+      if (typeof modal.close === "function") modal.close();
+    }).catch(err => {
+      console.error("Failed to stop scanner", err);
+      if (typeof modal.close === "function") modal.close();
+    });
+  } else {
+    if (typeof modal.close === "function") modal.close();
+  }
 }
 
 function updateOrderStatus(orderId, newStatus) {
