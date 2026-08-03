@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FoodLift Rider — Settings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rider.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <nav class="nav">
+        <a href="rider-profile.html" class="nav-item"><span class="nav-ico">👤</span> Profile</a>
+        <a href="rider-earnings.html" class="nav-item"><span class="nav-ico">💰</span> Earnings</a>
+        <a href="rider-settings.html" class="nav-item active"><span class="nav-ico">⚙️</span> Settings</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">Settings</h1>
+          <p class="page-sub">Preferences, security, and account</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn btn-ghost" onclick="openModal('modal-logout')">Log out</button>
+        </div>
+      </header>
+
+      <section class="grid two">
+        <div class="card">
+          <div class="card-head"><h3>Account</h3></div>
+          <div class="row"><div><div class="row-t">Change password</div><div class="muted small">Last changed 3 months ago</div></div><button class="btn btn-outline" onclick="openModal('modal-password')">Update</button></div>
+          <div class="row"><div><div class="row-t">Two-factor authentication</div><div class="muted small">Add an extra layer of security</div></div>
+            <label class="switch"><input type="checkbox" aria-label="Two-factor authentication" /><span></span></label>
+          </div>
+          <div class="row"><div><div class="row-t">Linked bank accounts</div><div class="muted small">2 accounts on file</div></div><button class="btn btn-outline" onclick="toast('Bank manager coming soon')">Manage</button></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Notifications</h3></div>
+          <div class="row"><div><div class="row-t">New order alerts</div><div class="muted small">Push notifications when orders arrive</div></div><label class="switch"><input type="checkbox" checked aria-label="New order alerts" /><span></span></label></div>
+          <div class="row"><div><div class="row-t">Earnings summary</div><div class="muted small">Daily payout summary</div></div><label class="switch"><input type="checkbox" checked aria-label="Earnings summary" /><span></span></label></div>
+          <div class="row"><div><div class="row-t">Promotions & bonuses</div><div class="muted small">Bonus challenges and streaks</div></div><label class="switch"><input type="checkbox" aria-label="Promotions and bonuses" /><span></span></label></div>
+          <div class="row"><div><div class="row-t">SMS notifications</div><div class="muted small">Text messages for critical updates</div></div><label class="switch"><input type="checkbox" checked aria-label="SMS notifications" /><span></span></label></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><h3>Preferences</h3></div>
+          <div class="row"><div><div class="row-t">Language</div><div class="muted small">English (Nigeria)</div></div>
+            <select id="language-select" class="mini-select" aria-label="Language"><option>English</option><option>Yoruba</option><option>Igbo</option><option>Hausa</option></select>
+          </div>
+          <div class="row"><div><div class="row-t">Preferred zone</div><div class="muted small">Ikeja · Lagos</div></div>
+            <select id="zone-select" class="mini-select" aria-label="Preferred zone"><option>Ikeja</option><option>Lekki</option><option>Yaba</option><option>Surulere</option></select>
+          </div>
+          <div class="row"><div><div class="row-t">Auto-accept nearby orders</div><div class="muted small">Automatically accept orders within 1km</div></div><label class="switch"><input type="checkbox" aria-label="Auto-accept nearby orders" /><span></span></label></div>
+        </div>
+
+        <div class="card danger">
+          <div class="card-head"><h3>Danger zone</h3></div>
+          <div class="row"><div><div class="row-t">Pause deliveries</div><div class="muted small">Temporarily stop receiving orders</div></div><button class="btn btn-outline" onclick="toast('Deliveries paused for 24h')">Pause</button></div>
+          <div class="row"><div><div class="row-t danger-text">Delete account</div><div class="muted small">This action cannot be undone</div></div><button class="btn btn-danger" onclick="openModal('modal-delete')">Delete</button></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Password -->
+  <div class="modal" id="modal-password" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closeModal('modal-password')"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true">
+      <div class="modal-head"><h3>Change password</h3><button class="icon-btn" onclick="closeModal('modal-password')">✕</button></div>
+      <form class="form" onsubmit="event.preventDefault(); toast('Password updated'); closeModal('modal-password');">
+        <label>Current password<input type="password" placeholder="••••••••" /></label>
+        <label>New password<input type="password" placeholder="At least 8 characters" /></label>
+        <label>Confirm new password<input type="password" /></label>
+        <div class="modal-foot">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modal-password')">Cancel</button>
+          <button class="btn btn-primary" type="submit">Update password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Logout -->
+  <div class="modal" id="modal-logout" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closeModal('modal-logout')"></div>
+    <div class="modal-panel small" role="dialog" aria-modal="true">
+      <div class="modal-head"><h3>Log out?</h3><button class="icon-btn" onclick="closeModal('modal-logout')">✕</button></div>
+      <div class="form">
+        <p class="muted">You'll be signed out of the rider portal on this device.</p>
+        <div class="modal-foot">
+          <button class="btn btn-ghost" onclick="closeModal('modal-logout')">Stay signed in</button>
+          <button class="btn btn-primary" onclick="toast('You have been logged out'); closeModal('modal-logout');">Log out</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete -->
+  <div class="modal" id="modal-delete" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closeModal('modal-delete')"></div>
+    <div class="modal-panel small" role="dialog" aria-modal="true">
+      <div class="modal-head"><h3 class="danger-text">Delete account</h3><button class="icon-btn" onclick="closeModal('modal-delete')">✕</button></div>
+      <div class="form">
+        <p>This will permanently delete your rider account, earnings history, and documents. This action cannot be undone.</p>
+        <label>Type <strong>DELETE</strong> to confirm<input id="delete-confirm" type="text" placeholder="DELETE" /></label>
+        <div class="modal-foot">
+          <button class="btn btn-ghost" onclick="closeModal('modal-delete')">Cancel</button>
+          <button class="btn btn-danger" onclick="if(document.getElementById('delete-confirm').value==='DELETE'){toast('Account scheduled for deletion');closeModal('modal-delete');}else{toast('Type DELETE to confirm');}">Delete permanently</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="rider.js"></script>
+</body>
+</html>

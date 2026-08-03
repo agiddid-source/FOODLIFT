@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodLift | Register</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>body{font-family:"DM Sans",sans-serif;background:#fafafa}</style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-6">
+<div class="auth-card grid lg:grid-cols-2 max-w-7xl w-full shadow-2xl">
+
+  <!-- LEFT — MARKETING PANEL -->
+  <section class="relative hidden lg:flex flex-col justify-between p-14 bg-gradient-to-br from-lime-100 via-white to-orange-100">
+    <div>
+      <div class="flex p-3 bg-transparent rounded-2xl shadow-sm mb-6 justify-center items-center">
+        <img src="static/images/image_72.png" alt="FoodLift — Lifting homes with affordable foods" class="h-[250px] w-auto">
+      </div>
+
+      <h1 class="text-5xl font-bold text-[#0A0A0A] leading-tight">Affordable groceries<br>for every household.</h1>
+      <p class="mt-5 text-[rgba(0,0,0,0.45)] max-w-md">Shop quality groceries, grains, spices and household essentials at wholesale prices with quick delivery.</p>
+      
+    </div>
+
+    <div class="relative h-80">
+      <div class="absolute inset-0 m-auto w-56 h-56 rounded-full bg-white shadow-xl flex items-center justify-center">
+        <i class="fa-solid fa-cart-shopping text-7xl text-orange-400"></i>
+      </div>
+
+      <div class="floating-chip" style="left:-2.2rem; top:1.8rem;">
+        <span class="chip-icon" style="background:#ecfccb;color:#4d7c0f;"><i class="fa-solid fa-gift"></i></span>
+        <span>
+          <span class="chip-label block">Welcome Offer</span>
+          <span class="chip-value block">10% off first order</span>
+        </span>
+      </div>
+
+      <div class="floating-chip" style="right:-3.0rem; top:8.5rem;">
+        <span class="chip-icon" style="background:#121212;color:#fff;"><i class="fa-solid fa-wallet"></i></span>
+        <span>
+          <span class="chip-label block">Wallet</span>
+          <span class="chip-value block">Pay in one tap</span>
+        </span>
+      </div>
+
+      <div class="floating-chip" style="left:-2.5rem; bottom:2.5rem;">
+        <span class="chip-icon" style="background:#fff1e0;color:#ea580c;"><i class="fa-solid fa-truck-fast"></i></span>
+        <span>
+          <span class="chip-label block">Delivery</span>
+          <span class="chip-value block">Fast & Reliable</span>
+        </span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- RIGHT PANEL -->
+  <section class="p-8 md:p-14 flex items-center">
+    <div class="auth-form mx-auto">
+
+      <h2 class="auth-title">Create Account</h2>
+      <p class="auth-subtitle">Join FoodLift and start managing your food delivery experience.</p>
+
+      <form id="registerForm" class="mt-8 space-y-5" novalidate>
+
+        <div>
+          <label class="auth-label block">Full Name</label>
+          <div class="relative">
+            <i class="fa-regular fa-user absolute left-4 top-1/2 -translate-y-1/2 input-icon"></i>
+            <input id="fullName" type="text" placeholder="Enter your full name" class="auth-input">
+          </div>
+        </div>
+
+        <div>
+          <label class="auth-label block">Email Address</label>
+          <div class="relative">
+            <i class="fa-regular fa-envelope absolute left-4 top-1/2 -translate-y-1/2 input-icon"></i>
+            <input id="email" type="email" placeholder="you@example.com" class="auth-input">
+          </div>
+        </div>
+
+        <div>
+          <label class="auth-label block">Phone Number</label>
+          <div class="relative">
+            <i class="fa-solid fa-phone absolute left-4 top-1/2 -translate-y-1/2 input-icon"></i>
+            <input id="phone" type="tel" placeholder="+234 800 000 0000" class="auth-input">
+          </div>
+        </div>
+
+        <div>
+          <label class="auth-label block">Password</label>
+          <div class="relative">
+            <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 input-icon"></i>
+            <input id="password" type="password" placeholder="Create a password" class="auth-input pr-12">
+            <button type="button" id="togglePassword" class="absolute right-4 top-1/2 -translate-y-1/2 text-[rgba(0,0,0,0.45)]">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="auth-label block">Confirm Password</label>
+          <div class="relative">
+            <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 input-icon"></i>
+            <input id="confirmPassword" type="password" placeholder="Confirm your password" class="auth-input pr-12">
+            <button type="button" id="toggleConfirmPassword" class="absolute right-4 top-1/2 -translate-y-1/2 text-[rgba(0,0,0,0.45)]">
+              <i class="fa-regular fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-3">
+          <input id="terms" type="checkbox" class="mt-1 accent-orange-500">
+          <label for="terms" class="text-sm text-[rgba(0,0,0,0.45)]">
+            I agree to FoodLift's <a href="#" class="auth-link">Terms & Conditions</a>
+          </label>
+        </div>
+
+        <!-- Validation Message -->
+        <div id="formMessage" class="hidden alert-error">
+          <i class="fa-solid fa-circle-exclamation"></i>
+          <span id="messageText"></span>
+        </div>
+
+        <button type="submit" id="submitBtn" class="btn-primary w-full">
+          <span class="btn-spinner"></span>
+          <span class="btn-label">Create Account</span>
+        </button>
+      </form>
+
+      <!-- SUCCESS STATE -->
+      <div id="successState" class="hidden mt-8">
+        <div class="alert-success">
+          <i class="fa-solid fa-circle-check"></i>
+          <div>
+            <h3 class="font-semibold">Account Created</h3>
+            <p id="successMessage" class="text-sm mt-1"></p>
+          </div>
+        </div>
+        <a href="login.html" class="btn-primary block text-center mt-6">Continue to Login</a>
+      </div>
+
+      <!-- Login Link -->
+      <div class="mt-6 text-center">
+        <p class="text-sm text-[rgba(0,0,0,0.45)]">
+          Already have an account? <a href="login.html" class="auth-link">Login</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+</div>
+<script src="js/auth/register.js"></script>
+  <!-- Toast — communicates in-flight status during a simulated request -->
+  <div id="toast" class="toast" role="status" aria-live="polite">
+    <span class="toast-spinner"></span>
+    <span id="toastMessage"></span>
+  </div>
+</body>
+</html>
