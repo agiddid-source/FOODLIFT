@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FoodLift Rider — Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="rider.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <nav class="nav">
+        <a href="rider-profile.html" class="nav-item active">
+          <span class="nav-ico">👤</span> Profile
+        </a>
+        <a href="rider-earnings.html" class="nav-item">
+          <span class="nav-ico">💰</span> Earnings
+        </a>
+        <a href="rider-settings.html" class="nav-item">
+          <span class="nav-ico">⚙️</span> Settings
+        </a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1 class="page-title">My Profile</h1>
+          <p class="page-sub">Manage your rider information and documents</p>
+        </div>
+        <div class="top-actions">
+          <button class="btn btn-ghost" onclick="openModal('modal-support')">Get help</button>
+          <button class="btn btn-primary" onclick="openModal('modal-edit')">Edit profile</button>
+        </div>
+      </header>
+
+      <section class="grid">
+        <div class="card profile-card">
+          <div class="cover"></div>
+          <div class="profile-head">
+            <img class="avatar" src="driver.png" alt="Rider avatar" />
+            <div class="profile-meta">
+              <h2 class="name">Daniel Okoro</h2>
+              <p class="muted">Rider ID · FL-284193</p>
+              <div class="badges">
+                <span class="tag tag-green">● Verified</span>
+                <span class="tag tag-orange">Top Rider</span>
+                <span class="tag tag-outline">Lagos · Ikeja Zone</span>
+              </div>
+            </div>
+            <div class="rating">
+              <div class="rating-value">4.92</div>
+              <div class="stars">★★★★★</div>
+              <div class="muted small">1,284 ratings</div>
+            </div>
+          </div>
+
+          <div class="stat-row">
+            <div class="stat">
+              <div class="stat-num">1,842</div>
+              <div class="stat-lbl">Deliveries</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">98%</div>
+              <div class="stat-lbl">On-time rate</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">14mo</div>
+              <div class="stat-lbl">On FoodLift</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">₦486k</div>
+              <div class="stat-lbl">Lifetime earnings</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Personal information</h3>
+            <button class="link" onclick="openModal('modal-edit')">Edit</button>
+          </div>
+          <dl class="kv">
+            <div><dt>Full name</dt><dd>Daniel Chukwuemeka Okoro</dd></div>
+            <div><dt>Phone</dt><dd>+234 803 214 8890</dd></div>
+            <div><dt>Email</dt><dd>daniel.okoro@foodlift.ng</dd></div>
+            <div><dt>Date of birth</dt><dd>12 March 1996</dd></div>
+            <div><dt>Address</dt><dd>24 Allen Ave, Ikeja, Lagos</dd></div>
+            <div><dt>Emergency contact</dt><dd>Ngozi Okoro · +234 802 887 4412</dd></div>
+          </dl>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Vehicle & documents</h3>
+            <button class="link" onclick="openModal('modal-vehicle')">Manage</button>
+          </div>
+          <div class="doc-list">
+            <div class="doc">
+              <div>
+                <div class="doc-name">Motorcycle · Bajaj Boxer 2021</div>
+                <div class="muted small">Plate: LAG-482-KJA</div>
+              </div>
+              <span class="tag tag-green">Active</span>
+            </div>
+            <div class="doc">
+              <div>
+                <div class="doc-name">Driver's license</div>
+                <div class="muted small">Expires 08 Aug 2027</div>
+              </div>
+              <span class="tag tag-green">Verified</span>
+            </div>
+            <div class="doc">
+              <div>
+                <div class="doc-name">Insurance certificate</div>
+                <div class="muted small">Expires 02 Feb 2026</div>
+              </div>
+              <span class="tag tag-orange">Renew soon</span>
+            </div>
+            <div class="doc">
+              <div>
+                <div class="doc-name">Roadworthiness</div>
+                <div class="muted small">Uploaded 14 Jan 2026</div>
+              </div>
+              <span class="tag tag-green">Verified</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>Recent activity</h3>
+            <a href="rider-earnings.html" class="link">View earnings →</a>
+          </div>
+          <ul class="activity">
+            <li>
+              <div class="a-ico">🍔</div>
+              <div class="a-body">
+                <div class="a-title">Delivered order #FL-99231</div>
+                <div class="muted small">Chicken Republic → Opebi · 2h ago</div>
+              </div>
+              <div class="a-amt">+₦1,850</div>
+            </li>
+            <li>
+              <div class="a-ico">⭐</div>
+              <div class="a-body">
+                <div class="a-title">5-star rating from Amaka</div>
+                <div class="muted small">"Fast and polite" · 3h ago</div>
+              </div>
+              <div class="a-amt tag-green-text">+50 pts</div>
+            </li>
+            <li>
+              <div class="a-ico">🍔</div>
+              <div class="a-body">
+                <div class="a-title">Delivered order #FL-99187</div>
+                <div class="muted small">Sweet Sensation → Allen · 5h ago</div>
+              </div>
+              <div class="a-amt">+₦1,420</div>
+            </li>
+            <li>
+              <div class="a-ico">🎯</div>
+              <div class="a-body">
+                <div class="a-title">Weekly bonus unlocked</div>
+                <div class="muted small">Completed 40 deliveries · Yesterday</div>
+              </div>
+              <div class="a-amt">+₦5,000</div>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Modal: Edit Profile -->
+  <div class="modal" id="modal-edit" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closeModal('modal-edit')"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <h3>Edit profile</h3>
+        <button class="icon-btn" onclick="closeModal('modal-edit')">✕</button>
+      </div>
+      <form class="form" onsubmit="event.preventDefault(); toast('Profile updated'); closeModal('modal-edit');">
+        <label>Full name<input type="text" value="Daniel Chukwuemeka Okoro" /></label>
+        <label>Phone<input type="tel" value="+234 803 214 8890" /></label>
+        <label>Email<input type="email" value="daniel.okoro@foodlift.ng" /></label>
+        <label>Address<input type="text" value="24 Allen Ave, Ikeja, Lagos" /></label>
+        <label>Emergency contact<input type="text" value="Ngozi Okoro · +234 802 887 4412" /></label>
+        <div class="modal-foot">
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modal-edit')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Save changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Vehicle -->
+  <div class="modal" id="modal-vehicle" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closeModal('modal-vehicle')"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <h3>Vehicle & documents</h3>
+        <button class="icon-btn" onclick="closeModal('modal-vehicle')">✕</button>
+      </div>
+      <div class="form">
+        <label>Vehicle type
+          <select>
+            <option>Motorcycle</option><option>Bicycle</option><option>Car</option>
+          </select>
+        </label>
+        <label>Make & model<input value="Bajaj Boxer 2021" /></label>
+        <label>Plate number<input value="LAG-482-KJA" /></label>
+        <div class="upload">
+          <div>
+            <div class="doc-name">Insurance certificate</div>
+            <div class="muted small">Expires 02 Feb 2026 — renew soon</div>
+          </div>
+          <button class="btn btn-ghost" type="button" onclick="toast('Upload dialog would open')">Upload new</button>
+        </div>
+        <div class="modal-foot">
+          <button class="btn btn-ghost" onclick="closeModal('modal-vehicle')">Close</button>
+          <button class="btn btn-primary" onclick="toast('Documents saved'); closeModal('modal-vehicle');">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Support -->
+  <div class="modal" id="modal-support" aria-hidden="true">
+    <div class="modal-backdrop" onclick="closeModal('modal-support')"></div>
+    <div class="modal-panel" role="dialog" aria-modal="true">
+      <div class="modal-head">
+        <h3>Get help</h3>
+        <button class="icon-btn" onclick="closeModal('modal-support')">✕</button>
+      </div>
+      <div class="form">
+        <p class="muted">Our rider support team responds within 5 minutes, 24/7.</p>
+        <label>Topic
+          <select><option>Payment issue</option><option>App bug</option><option>Order dispute</option><option>Other</option></select>
+        </label>
+        <label>Describe your issue<textarea rows="4" placeholder="Tell us what happened..."></textarea></label>
+        <div class="modal-foot">
+          <button class="btn btn-ghost" onclick="closeModal('modal-support')">Cancel</button>
+          <button class="btn btn-primary" onclick="toast('Ticket submitted — we\'ll be in touch'); closeModal('modal-support');">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="rider.js"></script>
+</body>
+</html>

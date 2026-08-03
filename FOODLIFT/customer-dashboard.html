@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>FoodLift — Lifting Homes with Affordable Foods</title>
+<meta name="description" content="Buy wholesale groceries in full or in parts. Fund your wallet, pay on delivery with a QR token, and track your order in real time." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+<style>
+  .track-fill { width: 66%; }
+</style>
+</head>
+<body>
+
+<!-- Announcement bar -->
+<div class="topbar">
+  <div class="topbar-track">
+    <span>⚡ FLASH SALE: 15% OFF ALL GRAINS</span>
+    <span>🚚 FREE DELIVERY ON ORDERS OVER ₦50,000</span>
+    <span>📦 NEW WHOLESALE BUNDLES AVAILABLE</span>
+    <span>⭐ REFER A FRIEND, GET ₦5,000</span>
+    <span>⚡ FLASH SALE: 15% OFF ALL GRAINS</span>
+    <span>🚚 FREE DELIVERY ON ORDERS OVER ₦50,000</span>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-inner">
+    <a href="#" class="brand">
+      <img src="foodlift.png" alt="FoodLift" />
+      <div class="brand-tag">
+        <span class="brand-tag-title">WHOLESALE GROCERIES</span>
+        <span class="brand-tag-sub">DELIVERED</span>
+      </div>
+    </a>
+
+    <div class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="searchInput" type="text" placeholder="Search for rice, beans, oil, spices..." />
+      <button class="btn-search">Search</button>
+    </div>
+
+    <div class="wallet-pill">
+      <div>
+        <span class="wallet-pill-label">WALLET</span>
+        <span class="wallet-pill-amount" id="walletPill">₦125,000</span>
+      </div>
+      <button class="btn-topup" data-open="wallet">Top up</button>
+    </div>
+
+    <button class="icon-btn cart-btn" data-open="cart" aria-label="Open cart">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h2l2.4 12.3a2 2 0 0 0 2 1.7h8.7a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="10" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/></svg>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+
+    <div class="user-chip">
+      <div class="avatar">U</div>
+      <span>Hello, Jessica</span>
+    </div>
+  </div>
+
+  <nav class="subnav">
+    <button class="cat-btn">☰ Shop by Category</button>
+    <a href="#orders">Orders</a>
+    <a href="#profile">Profile</a>
+    <a href="#deals">Deals</a>
+    <a href="#bundles">Bulk Packs</a>
+    <div class="subnav-right">
+      <span class="pill-green">🚀 Fast delivery in Lagos</span>
+      <a href="#help">? Help</a>
+    </div>
+  </nav>
+</header>
+
+<main class="container">
+
+  <!-- Hero + Wallet column -->
+  <section class="grid-hero">
+    <div class="hero-card">
+      <span class="chip-orange">BUNDLE OF THE WEEK</span>
+      <h1>Pantry Starter Pack</h1>
+      <p>Get a 50kg bag of Premium Local Rice and a 25L keg of Pure Vegetable Oil at <strong>15% off</strong> the regular wholesale price.</p>
+      <div class="price-row">
+        <span class="price-now">₦98,500</span>
+        <span class="price-was">₦115,000</span>
+      </div>
+      <button class="btn-primary" data-add-bundle>Grab this deal →</button>
+      <div class="hero-illus" aria-hidden="true">
+        <div class="card-illus a"></div>
+        <div class="card-illus b"></div>
+      </div>
+    </div>
+
+    <aside class="side-col">
+      <div class="wallet-card">
+        <div class="wallet-head">
+          <span>💳 MY WALLET</span>
+          <button class="ghost-round">···</button>
+        </div>
+        <div class="wallet-balance-label">Available Balance</div>
+        <div class="wallet-balance" id="walletBalance">₦125,000</div>
+        <button class="btn-primary btn-block" data-open="wallet">+ Top up wallet</button>
+      </div>
+
+      <div class="order-card">
+        <div class="order-head">
+          <span>Active Order</span>
+          <a href="#" class="link-orange">VIEW ALL</a>
+        </div>
+        <div class="order-body">
+          <div class="order-meta">
+            <span class="order-id">#SB-2505012</span>
+            <span class="chip-green-sm">ON THE WAY</span>
+          </div>
+          <div class="order-title">Wholesale Restock</div>
+          <div class="est-label">Estimated delivery</div>
+          <div class="est-time"><strong id="etaMins">18</strong> mins</div>
+          <div class="track">
+            <div class="track-bar"><div class="track-fill" id="trackFill"></div></div>
+            <div class="track-legend">
+              <span>WAREHOUSE</span>
+              <span>IN TRANSIT</span>
+              <span>DELIVERED</span>
+            </div>
+          </div>
+        </div>
+        <button class="btn-outline btn-block" data-open="track">Track Live Status</button>
+      </div>
+
+      <div class="offer-card">
+        <div class="offer-icon">📦</div>
+        <div class="offer-body">
+          <div class="offer-title">Pantry Box <span class="chip-orange-sm">12% OFF</span></div>
+          <div class="offer-price">₦58,000 <span>₦66,000</span></div>
+        </div>
+      </div>
+
+      <div class="ship-card">
+        <div>
+          <span class="chip-orange-outline">🚚 FREE SHIPPING</span>
+          <div class="ship-title">Free delivery on orders over <span class="orange">₦50,000</span></div>
+        </div>
+        <div class="ship-icon">🛵</div>
+      </div>
+    </aside>
+  </section>
+
+  <!-- Categories -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Categories</h2>
+      <a href="#" class="link-orange">View all</a>
+    </div>
+    <div class="cat-row" id="catRow"></div>
+  </section>
+
+  <!-- Products -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Restock Favorites</h2>
+      <a href="#" class="link-orange">View catalog</a>
+    </div>
+    <div class="product-grid" id="productGrid"></div>
+  </section>
+
+  <!-- Buy in parts -->
+  <section class="section">
+    <div class="section-head">
+      <h2>Buy in Parts</h2>
+      <span class="muted">Split a large bag with your neighbours</span>
+    </div>
+    <div class="parts-grid" id="partsGrid"></div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <img src="foodlift.png" alt="FoodLift" class="footer-logo"/>
+      <p class="muted">Lifting homes with affordable foods.</p>
+    </div>
+    <div>
+      <h4>Shop</h4>
+      <a href="#">Grains &amp; Rice</a>
+      <a href="#">Cooking Oil</a>
+      <a href="#">Proteins</a>
+      <a href="#">Bulk Packs</a>
+    </div>
+    <div>
+      <h4>Account</h4>
+      <a href="#">Wallet</a>
+      <a href="#">Orders</a>
+      <a href="#">Profile</a>
+    </div>
+    <div>
+      <h4>Help</h4>
+      <a href="#">Delivery</a>
+      <a href="#">Refunds</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+  <div class="copyright">© 2026 FoodLift. All rights reserved.</div>
+</footer>
+
+<!-- Cart drawer -->
+<aside class="drawer" id="cartDrawer" aria-hidden="true">
+  <div class="drawer-head">
+    <h3>Your Cart</h3>
+    <button class="icon-btn" data-close>✕</button>
+  </div>
+  <div class="drawer-body" id="cartBody"></div>
+  <div class="drawer-foot">
+    <div class="totals">
+      <div><span>Subtotal</span><strong id="cartSubtotal">₦0</strong></div>
+      <div><span>Delivery</span><strong id="cartDelivery">₦0</strong></div>
+      <div class="grand"><span>Total</span><strong id="cartTotal">₦0</strong></div>
+    </div>
+    <label class="pay-toggle">
+      <input type="checkbox" id="payWallet" checked />
+      Pay from wallet (Balance: <span id="walletInline">₦125,000</span>)
+    </label>
+    <button class="btn-primary btn-block" id="checkoutBtn">Checkout</button>
+  </div>
+</aside>
+
+<!-- Wallet modal -->
+<div class="modal" id="walletModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>Top up wallet</h3>
+      <button class="icon-btn" data-close>✕</button>
+    </div>
+    <p class="muted">Add funds to pay faster at checkout.</p>
+    <div class="quick-amounts">
+      <button data-amt="5000">₦5,000</button>
+      <button data-amt="10000">₦10,000</button>
+      <button data-amt="25000">₦25,000</button>
+      <button data-amt="50000">₦50,000</button>
+    </div>
+    <label class="field">
+      <span>Custom amount (₦)</span>
+      <input type="number" id="topupInput" placeholder="0" min="500" />
+    </label>
+    <button class="btn-primary btn-block" id="topupBtn">Fund wallet</button>
+  </div>
+</div>
+
+<!-- Confirmation / QR modal -->
+<div class="modal" id="confirmModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>Order confirmed 🎉</h3>
+      <button class="icon-btn" data-close>✕</button>
+    </div>
+    <p class="muted">Show this token or QR code to the delivery rider to receive your items.</p>
+    <div class="qr-wrap">
+      <div id="qrCode" class="qr"></div>
+      <div class="token" id="tokenCode">••••</div>
+    </div>
+    <div class="confirm-meta">
+      <div><span>Order ID</span><strong id="confirmId">—</strong></div>
+      <div><span>Total paid</span><strong id="confirmTotal">₦0</strong></div>
+      <div><span>ETA</span><strong>25 – 45 mins</strong></div>
+    </div>
+    <button class="btn-primary btn-block" data-open="track" data-close-then>Track order</button>
+  </div>
+</div>
+
+<!-- Track modal -->
+<div class="modal" id="trackModal" aria-hidden="true">
+  <div class="modal-card">
+    <div class="modal-head">
+      <h3>Live order status</h3>
+      <button class="icon-btn" data-close>✕</button>
+    </div>
+    <div class="timeline">
+      <div class="tl done"><span></span><div><strong>Order placed</strong><em>Payment confirmed</em></div></div>
+      <div class="tl done"><span></span><div><strong>Packed at warehouse</strong><em>Yaba hub</em></div></div>
+      <div class="tl active"><span></span><div><strong>On the way</strong><em>Rider: Bola · ETA <span id="tlEta">18</span> mins</em></div></div>
+      <div class="tl"><span></span><div><strong>Delivered</strong><em>Show your token/QR to the rider</em></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

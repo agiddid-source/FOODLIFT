@@ -1,0 +1,20 @@
+<!--
+  TODO: Inventory module (owner: teammate)
+  MVP steps this module owns: "Confirm item availability" and the
+  immediate lock/reserve step once availability is confirmed.
+  Expected shape: a searchable/filterable stock table — item, available
+  qty, reserved qty, a per-row "Reserve" action. Presentation-layer only:
+  mock stock data, and a reserved-state toggle that's purely visual.
+  No real locking/concurrency logic belongs in this JS per the
+  no-simulated-backend rule — that's a real backend's job.
+-->
+<div class="h-full flex flex-col items-center justify-center text-center">
+  <div class="w-24 h-24 rounded-full bg-[#8CC63F]/10 flex items-center justify-center">
+    <i class="fa-solid fa-boxes-stacked text-4xl text-[#8CC63F]"></i>
+  </div>
+  <h3 class="text-3xl font-bold mt-8 text-[#0A0A0A]">Inventory</h3>
+  <p class="text-[rgba(0,0,0,0.45)] mt-4 max-w-xl">
+    Stock levels and item availability will live here — confirm availability
+    and reserve items against incoming orders.
+  </p>
+</div>
