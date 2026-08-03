@@ -49,11 +49,6 @@
   </div>
 </div>
 
-<!-- Reusable-shell config: overrides which component files load-static.js
-     fetches, and which folder + title map dashboard.js's module loader
-     uses. Must be set BEFORE load-static.js / dashboard.js load. With
-     no overrides (as in warehouse.html) both fall back to the original
-     warehouse defaults, so this pattern doesn't touch that page at all. -->
 <script>
   window.FL_COMPONENTS = {
     header: "_components/rider-header.html",
@@ -71,5 +66,11 @@
 </script>
 <script src="js/load-static.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="js/rider/rider-orders-store.js"></script>
+<script src="js/rider/rider-dashboard.js"></script>
+<script src="js/rider/rider-deliveries.js"></script>
+<script src="js/rider/route.js"></script>
+<script src="js/rider/history.js"></script>
 </body>
 </html>

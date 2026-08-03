@@ -1,4 +1,9 @@
-/* FoodLift — Dashboard Design System */
+/* 
+   FoodLift — Dashboard Design System
+   Auth screens stay orange-primary, in-app
+   screens lean on the green-primary palette from the Logo.
+   */
+
 :root {
   --fl-page-bg: #fafafa;
   --fl-sidebar-bg: #f4f4f4;
@@ -13,6 +18,8 @@
   --fl-text-primary: #0a0a0a;
   --fl-text-secondary: rgba(0, 0, 0, 0.45);
 
+  --fl-secondary-accent: #f7931e;
+
   --fl-pill-bg: #ededed;
   --fl-danger: #dc2626;
 
@@ -25,7 +32,8 @@ body.dashboard-body {
   background: var(--fl-page-bg);
 }
 
-/* Shell */
+/* Re-usable Dashboard-Shell */
+
 html, body {
   height: 100%;
 }
@@ -105,12 +113,13 @@ html, body {
 }
 
 /* Sidebar — logo + nav */
+
 .dash-logo-block {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
   border-bottom: 1px solid var(--fl-divider);
 }
 
@@ -177,6 +186,7 @@ html, body {
 }
 
 /* Header widgets */
+
 .balance-pill {
   display: inline-flex;
   align-items: center;
@@ -235,7 +245,6 @@ html, body {
   font-size: 0.9rem;
 }
 
-/* Hero banner */
 .dash-hero {
   border-radius: var(--fl-radius-hero);
   background: linear-gradient(135deg, var(--fl-green-primary) 0%, var(--fl-green-deep) 100%);
@@ -280,6 +289,7 @@ html, body {
 }
 
 /* Content cards */
+
 .dash-card {
   background: var(--fl-surface);
   border: 1px solid var(--fl-divider);
@@ -333,6 +343,7 @@ html, body {
 }
 
 /* Quick actions */
+
 .quick-action {
   display: flex;
   align-items: flex-start;
@@ -375,6 +386,7 @@ html, body {
   line-height: 1.45;
 }
 /* Mobile navigation */
+
 .dash-hamburger {
   display: none;
   width: 2.5rem;
@@ -458,7 +470,7 @@ html, body {
   }
 
   .dash-content {
-    padding: 1.5rem 1.25rem 6.5rem; 
+    padding: 1.5rem 1.25rem 6.5rem; /* clears the fixed bottom tab bar */
   }
 
   .dash-hero {
@@ -549,4 +561,424 @@ html, body {
 body.dashboard-body {
   font-family: "DM Sans", sans-serif;
   color: var(--fl-text-primary);
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.toolbar-count {
+  font-size: 0.9rem;
+  color: var(--fl-text-secondary);
+  font-weight: 500;
+}
+
+.btn-refresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--fl-text-primary);
+  background: #ffffff;
+  border: 1px solid var(--fl-divider);
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  transition: background 0.15s ease;
+}
+
+.btn-refresh:hover {
+  background: var(--fl-page-bg);
+}
+
+.btn-refresh.is-loading i {
+  animation: dash-spin 0.7s linear infinite;
+}
+
+.entity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-card {
+  background: #ffffff;
+  border: 1px solid var(--fl-divider);
+  border-radius: var(--fl-radius-control);
+  padding: 1.25rem 1.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.info-card.is-removing {
+  opacity: 0;
+  transform: scale(0.97);
+}
+
+.info-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.info-card-ref {
+  font-weight: 700;
+  color: var(--fl-text-primary);
+  font-size: 0.95rem;
+}
+
+.route-line {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.route-stop {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  font-size: 0.85rem;
+  color: var(--fl-text-secondary);
+}
+
+.route-stop i {
+  width: 1rem;
+  margin-top: 0.2rem;
+  color: var(--fl-green-primary);
+  flex-shrink: 0;
+}
+
+.route-stop strong {
+  display: block;
+  color: var(--fl-text-primary);
+  font-weight: 600;
+}
+
+.info-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--fl-divider);
+  min-height: 2.5rem;
+}
+
+.info-card-meta {
+  font-size: 0.8rem;
+  color: var(--fl-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.success-note {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--fl-green-soft-icon);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Status badges */
+
+.status-badge {
+  color: var(--fl-secondary-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.status-badge--neutral {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--fl-secondary-accent);
+}
+
+.status-badge--info {
+  background: var(--fl-green-soft);
+  color: var(--fl-green-soft-icon);
+}
+
+.status-badge--success {
+  background: var(--fl-green-primary);
+  color: #ffffff;
+}
+
+/* Primary action button (green — matches dashboard theme) */
+
+.btn-action-green {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--fl-green-primary);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.1rem;
+  border-radius: var(--fl-radius-control);
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.btn-action-green:hover {
+  background: var(--fl-green-deep);
+}
+
+.btn-action-green:active {
+  transform: translateY(1px);
+}
+
+.btn-action-green:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.btn-spinner-sm {
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #ffffff;
+  animation: dash-spin 0.7s linear infinite;
+  display: inline-block;
+}
+/* --------------------------------------------------------------------
+   Rider order-card extras — reject button, dev-only simulate buttons,
+   QR code container, and the QR scan modal.
+   -------------------------------------------------------------------- */
+
+.btn-reject {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  color: var(--fl-text-secondary);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid var(--fl-divider);
+  border-radius: var(--fl-radius-control);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.btn-reject:hover {
+  background: var(--fl-page-bg);
+  color: var(--fl-text-primary);
+}
+
+.btn-reject:disabled,
+.btn-action-green:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Dev-only "simulate" affordances — dashed border marks them clearly as
+   a stand-in for an action a different real-world actor (the warehouse,
+   the customer) would normally trigger. Not meant to look like a normal
+   production button. */
+.btn-dev-sim {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fffbeb;
+  color: #92400e;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.55rem 1rem;
+  border: 1.5px dashed #fcd34d;
+  border-radius: var(--fl-radius-control);
+  transition: background 0.15s ease;
+}
+
+.btn-dev-sim:hover {
+  background: #fef3c7;
+}
+
+.btn-dev-sim:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.qr-block {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--fl-page-bg);
+  border: 1px solid var(--fl-divider);
+  border-radius: var(--fl-radius-control);
+  padding: 1rem;
+}
+
+.qr-code-box {
+  width: 88px;
+  height: 88px;
+  flex-shrink: 0;
+  background: #ffffff;
+  border: 1px solid var(--fl-divider);
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.qr-code-box img,
+.qr-code-box canvas,
+.qr-code-box table {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.qr-fallback {
+  font-size: 0.65rem;
+  color: var(--fl-text-secondary);
+  text-align: center;
+  padding: 0.25rem;
+}
+
+.qr-caption {
+  font-size: 0.8rem;
+  color: var(--fl-text-secondary);
+  line-height: 1.5;
+}
+
+.eta-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--fl-text-secondary);
+  margin-top: 0.5rem;
+}
+
+/* Scan modal — simulates the rider scanning the customer's QR code. */
+
+.scan-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 24, 39, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.scan-modal-overlay.is-visible {
+  opacity: 1;
+}
+
+.scan-modal {
+  background: #ffffff;
+  border-radius: 1.25rem;
+  padding: 2rem;
+  width: 22rem;
+  max-width: 90vw;
+  text-align: center;
+}
+
+.scan-viewfinder {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 1rem;
+  background: #111827;
+  position: relative;
+  overflow: hidden;
+  margin: 1.25rem 0;
+}
+
+.scan-viewfinder::before {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 2px solid rgba(140, 197, 64, 0.8);
+  border-radius: 0.75rem;
+}
+
+.scan-viewfinder-line {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  height: 2px;
+  background: var(--fl-green-primary);
+  box-shadow: 0 0 8px 1px rgba(140, 197, 64, 0.8);
+  animation: scan-sweep 1.6s ease-in-out infinite;
+}
+
+@keyframes scan-sweep {
+  0% { top: 12%; }
+  50% { top: 85%; }
+  100% { top: 12%; }
+}
+
+.scan-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+/* --------------------------------------------------------------------
+   Route / Navigation page — per-delivery map embed.
+   -------------------------------------------------------------------- */
+
+.route-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.route-map-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--fl-radius-control);
+  overflow: hidden;
+  border: 1px solid var(--fl-divider);
+  background: var(--fl-page-bg);
+}
+
+.route-map-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+/* Secondary (ghost) button — used for "Back", "Cancel", and similar
+   lower-emphasis actions alongside .btn-action-green. Was referenced
+   in a couple of places (the scan modal's Cancel button) without ever
+   being defined, so it rendered as an unstyled default button — fixed
+   here rather than left silently broken. */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #ffffff;
+  color: var(--fl-text-primary);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.6rem 1.1rem;
+  border: 1px solid var(--fl-divider);
+  border-radius: var(--fl-radius-control);
+  transition: background 0.15s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--fl-page-bg);
 }

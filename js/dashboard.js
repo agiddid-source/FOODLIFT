@@ -82,9 +82,14 @@ function loadModule(name) {
     .then((html) => {
       target.innerHTML = html;
       setActiveModule(name);
+      // Lets a module's own script (e.g. rider-deliveries.js) know its
+      // fragment just landed in the DOM — injected HTML can't carry its
+      // own <script> tags (they're inert when set via innerHTML), so any
+      // per-module JS has to live in a separately-loaded file and listen
+      // for this instead of running inline.
+      document.dispatchEvent(new CustomEvent("fl:moduleLoaded", { detail: { name } }));
     })
     .catch(() => {
-      // TODO: once real modules exist, this only fires on an actual fetch/network failure 
       target.innerHTML =
         '<div class="module-loading"><i class="fa-solid fa-triangle-exclamation" style="color:#dc2626;font-size:1.5rem;"></i>' +
         "<p>Couldn't load this section. Please try again.</p></div>";
