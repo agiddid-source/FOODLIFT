@@ -1,118 +1,69 @@
 [
   {
     "orderId": "ORD-2026-801",
-    "customer": {
-      "name": "Supermart Express",
-      "contact": "+234 801 234 5678",
-      "address": "12 Commercial Avenue, Ikeja, Lagos"
-    },
+    "customer": { "name": "Israel", "address": "12 Commercial Ave, Ikeja" },
     "items": [
-      {
-        "sku": "SKU-1001",
-        "name": "Fresh Tomatoes (25kg Bag)",
-        "quantity": 10,
-        "unitPrice": 12500,
-        "inStock": true
-      },
-      {
-        "sku": "SKU-1004",
-        "name": "Red Onions (10kg Bag)",
-        "quantity": 5,
-        "unitPrice": 8500,
-        "inStock": true
-      }
+      { "sku": "SKU-BASMATI-RICE-50KG", "name": "Basmati Rice", "quantity": 1, "unit": "Full Bag" }
     ],
-    "totalAmount": 167500,
-    "paymentStatus": "Paid",
     "status": "Pending Verification",
-    "createdAt": "2026-07-26T08:30:00Z",
-    "rider": null,
-    "verificationCode": "WH-8842"
+    "warehouseId": "WH-IKEJA",
+    "warehouseName": "Ikeja Hub",
+    "date": "2026-08-01"
   },
   {
     "orderId": "ORD-2026-802",
-    "customer": {
-      "name": "GreenGrocers Outlet",
-      "contact": "+234 802 345 6789",
-      "address": "45 Market Road, Yaba, Lagos"
-    },
+    "customer": { "name": "Mama Nkechi", "address": "7 Allen Road, Ikeja" },
     "items": [
-      {
-        "sku": "SKU-1002",
-        "name": "Basmati Rice (50kg Bag)",
-        "quantity": 3,
-        "unitPrice": 45000,
-        "inStock": true
-      }
+      { "sku": "SKU-WHITE-GARRI-BAG", "name": "White Garri", "quantity": 3, "unit": "Half-Bags" },
+      { "sku": "SKU-HONEY-BEAN-CUP", "name": "Honey Beans", "quantity": 12, "unit": "Cups" }
     ],
-    "totalAmount": 135000,
-    "paymentStatus": "Paid",
-    "status": "Awaiting Rider Pick-up",
-    "createdAt": "2026-07-26T09:15:00Z",
-    "rider": {
-      "riderId": "RIDER-104",
-      "name": "Tunde Bakare",
-      "phone": "+234 803 987 6543",
-      "vehicle": "Motorcycle (KTM-442-XL)"
-    },
-    "verificationCode": "WH-3190"
+    "status": "Pending Verification",
+    "warehouseId": "WH-IKEJA",
+    "warehouseName": "Ikeja Hub",
+    "date": "2026-08-03"
   },
   {
     "orderId": "ORD-2026-803",
-    "customer": {
-      "name": "Mama Cass Kitchen",
-      "contact": "+234 805 111 2233",
-      "address": "88 Allen Avenue, Ikeja, Lagos"
-    },
+    "customer": { "name": "Jibola Adegoke", "address": "3 Opebi Link, Ikeja" },
     "items": [
-      {
-        "sku": "SKU-1003",
-        "name": "Refined Vegetable Oil (25L)",
-        "quantity": 4,
-        "unitPrice": 38000,
-        "inStock": false
-      }
+      { "sku": "SKU-GROUNDNUT-OIL-5L", "name": "Groundnut Oil", "quantity": 4, "unit": "Kegs" }
     ],
-    "totalAmount": 152000,
-    "paymentStatus": "Paid",
-    "status": "Pending Verification",
-    "createdAt": "2026-07-26T09:45:00Z",
-    "rider": null,
-    "verificationCode": "WH-9012"
+    "status": "Awaiting Rider Pick-up",
+    "warehouseId": "WH-IKEJA",
+    "warehouseName": "Ikeja Hub",
+    "date": "2026-08-04"
   },
   {
     "orderId": "ORD-2026-804",
-    "customer": {
-      "name": "City Retail Stores",
-      "contact": "+234 807 444 5566",
-      "address": "10 Broad Street, Lagos Island, Lagos"
-    },
+    "customer": { "name": "Christabel", "address": "22 Awolowo Way, Ikeja" },
     "items": [
-      {
-        "sku": "SKU-1001",
-        "name": "Fresh Tomatoes (25kg Bag)",
-        "quantity": 2,
-        "unitPrice": 12500,
-        "inStock": true
-      },
-      {
-        "sku": "SKU-1002",
-        "name": "Basmati Rice (50kg Bag)",
-        "quantity": 1,
-        "unitPrice": 45000,
-        "inStock": true
-      }
+      { "sku": "SKU-HONEY-BEAN-CUP", "name": "Honey Beans", "quantity": 20, "unit": "Cups" }
     ],
-    "totalAmount": 70000,
-    "paymentStatus": "Paid",
     "status": "Handed to Rider",
-    "createdAt": "2026-07-26T07:10:00Z",
-    "rider": {
-      "riderId": "RIDER-109",
-      "name": "Chidi Nnamdi",
-      "phone": "+234 809 123 9988",
-      "vehicle": "Delivery Van (EKY-901-AA)"
-    },
-    "verificationCode": "WH-5521"
+    "warehouseId": "WH-IKEJA",
+    "warehouseName": "Ikeja Hub",
+    "date": "2026-08-04"
+  },
+  {
+    "orderId": "ORD-2026-805",
+    "customer": { "name": "Anoited Ejiro", "address": "9 Adeola Odeku, Victoria Island" },
+    "items": [
+      { "sku": "SKU-BASMATI-RICE-50KG", "name": "Basmati Rice", "quantity": 2, "unit": "Full Bags" }
+    ],
+    "status": "Pending Verification",
+    "warehouseId": "WH-LEKKI",
+    "warehouseName": "Lekki Hub",
+    "date": "2026-08-04"
+  },
+  {
+    "orderId": "ORD-2026-806",
+    "customer": { "name": "John C", "address": "14 Admiralty Way, Lekki" },
+    "items": [
+      { "sku": "SKU-FRESH-TOMATO-BASKET", "name": "Fresh Tomatoes", "quantity": 5, "unit": "Baskets" }
+    ],
+    "status": "Handed to Rider",
+    "warehouseId": "WH-LEKKI",
+    "warehouseName": "Lekki Hub",
+    "date": "2026-08-04"
   }
 ]

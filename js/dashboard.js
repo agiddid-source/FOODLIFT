@@ -1,5 +1,6 @@
 import { initInventory } from './warehouse/inventory.js';
 import { initOrders } from './warehouse/orders.js';
+import { initOverview } from './warehouse/overview.js';
 
 // dashboard.js
 // Presentation-layer behavior for the dashboard shell. Role-agnostic —
@@ -93,6 +94,7 @@ function loadModule(name) {
     if (name === "orders") {
       initOrders();
     }
+    if (name === "dashboard") { initOverview(); }
     })
     .catch(() => {
       // TODO: once real modules exist, this only fires on an actual fetch/network failure 
@@ -133,5 +135,10 @@ document.addEventListener("keydown", function (e) {
 window.addEventListener("resize", function () {
   if (window.innerWidth >= 1024) closeSidebar();
 });
-
+// Run this once when the app boots up
+if (!localStorage.getItem("activeWarehouseId")) {
+  // Simulating a logged-in Ikeja warehouse worker
+  localStorage.setItem("activeWarehouseId", "WH-IKEJA");
+  localStorage.setItem("activeWarehouseName", "Ikeja Hub");
+}
 

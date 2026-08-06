@@ -1,34 +1,82 @@
 [
   {
-    "id": "SKU-1001",
-    "name": "Fresh Tomatoes (25kg Bag)",
-    "category": "Produce",
-    "quantity": 150,
-    "unitPrice": 12500,
-    "status": "In Stock"
-  },
-  {
-    "id": "SKU-1002",
-    "name": "Basmati Rice (50kg Bag)",
+    "sku": "SKU-BASMATI-RICE-50KG",
+    "name": "Basmati Rice (Full 50kg Bag)",
     "category": "Grains",
-    "quantity": 12,
+    "quantity": 3,
+    "unit": "Full Bag",
     "unitPrice": 45000,
-    "status": "Low Stock"
+    "warehouseId": "WH-IKEJA",
+    "warehouseName": "Ikeja Hub"
   },
   {
-    "id": "SKU-1003",
-    "name": "Refined Vegetable Oil (25L)",
+    "sku": "SKU-WHITE-GARRI-BAG",
+    "name": "White Garri (Half Bag)",
+    "category": "Grains",
+    "quantity": 48,
+    "unit": "Half-Bag",
+    "unitPrice": 12500,
+    "warehouseId": "WH-IKEJA",
+    "warehouseName": "Ikeja Hub"
+  },
+  {
+    "sku": "SKU-HONEY-BEAN-CUP",
+    "name": "Honey Beans (Cup)",
+    "category": "Legumes",
+    "quantity": 320,
+    "unit": "Cup",
+    "unitPrice": 800,
+    "warehouseId": "WH-IKEJA",
+    "warehouseName": "Ikeja Hub"
+  },
+  {
+    "sku": "SKU-GROUNDNUT-OIL-5L",
+    "name": "Groundnut Oil (5L Keg)",
     "category": "Oils",
-    "quantity": 0,
-    "unitPrice": 38000,
-    "status": "Out of Stock"
+    "quantity": 2,
+    "unit": "Keg",
+    "unitPrice": 9500,
+    "warehouseId": "WH-IKEJA",
+    "warehouseName": "Ikeja Hub"
   },
   {
-    "id": "SKU-1004",
-    "name": "Red Onions (10kg Bag)",
+    "sku": "SKU-FRESH-TOMATO-BASKET",
+    "name": "Fresh Tomatoes (Basket)",
     "category": "Produce",
-    "quantity": 85,
-    "unitPrice": 8500,
-    "status": "In Stock"
+    "quantity": 0,
+    "unit": "Basket",
+    "unitPrice": 18000,
+    "warehouseId": "WH-IKEJA",
+    "warehouseName": "Ikeja Hub"
+  },
+  {
+    "sku": "SKU-BASMATI-RICE-50KG",
+    "name": "Basmati Rice (Full 50kg Bag)",
+    "category": "Grains",
+    "quantity": 26,
+    "unit": "Full Bag",
+    "unitPrice": 46500,
+    "warehouseId": "WH-LEKKI",
+    "warehouseName": "Lekki Hub"
+  },
+  {
+    "sku": "SKU-FRESH-TOMATO-BASKET",
+    "name": "Fresh Tomatoes (Basket)",
+    "category": "Produce",
+    "quantity": 4,
+    "unit": "Basket",
+    "unitPrice": 19500,
+    "warehouseId": "WH-LEKKI",
+    "warehouseName": "Lekki Hub"
+  },
+  {
+    "sku": "SKU-BONNET-PEPPER-BASKET",
+    "name": "Scotch Bonnet Pepper (Basket)",
+    "category": "Produce",
+    "quantity": 11,
+    "unit": "Basket",
+    "unitPrice": 15000,
+    "warehouseId": "WH-LEKKI",
+    "warehouseName": "Lekki Hub"
   }
 ]

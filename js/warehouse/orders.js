@@ -1,25 +1,28 @@
 // js/warehouse/orders.js
 
+import { getScopedOrders, updateOrderStatus as persistOrderStatus } from "./data-store.js";
+
 let allOrders = [];
 let currentFilter = "Pending Verification";
-let searchQuery = ""; 
+let searchQuery = "";
 
 // We define the scanner variable globally so we can start/stop it from anywhere
-let html5QrCode = null; 
+let html5QrCode = null;
 
 export async function initOrders() {
   const root = document.getElementById("ezz-ordersModule");
   if (!root) return;
 
   try {
-    const response = await fetch("data/orders.json");
-    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-    allOrders = await response.json();
+    // Scoped to the active warehouse — a staffer at Ikeja must not see, let
+    // alone hand off, an order belonging to Lekki. The loader handles the
+    // fetch, status check, caching and filtering.
+    allOrders = await getScopedOrders();
   } catch (error) {
     console.error("Failed to load orders data:", error);
     document.getElementById("ezz-ordersListContainer").innerHTML = `
       <div class="col-span-full p-6 text-center text-red-500 font-medium border border-red-200 rounded-2xl">
-        ⚠️ Unable to load orders data. Order Inventory.
+        ⚠️ ${error.message || "Unable to load orders data."}
       </div>
     `;
     return;
@@ -36,18 +39,21 @@ export async function initOrders() {
 // ------------------------------------------------------------------
 function wireSearch() {
   const searchInput = document.getElementById("ezz-orderSearch");
-  if (!searchInput) return;
+  if (!searchInput || searchInput.dataset.flWired) return;
+  searchInput.dataset.flWired = "1";
 
   searchInput.addEventListener("input", (e) => {
     searchQuery = e.target.value.trim().toLowerCase();
-    renderOrders(); 
+    renderOrders();
   });
 }
 
 function wireTabs() {
   const tabs = document.querySelectorAll(".ezz-order-filter-btn");
-  
+
   tabs.forEach(tab => {
+    if (tab.dataset.flWired) return;
+    tab.dataset.flWired = "1";
     tab.addEventListener("click", (e) => {
       tabs.forEach(t => {
         t.classList.remove("text-[#F7931E]", "border-[#F7931E]", "font-bold");
@@ -155,7 +161,32 @@ function wireModals() {
   const confirmModal = document.getElementById("ezz-confirm-order-modal");
   const handoffModal = document.getElementById("ezz-handoff-modal");
 
-  listContainer?.addEventListener("click", (e) => {
+  // WHY THE dataset.flWired FLAGS BELOW
+  //
+  // The elements this function binds to live in two different places, with
+  // two different lifetimes:
+  //
+  //   - listContainer, tabs, search  -> pages/orders.html (the fragment).
+  //     Replaced every time you navigate to Orders, so each init sees brand
+  //     new elements and binding is safe.
+  //
+  //   - the modal buttons            -> warehouse.html / warehouse-agent.html
+  //     (the shell). These are NEVER replaced. initOrders() runs again on
+  //     every visit to Orders, so binding them again ADDS a second listener
+  //     to the same button rather than replacing the first.
+  //
+  // Left unguarded, Dashboard -> Orders -> Dashboard -> Orders means one
+  // click on "Confirm & Notify Rider" runs the handler twice. Today that's
+  // invisible (setting a status twice looks the same), which is exactly why
+  // it's worth fixing now — the moment API.baseUrl points at a real backend
+  // it becomes N duplicate PATCH requests per click.
+  //
+  // Flagging the element itself handles both lifetimes with one rule: a
+  // fresh element has no flag and gets wired; a surviving one is skipped.
+
+  if (listContainer && !listContainer.dataset.flWired) {
+    listContainer.dataset.flWired = "1";
+    listContainer.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-action]");
     if (!btn) return;
 
@@ -169,37 +200,49 @@ function wireModals() {
       openHandoffModal(order, handoffModal);
     }
   });
+  }
 
   // Action: Confirm Availability -> Moves to "Awaiting Pick-up"
-  document.getElementById("ezz-btnConfirmAvailability")?.addEventListener("click", () => {
-    const orderId = confirmModal.dataset.activeOrderId;
-    updateOrderStatus(orderId, "Awaiting Rider Pick-up");
-    if (typeof confirmModal.close === "function") confirmModal.close(); 
-  });
+  const confirmBtn = document.getElementById("ezz-btnConfirmAvailability");
+  if (confirmBtn && !confirmBtn.dataset.flWired) {
+    confirmBtn.dataset.flWired = "1";
+    confirmBtn.addEventListener("click", () => {
+      const orderId = confirmModal.dataset.activeOrderId;
+      updateOrderStatus(orderId, "Awaiting Rider Pick-up");
+      if (typeof confirmModal.close === "function") confirmModal.close();
+    });
+  }
 
   // Action: Manual Verify Handoff (Fallback if camera is broken)
-  document.getElementById("ezz-btnVerifyHandoff")?.addEventListener("click", () => {
-    const orderId = handoffModal.dataset.activeOrderId;
-    const inputCode = document.getElementById("ezz-riderVerificationCode").value.trim();
-    const errorMsg = document.getElementById("ezz-handoffError");
-    
-    if (inputCode.toUpperCase() !== orderId.toUpperCase()) {
-      errorMsg.textContent = "Order ID does not match. Please check and try again.";
-      errorMsg.classList.remove("hidden");
-      return;
-    }
-    
-    errorMsg.classList.add("hidden");
-    updateOrderStatus(orderId, "Handed to Rider");
-    stopScannerAndCloseModal(handoffModal);
-  });
+  const verifyBtn = document.getElementById("ezz-btnVerifyHandoff");
+  if (verifyBtn && !verifyBtn.dataset.flWired) {
+    verifyBtn.dataset.flWired = "1";
+    verifyBtn.addEventListener("click", () => {
+      const orderId = handoffModal.dataset.activeOrderId;
+      const inputCode = document.getElementById("ezz-riderVerificationCode").value.trim();
+      const errorMsg = document.getElementById("ezz-handoffError");
 
-  // Global close button handlers (Custom logic to kill camera)
+      if (inputCode.toUpperCase() !== orderId.toUpperCase()) {
+        errorMsg.textContent = "Order ID does not match. Please check and try again.";
+        errorMsg.classList.remove("hidden");
+        return;
+      }
+
+      errorMsg.classList.add("hidden");
+      updateOrderStatus(orderId, "Handed to Rider");
+      stopScannerAndCloseModal(handoffModal);
+    });
+  }
+
+  // Global close button handlers (custom logic so the camera is killed rather
+  // than left running behind a closed dialog).
   document.querySelectorAll("[data-close-modal]").forEach(btn => {
+    if (btn.dataset.flWired) return;
+    btn.dataset.flWired = "1";
     btn.addEventListener("click", () => {
       const targetId = btn.dataset.closeModal;
       const modal = document.getElementById(targetId);
-      
+
       if (modal) {
         if (targetId === "ezz-handoff-modal") {
           stopScannerAndCloseModal(modal);
@@ -291,10 +334,16 @@ function stopScannerAndCloseModal(modal) {
   }
 }
 
-function updateOrderStatus(orderId, newStatus) {
+async function updateOrderStatus(orderId, newStatus) {
   const order = allOrders.find(o => o.orderId === orderId);
-  if (order) {
-    order.status = newStatus;
-    renderOrders(); 
+  if (!order) return;
+
+  try {
+    // Routed through the store so the dashboard's Pending/Dispatched counts
+    // reflect the change too, instead of only this screen.
+    await persistOrderStatus(orderId, newStatus);
+    renderOrders();
+  } catch (error) {
+    console.error(`Could not update ${orderId}:`, error);
   }
 }

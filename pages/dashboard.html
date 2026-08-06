@@ -1,10 +1,50 @@
-<div class="h-full flex flex-col items-center justify-center text-center">
-  <div class="w-24 h-24 rounded-full bg-[#8CC63F]/10 flex items-center justify-center">
-    <i class="fa-solid fa-warehouse text-4xl text-[#8CC63F]"></i>
+<div id="ezz-overviewModule" class="space-y-6 animate-in fade-in duration-300">
+  
+  <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div>
+      <h3 class="text-xl font-bold text-[#0A0A0A]">Dashboard Overview</h3>
+      <p id="ezz-dashboardSubtitle" class="text-sm text-[rgba(0,0,0,0.45)]">Loading warehouse data...</p>
+    </div>
   </div>
-  <h3 class="text-3xl font-bold mt-8 text-[#0A0A0A]">Welcome to your Warehouse Dashboard</h3>
-  <p class="text-[rgba(0,0,0,0.45)] mt-4 max-w-xl">
-    Pick a module from the sidebar or the tabs below. Each one loads its own
-    tools for that stage of the fulfillment flow.
-  </p>
+
+  <!-- METRICS GRID -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    
+    <!-- Pending Orders Card (Clicks to Orders) -->
+    <a href="#" data-module="orders" class="ezz-metric-card cursor-pointer bg-white p-5 rounded-2xl border border-[rgba(0,0,0,0.08)] shadow-sm flex flex-col transition hover:shadow-md hover:border-[#F7931E]">
+      <div class="w-10 h-10 bg-orange-100 text-[#F7931E] rounded-full flex items-center justify-center mb-3">
+        <i class="fa-solid fa-box-open"></i>
+      </div>
+      <span class="text-sm font-medium text-[rgba(0,0,0,0.45)]">Pending Orders</span>
+      <h4 id="ezz-metricPending" class="text-2xl font-bold text-[#0A0A0A] mt-1">--</h4>
+    </a>
+
+    <!-- Low Stock Alerts Card (Clicks to Inventory) -->
+    <a href="#" data-module="inventory" class="ezz-metric-card cursor-pointer bg-white p-5 rounded-2xl border border-[rgba(0,0,0,0.08)] shadow-sm flex flex-col transition hover:shadow-md hover:border-red-500">
+      <div class="w-10 h-10 bg-red-100 text-red-500 rounded-full flex items-center justify-center mb-3">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <span class="text-sm font-medium text-[rgba(0,0,0,0.45)]">Low Stock Items</span>
+      <h4 id="ezz-metricLowStock" class="text-2xl font-bold text-[#0A0A0A] mt-1">--</h4>
+    </a>
+
+    <!-- Completed Today (Clicks to Dispatch) -->
+    <a href="#" data-module="dispatch" class="ezz-metric-card cursor-pointer bg-white p-5 rounded-2xl border border-[rgba(0,0,0,0.08)] shadow-sm flex flex-col transition hover:shadow-md hover:border-[#8DC63F]">
+      <div class="w-10 h-10 bg-green-100 text-[#8DC63F] rounded-full flex items-center justify-center mb-3">
+        <i class="fa-solid fa-motorcycle"></i>
+      </div>
+      <span class="text-sm font-medium text-[rgba(0,0,0,0.45)]">Dispatched Today</span>
+      <h4 id="ezz-metricDispatched" class="text-2xl font-bold text-[#0A0A0A] mt-1">--</h4>
+    </a>
+
+    <!-- Total Inventory Value -->
+    <div class="bg-white p-5 rounded-2xl border border-[rgba(0,0,0,0.08)] shadow-sm flex flex-col">
+      <div class="w-10 h-10 bg-blue-100 text-blue-500 rounded-full flex items-center justify-center mb-3">
+        <i class="fa-solid fa-wallet"></i>
+      </div>
+      <span class="text-sm font-medium text-[rgba(0,0,0,0.45)]">Inventory Value</span>
+      <h4 id="ezz-metricValue" class="text-2xl font-bold text-[#0A0A0A] mt-1">--</h4>
+    </div>
+
+  </div>
 </div>

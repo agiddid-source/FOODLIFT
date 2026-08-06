@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FoodLift | Agent Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <style>
+    body {
+      font-family: "DM Sans", sans-serif;
+    }
+  </style>
+</head>
+
+<body class="dashboard-body">
+
+  <div class="dash-shell">
+
+    <!-- SIDEBAR + BACKDROP + BOTTOM TAB BAR — injected by load-static.js -->
+    <div id="navPlaceholder"></div>
+
+    <!-- MAIN -->
+    <div class="dash-main">
+
+      <!-- HEADER — injected by load-static.js -->
+      <header></header>
+
+      <!-- CONTENT -->
+      <main class="dash-content">
+
+        <!-- HERO -->
+        <section class="dash-hero">
+          <div>
+            <h2>Welcome back, Agent!</h2>
+            <p>Oversee stock levels and order flow across every hub you manage. Switch hubs below — the dashboard,
+              inventory and orders all follow your selection.</p>
+          </div>
+          <a href="#" data-module="orders" class="dash-hero-cta">
+            View Pending Orders
+            <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </section>
+
+        <!-- HUB SWITCHER — the one thing that makes this page different from
+             warehouse.html. A staffer is pinned to the hub they logged in at;
+             an agent moves between them. Lives here rather than in the shared
+             header because _components/header.html is also used by the rider
+             and customer dashboards, which have no concept of a hub. -->
+        <section
+          class="mt-8 bg-white rounded-2xl border border-[rgba(0,0,0,0.08)] p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <span
+              class="w-10 h-10 shrink-0 rounded-xl bg-[#F4F4F4] flex items-center justify-center">
+              <i class="fa-solid fa-warehouse text-[#8DC63F]"></i>
+            </span>
+            <div>
+              <p class="text-xs font-bold uppercase tracking-wider text-[rgba(0,0,0,0.45)]">Active Hub</p>
+              <p id="fl-activeWarehouseLabel" class="text-base font-bold text-[#0A0A0A]">Loading…</p>
+            </div>
+          </div>
+
+          <div class="w-full sm:w-64">
+            <label for="fl-warehouseSelect" class="sr-only">Switch warehouse</label>
+            <select
+              id="fl-warehouseSelect"
+              class="w-full px-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm font-semibold text-[#0A0A0A] focus:outline-none focus:border-[#8DC63F] cursor-pointer"
+            >
+              <option value="">Loading hubs…</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- MODULE CONTENT — filled by dashboard.js's loadModule() -->
+        <section id="moduleContent"
+          class="bg-[#F4F4F4] rounded-[28px] border border-[rgba(0,0,0,0.08)] mt-10 min-h-[600px] p-10">
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Modal 1: Confirm Order Availability -->
+  <dialog
+    id="ezz-confirm-order-modal"
+    class="backdrop:bg-black/50 p-0 rounded-2xl bg-white shadow-xl max-w-lg w-full border-0"
+  >
+    <div class="p-6">
+      <header class="flex items-center justify-between pb-4 mb-4 border-b border-[rgba(0,0,0,0.08)]">
+        <div>
+          <h2 class="text-lg font-bold text-[#0A0A0A]">Confirm Availability</h2>
+          <p class="text-xs text-[rgba(0,0,0,0.45)]">Verify items for <span id="ezz-confirmOrderId" class="font-bold"></span></p>
+        </div>
+        <button type="button" data-close-modal="ezz-confirm-order-modal" class="text-gray-400 hover:text-gray-600 p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </header>
+
+      <div class="space-y-4 mb-6">
+        <p class="text-sm text-[#0A0A0A]">Please physically verify these items are packed and ready. Once confirmed, the rider will be notified to pick them up.</p>
+
+        <div id="ezz-confirmOrderItems" class="bg-[#FAFAFA] border border-[rgba(0,0,0,0.08)] rounded-xl p-4 max-h-48 overflow-y-auto space-y-3">
+          <!-- JS fills this with item rows -->
+        </div>
+      </div>
+
+      <footer class="flex items-center justify-end gap-3 pt-4 border-t border-[rgba(0,0,0,0.08)]">
+        <button type="button" data-close-modal="ezz-confirm-order-modal" class="px-4 py-2 text-sm font-semibold text-[rgba(0,0,0,0.45)] hover:text-[#0A0A0A]">
+          Cancel
+        </button>
+        <button id="ezz-btnConfirmAvailability" class="px-5 py-2.5 bg-[#F7931E] hover:bg-[#e08216] text-white text-sm font-bold rounded-lg shadow-sm transition">
+          Confirm &amp; Notify Rider
+        </button>
+      </footer>
+    </div>
+  </dialog>
+
+  <!-- Modal 2: Rider Handoff Verification -->
+  <dialog
+    id="ezz-handoff-modal"
+    class="backdrop:bg-black/50 p-0 rounded-2xl bg-white shadow-xl max-w-sm w-full border-0"
+  >
+    <div class="p-6">
+      <header class="flex items-center justify-between pb-4 mb-4 border-b border-[rgba(0,0,0,0.08)]">
+        <h2 class="text-lg font-bold text-[#0A0A0A]">Rider Handoff</h2>
+        <button type="button" data-close-modal="ezz-handoff-modal" class="text-gray-400 hover:text-gray-600 p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </header>
+
+      <div class="text-center space-y-4 mb-6">
+        <div id="ezz-qr-reader" class="w-full bg-[#FAFAFA] border border-[rgba(0,0,0,0.08)] rounded-xl overflow-hidden min-h-[200px] flex flex-col items-center justify-center">
+          <i class="fa-solid fa-camera text-3xl text-[rgba(0,0,0,0.2)] mb-2"></i>
+          <p class="text-xs text-[rgba(0,0,0,0.45)]">Scanner loading...</p>
+        </div>
+
+        <p class="text-sm font-bold text-[rgba(0,0,0,0.45)] uppercase tracking-wider">OR ENTER MANUALLY</p>
+
+        <input
+          type="text"
+          id="ezz-riderVerificationCode"
+          placeholder="Enter Order ID manually"
+          class="w-full text-center font-mono px-4 py-3 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm text-[#0A0A0A] focus:border-[#8DC63F] outline-none uppercase"
+        >
+        <p id="ezz-handoffError" class="text-xs text-red-500 hidden">Invalid verification code.</p>
+      </div>
+
+      <footer class="flex flex-col gap-2">
+        <button id="ezz-btnVerifyHandoff" class="w-full py-3 bg-[#8DC63F] hover:bg-[#7ab033] text-white text-sm font-bold rounded-xl shadow-sm transition">
+          Verify &amp; Complete Handoff
+        </button>
+      </footer>
+    </div>
+  </dialog>
+
+  <!-- Add / Edit Inventory Item -->
+  <dialog
+    id="stock-modal"
+    class="backdrop:bg-black/50 p-0 rounded-2xl bg-white shadow-xl max-w-lg w-full border-0"
+  >
+    <form id="stock-item-form" class="p-6">
+      <header class="flex items-center justify-between pb-4 mb-4 border-b border-[rgba(0,0,0,0.08)]">
+        <h2 id="stockModalTitle" class="text-lg font-bold text-[#0A0A0A]">Add New Item</h2>
+        <button type="button" id="stock-modal-close-btn" class="text-gray-400 hover:text-gray-600 p-1" aria-label="Close">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </header>
+
+      <div class="space-y-4 mb-6">
+
+        <!-- Item name -->
+        <div>
+          <label for="stock-item-name" class="block text-sm font-medium text-[#0A0A0A] mb-1.5">Item Name</label>
+          <input
+            type="text" id="stock-item-name" name="name" required
+            placeholder="e.g. White Garri (Half Bag)"
+            class="w-full px-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm text-[#0A0A0A] focus:outline-none focus:border-[#8DC63F]"
+          >
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="stock-item-quantity" class="block text-sm font-medium text-[#0A0A0A] mb-1.5">Quantity</label>
+            <input
+              type="number" id="stock-item-quantity" name="quantity" required min="0" step="1" value="0"
+              class="w-full px-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm text-[#0A0A0A] focus:outline-none focus:border-[#8DC63F]"
+            >
+          </div>
+
+          <div>
+            <label for="stock-item-unit" class="block text-sm font-medium text-[#0A0A0A] mb-1.5">Unit</label>
+            <input
+              type="text" id="stock-item-unit" name="unit" required
+              placeholder="e.g. Half-Bag, Cup, Keg"
+              class="w-full px-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm text-[#0A0A0A] focus:outline-none focus:border-[#8DC63F]"
+            >
+          </div>
+        </div>
+
+        <div>
+          <label for="stock-item-category" class="block text-sm font-medium text-[#0A0A0A] mb-1.5">Category</label>
+          <select
+            id="stock-item-category" name="category"
+            class="w-full px-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm text-[#0A0A0A] focus:outline-none focus:border-[#8DC63F]"
+          >
+            <!-- Populated by initInventory() -->
+          </select>
+          <input
+            type="text" id="stock-item-category-custom" placeholder="Enter new category"
+            class="hidden mt-2 w-full px-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm text-[#0A0A0A] focus:outline-none focus:border-[#8DC63F]"
+          >
+        </div>
+
+        <div>
+          <label for="stock-item-price" class="block text-sm font-medium text-[#0A0A0A] mb-1.5">Unit Price (₦)</label>
+          <input
+            type="number" id="stock-item-price" name="unitPrice" required min="0" step="1"
+            placeholder="0"
+            class="w-full px-4 py-2.5 bg-white border border-[rgba(0,0,0,0.08)] rounded-xl text-sm text-[#0A0A0A] focus:outline-none focus:border-[#8DC63F]"
+          >
+        </div>
+
+        <div>
+          <label for="stock-item-sku" class="block text-sm font-medium text-[#0A0A0A] mb-1.5">SKU</label>
+          <input
+            type="text" id="stock-item-sku" name="sku" readonly tabindex="-1" aria-readonly="true"
+            placeholder="SKU-…"
+            class="w-full px-4 py-2.5 bg-[#FAFAFA] border border-[rgba(0,0,0,0.08)] rounded-xl text-sm font-mono text-[rgba(0,0,0,0.6)] cursor-default focus:outline-none"
+          >
+          <p id="stock-item-sku-hint" class="mt-1.5 text-xs text-[rgba(0,0,0,0.45)]">
+            Generated once you enter an item name.
+          </p>
+        </div>
+
+      </div>
+
+      <footer class="flex items-center justify-end gap-3 pt-4 border-t border-[rgba(0,0,0,0.08)]">
+        <button type="button" id="stock-modal-cancel-btn" class="px-4 py-2 text-sm font-semibold text-[rgba(0,0,0,0.45)] hover:text-[#0A0A0A]">
+          Cancel
+        </button>
+        <button type="submit" class="px-5 py-2.5 bg-[#F7931E] hover:bg-[#e08216] text-white text-sm font-bold rounded-lg shadow-sm transition">
+          Save Item
+        </button>
+      </footer>
+    </form>
+  </dialog>
+
+  <!-- QR Code Scanner Library -->
+  <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+  <script src="js/load-static.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
+
+  <!-- Agent-only wiring. Kept inline rather than added to js/dashboard.js
+       because that file is role-agnostic and shared with the rider dashboard —
+       the hub switcher is meaningless there. -->
+  <script type="module">
+    import { initWarehouseSelector } from "./js/warehouse/agent-selector.js";
+    import { getActiveWarehouse } from "./js/warehouse/data-store.js";
+
+    // Waits for the injected header/nav for the same reason dashboard.js does:
+    // load-static.js fetches them, so nothing here can assume they're present
+    // at parse time.
+    document.addEventListener("fl:componentsReady", () => {
+      const label = document.getElementById("fl-activeWarehouseLabel");
+      if (label) label.textContent = getActiveWarehouse().name;
+      initWarehouseSelector();
+    });
+  </script>
+</body>
+
+</html>
