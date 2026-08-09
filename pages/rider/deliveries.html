@@ -1,20 +1,13 @@
-<!--
-  TODO: Deliveries module (owner: teammate)
-  Rider-side counterpart to the Warehouse "Confirm handoff to rider" step
-  — this is where an assigned delivery first appears once the warehouse
-  confirms handoff.
-  Expected shape: a list of assigned pickups/drop-offs, newest first,
-  each with a status badge (e.g. Awaiting Pickup / Picked Up / En Route)
-  and a "Confirm Pickup" action. Presentation-layer only — mock delivery
-  data, no real-time socket/polling logic.
--->
-<div class="h-full flex flex-col items-center justify-center text-center">
-  <div class="w-24 h-24 rounded-full bg-[#8CC63F]/10 flex items-center justify-center">
-    <i class="fa-solid fa-truck-fast text-4xl text-[#8CC63F]"></i>
-  </div>
-  <h3 class="text-3xl font-bold mt-8 text-[#0A0A0A]">Deliveries</h3>
-  <p class="text-[rgba(0,0,0,0.45)] mt-4 max-w-xl">
-    Assigned pickups and drop-offs will land here as soon as a warehouse
-    confirms handoff.
-  </p>
+<div class="toolbar-row">
+  <span class="toolbar-count" id="deliveriesCount">Loading…</span>
+  <button type="button" class="btn-refresh" id="refreshDeliveriesBtn">
+    <i class="fa-solid fa-arrows-rotate"></i> Refresh
+  </button>
+</div>
+
+<div id="deliveriesList"></div>
+
+<div id="deliveriesEmpty" class="dash-empty-state hidden py-16">
+  <i class="fa-regular fa-circle-check"></i>
+  <p>No active deliveries. Accept an order from the Dashboard to get started.</p>
 </div>

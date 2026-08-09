@@ -1,8 +1,7 @@
 // load-static.js
 // Fetches the shared header + nav fragments and injects them into the
-// page's placeholders. Requires the page to be served over http(s) —
-// fetch() of local files will fail under file:// due to CORS.
-//
+// page's placeholders. Requires the page to be served over http(s)
+
 // Reusable across roles: a page can override which component files to
 // fetch by setting window.FL_COMPONENTS BEFORE this script runs, e.g.
 //   <script>
